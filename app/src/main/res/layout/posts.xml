@@ -1,0 +1,25 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.galleriafrique.controller.fragment.posts.Posts">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_Layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <view
+            android:id='@+id/recycler_view'
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            class="android.support.v7.widget.RecyclerView"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"/>
+
+</FrameLayout>

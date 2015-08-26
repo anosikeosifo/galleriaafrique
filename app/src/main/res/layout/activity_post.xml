@@ -1,0 +1,21 @@
+<!--I use android:fitsSystemWindows because I am changing the color of the statusbar as well-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_parent_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <!--ToolBar-->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+    <!--Main Layout-->
+    <FrameLayout
+        android:id="@+id/post_activity_coontainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
