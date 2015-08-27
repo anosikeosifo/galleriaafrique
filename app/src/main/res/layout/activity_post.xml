@@ -14,7 +14,7 @@
 
     <!--Main Layout-->
     <FrameLayout
-        android:id="@+id/post_activity_coontainer"
+        android:id="@+id/posts_coontainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

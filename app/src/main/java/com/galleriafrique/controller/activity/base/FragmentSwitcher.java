@@ -4,7 +4,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.galleriafrique.R;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.controller.fragment.posts.Posts;
 import com.galleriafrique.controller.interfaces.FragmentSwitcherInterfce;
 
 /**
@@ -24,7 +26,7 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
         FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
 
         if (withAnimation) {
-            ft.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+//            ft.setCustomAnimations(R.anim.slide_in_from_right, R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         }
 
         ft.replace(container, fragment, fragment.getTagText());
@@ -43,12 +45,41 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
 
             ft.add(container, fragment, fragment.getTagText());
             ft.addToBackStack(fragment.getTagText());
+            String text = fragment.getTagText();
             ft.commit();
         } else {
 
         }
     }
 
+    public void showPostFeed() {
+        addFragment(new Posts(), true, R.id.posts_coontainer);
+    }
+
+    @Override
+    public void showSearchView() {
+
+    }
+
+    @Override
+    public void showPostDetails() {
+
+    }
+
+    @Override
+    public void showUserProfile() {
+
+    }
+
+    @Override
+    public void showFollowers() {
+
+    }
+
+    @Override
+    public void showFollowing() {
+
+    }
 
     private void addMultipleFragments(BaseFragment fragment, boolean withAnimation, int container) {
 

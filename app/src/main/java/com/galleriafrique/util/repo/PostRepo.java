@@ -3,6 +3,7 @@ package com.galleriafrique.util.repo;
 import android.content.Context;
 
 import com.galleriafrique.Constants;
+import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.PostResponse;
 import com.galleriafrique.util.api.PostAPI;
@@ -23,9 +24,9 @@ public class PostRepo {
     public PostRepoListener postRepoListener;
     public Context context;
 
-    public PostRepo(Context context) {
+    public PostRepo(BaseFragment fragment) {
+        this.context = fragment.getActivity();
         networkHelper = new NetworkHelper(context);
-        this.context = context;
     }
 
     public void setPostRepoListener(PostRepoListener postRepoListener) {

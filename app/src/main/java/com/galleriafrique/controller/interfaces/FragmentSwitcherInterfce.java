@@ -9,4 +9,5 @@ public interface FragmentSwitcherInterfce {
     void showUserProfile();
     void showFollowers();
     void showFollowing();
+    void showPostFeed();
 }
