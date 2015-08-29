@@ -3,6 +3,7 @@ package com.galleriafrique.controller.activity.base;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.galleriafrique.R;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
@@ -46,6 +47,7 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
             ft.add(container, fragment, fragment.getTagText());
             ft.addToBackStack(fragment.getTagText());
             String text = fragment.getTagText();
+            Log.d("STAFF", "text: " + text);
             ft.commit();
         } else {
 

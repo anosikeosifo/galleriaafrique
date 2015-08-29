@@ -8,11 +8,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.galleriafrique.Constants;
+import com.google.gson.Gson;
 
 /**
  * Created by osifo on 8/21/15.
  */
 public class CommonUtils {
+    private static Gson gson;
+
     public static String getSafeString(String string) {
         return string != null ? string.trim() : "";
     }
@@ -32,6 +35,13 @@ public class CommonUtils {
         }
 
         return phone;
+    }
+
+    public static Gson getGson() {
+        if (gson == null) {
+            gson = new Gson();
+        }
+        return gson;
     }
 
     public static void call(Activity activity, String mobile) {

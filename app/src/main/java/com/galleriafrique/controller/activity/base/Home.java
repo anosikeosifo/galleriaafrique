@@ -37,7 +37,10 @@ public class Home extends BaseActivity {
         setSupportActionBar(toolbar);//this sets my toolbar as the custom actionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void setToolbarTitle(String title) {
+        toolbar.setTitle(title);
     }
 
 

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.post.PostResponse;
+import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.repo.PostRepo;
 import com.galleriafrique.view.adapters.PostsListAdapter;
 
@@ -41,9 +43,15 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         super.onCreate(savedInstanceState);
     }
 
-//    @Override
+    @Override
+    public void onResume() {
+        super.onResume();
+        activity.setToolbarTitle(getTagText());
+    }
+
+    @Override
     public String getTagText() {
-        return "Posts";
+        return getClass().getSimpleName();
     }
 
     @Nullable
@@ -57,9 +65,9 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        postRepo = new PostRepo(this);
-        activity = (Home)getActivity();
-        postList = new ArrayList<Post>();
+        this.postRepo = new PostRepo(this);
+        this.activity = (Home)getActivity();
+        this.postList = new ArrayList<Post>();
         initUI(view);
         loadPosts();
     }
@@ -70,14 +78,17 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         layoutManager = new LinearLayoutManager(this.getActivity());
         postsListView.setLayoutManager(layoutManager);
         postsListView.setItemAnimator(new DefaultItemAnimator());
+
+        postsListAdapter = new PostsListAdapter(this, postList);
+        postsListView.setAdapter(postsListAdapter);
     }
 
     public void loadPosts() {
-        postRepo.getAllPosts("", new Date().toString(), new Date().toString()); //test arguments
+        postRepo.getAllPosts(); //test arguments
     }
 
     @Override
-    public void retryGetAllPosts(String pageNumber, String startDate, String endDate) {
+    public void retryGetAllPosts() {
 
     }
 
@@ -112,13 +123,60 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     }
 
     @Override
-    public void updatePosts(PostResponse postResponse) {
+    public void updatePosts(List<Post> data) {
+       updatePostList(data);
+    }
+
+    private void updatePostList(List<Post> data) {
+        for(Post post : data) {
+            if(!postList.contains(post)) {
+                postList.add(post);
+            }
+        }
+
+        showPosts();
+
+        if (progressBar.isShown()) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    public void showPosts() {
+        if (postsListAdapter == null) {
+            postsListAdapter = new PostsListAdapter(this, postList);
+        } else {
+            postsListAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void addPostComment() {
+
+    }
+
+    @Override
+    public void showPostDetails(Post post) {
+
+    }
+
+    @Override
+    public void showUserProfile() {
+
+    }
+
+    @Override
+    public void likePost() {
+
+    }
+
+    @Override
+    public void sharePost() {
 
     }
 
     @Override
     public void showErrorMessage(String message) {
-
+        CommonUtils.log(message);
     }
 
     @Override
