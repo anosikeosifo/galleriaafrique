@@ -1,6 +1,7 @@
 package com.galleriafrique.model.post;
 
 import com.galleriafrique.model.GeneralStatusResponse;
+import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class PostResponse {
     private List<Post> posts;
     private boolean success;
     private String message;
+    private User user;
 
     public boolean isSuccess() {
 

@@ -16,9 +16,9 @@ public class PostHolder extends RecyclerView.ViewHolder {
     public TextView user;
     public  TextView title;
     public TextView description;
-    public TextView created_at;
+    public TextView createdAt;
     public ImageView photo;
-    public ImageView user_avatar;
+    public ImageView userAvatar;
     public CardView card;
 
     public PostHolder(View cardView) {
@@ -31,11 +31,11 @@ public class PostHolder extends RecyclerView.ViewHolder {
 
         this.description = (TextView) cardView.findViewById(R.id.post_title);
 
-        this.created_at = (TextView) cardView.findViewById(R.id.post_created_at);
+        this.createdAt = (TextView) cardView.findViewById(R.id.post_created_at);
 
         this.photo = (ImageView) cardView.findViewById(R.id.post_photo);
 
-        this.user_avatar = (ImageView) cardView.findViewById(R.id.post_user_avatar);
+        this.userAvatar = (ImageView) cardView.findViewById(R.id.post_user_avatar);
 
         this.card = (CardView)cardView.findViewById(R.id.list_item);
     }
