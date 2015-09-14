@@ -29,12 +29,10 @@
             android:layout_weight="1">
 
             <ImageView android:id="@+id/post_user_avatar"
-                android:layout_width="37dp"
-                android:layout_height="37dp"
-                android:layout_alignParentTop = "true"
-                android:layout_gravity="center"
-                android:scaleType="fitXY"
-                android:src="@drawable/avatar"/>
+                android:layout_height="@dimen/avatar_small"
+                android:layout_width="@dimen/avatar_small"
+                android:padding="@dimen/padding_medium"
+                android:src="@drawable/ic_avatar"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -72,7 +70,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/secondary_text_light"
                         android:text="12 min ago"
-                        android:textSize="11dp" />
+                        android:textSize="@dimen/text_extra_small" />
 
 
                     <TextView
@@ -88,7 +86,7 @@
                         android:textColor="@android:color/secondary_text_light"
                         android:layout_centerVertical="true"
                         android:text="Lagos, Nigeria"
-                        android:textSize="11dp" />
+                        android:textSize="@dimen/text_extra_small" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -116,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_margin="@dimen/padding_medium"
-                android:textSize="11dp"
+                android:textSize="@dimen/text_small"
                 android:autoLink="web"
                 android:focusable="false"
                 android:linksClickable="true"
@@ -125,11 +123,9 @@
                 />
 
             <ImageView android:id="@+id/post_photo"
-                android:onClick="image_click"
-                android:layout_height="fill_parent"
+                android:layout_height="@dimen/post_image_height"
                 android:layout_width="match_parent"
                 android:layout_alignParentTop = "true"
-                android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:src="@drawable/placeholder_photo"/>
         </LinearLayout>

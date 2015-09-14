@@ -12,7 +12,7 @@ import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.view.holders.PostHolder;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -52,10 +52,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
         postHolder.description.setText(post.getDescription());
         postHolder.created_at.setText(post.createdAt);
 
-        Picasso.with(context).load(post.getImage()).fit().centerInside().error(R.drawable.placeholder_photo)
-                .placeholder(R.drawable.placeholder_photo).into(postHolder.photo);
+        Glide.with(context).load(post.getImage()).fitCenter().error(R.drawable.placeholder_photo)
+                .placeholder(R.drawable.placeholder_photo).crossFade().into(postHolder.photo);
 
-        Picasso.with(context).load(post.getUserAvatar()).fit().centerCrop().transform(new CircleTransform()).into(postHolder.user_avatar);
+        Glide.with(context).load(post.getUserAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(postHolder.user_avatar);
     }
 
     private void setListeners(PostHolder holder, final Post post) {

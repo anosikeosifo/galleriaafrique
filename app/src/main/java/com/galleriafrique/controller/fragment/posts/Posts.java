@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,11 +33,13 @@ import java.util.List;
 public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, PostsListAdapter.PostListAdapterListener{
     private Home activity;
     private RecyclerView postsListView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
     private LinearLayoutManager layoutManager;
     private List<Post> postList;
     private PostRepo postRepo;
     private PostsListAdapter postsListAdapter;
+    private boolean isLoading = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         this.activity = (Home)getActivity();
         this.postList = new ArrayList<Post>();
         initUI(view);
+        setListeners();
         loadPosts();
     }
 
@@ -78,12 +82,23 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         layoutManager = new LinearLayoutManager(this.getActivity());
         postsListView.setLayoutManager(layoutManager);
         postsListView.setItemAnimator(new DefaultItemAnimator());
-
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh_Layout);
         postsListAdapter = new PostsListAdapter(this, postList);
         postsListView.setAdapter(postsListAdapter);
     }
 
+    private void setListeners() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reloadPosts();
+            }
+        });
+    }
+
     public void loadPosts() {
+        isLoading = true;
+        progressBar.setVisibility(View.VISIBLE);
         postRepo.getAllPosts(); //test arguments
     }
 
@@ -147,6 +162,17 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         } else {
             postsListAdapter.notifyDataSetChanged();
         }
+    }
+
+    public void reloadPosts() {
+
+        if (postList != null && postsListAdapter != null) {
+            //postList.clear();
+            postsListAdapter.notifyDataSetChanged();
+        }
+        //this should be changed to getUserFeed, so it loads just user specific stuff
+        postRepo.getAllPosts();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
