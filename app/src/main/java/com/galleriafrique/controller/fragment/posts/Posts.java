@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.galleriafrique.R;
+import com.galleriafrique.controller.activity.base.FragmentSwitcher;
 import com.galleriafrique.controller.activity.base.Home;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.LikeResponse;
@@ -182,7 +183,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     @Override
     public void showPostDetails(Post post) {
-
+        activity.getFragmentSwitcher().showPostDetails(post);
     }
 
     @Override

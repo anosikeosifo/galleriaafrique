@@ -65,6 +65,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
                 postListAdapterListener.showPostDetails(post);
             }
         });
+
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postListAdapterListener.showPostDetails(post);
+            }
+        });
     }
 
     @Override
