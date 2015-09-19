@@ -48,14 +48,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
     }
 
     private void setContent(PostHolder postHolder, Post post) {
-        postHolder.user.setText(post.getUsername());
+        postHolder.user.setText(post.getUser().getName());
         postHolder.description.setText(post.getDescription());
-        postHolder.createdAt.setText(post.createdAt);
+        postHolder.createdAt.setText(post.getCreatedTime());
 
         Glide.with(context).load(post.getImage()).fitCenter().error(R.drawable.placeholder_photo)
                 .placeholder(R.drawable.placeholder_photo).crossFade().into(postHolder.photo);
 
-        Glide.with(context).load(post.getUserAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(postHolder.userAvatar);
+        Glide.with(context).load(post.getUser().getAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(postHolder.userAvatar);
     }
 
     private void setListeners(PostHolder holder, final Post post) {

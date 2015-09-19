@@ -1,6 +1,11 @@
 package com.galleriafrique.model.post;
 
+import com.galleriafrique.Constants;
+import com.galleriafrique.model.user.User;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
 
 /**
  * Created by osifo on 8/3/15.
@@ -22,6 +27,9 @@ public class Post {
     public String userAvatar;
     private int commentCount;
     private int likeCount;
+
+    @SerializedName("user")
+    public User user;
 
     public int getId() {
         return id;
@@ -93,6 +101,51 @@ public class Post {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getCreatedTime() {
+
+        String time = "now";
+
+        try {
+
+            final Date createdDate = Constants.DATE_FORMAT.parse(getCreatedAt());
+            final Date currentDate = new Date();
+
+            // in milliseconds
+            long diff = currentDate.getTime() - createdDate.getTime();
+
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+            long diffWeeks = diff / (7 * 24 * 60 * 60 * 1000);
+
+            if (diffWeeks > 0) {
+                return diffWeeks + "w";
+            } else if (diffDays > 0) {
+                return diffDays + "d";
+            } else if (diffHours > 0) {
+                return diffHours + "h";
+            } else if (diffMinutes > 0) {
+                return diffMinutes + "m";
+            } else if (diffSeconds > 0) {
+                return diffSeconds + "s";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return time;
     }
 }
 

@@ -9,12 +9,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.FragmentSwitcher;
@@ -26,6 +28,8 @@ import com.galleriafrique.model.post.PostResponse;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.repo.PostRepo;
 import com.galleriafrique.view.adapters.PostsListAdapter;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +45,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     private PostRepo postRepo;
     private PostsListAdapter postsListAdapter;
     private boolean isLoading = true;
+    private TextView dotSeparator;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,6 +150,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     private void updatePostList(List<Post> data) {
         for(Post post : data) {
+            Log.d("POST", post.getUser().toString());
             if(!postList.contains(post)) {
                 postList.add(post);
             }

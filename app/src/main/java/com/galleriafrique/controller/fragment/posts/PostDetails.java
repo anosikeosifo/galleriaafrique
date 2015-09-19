@@ -91,15 +91,16 @@ public class PostDetails  extends BaseFragment{
         sharePost = (ImageButton)view.findViewById(R.id.share_post);
         favoritePost = (ImageButton)view.findViewById(R.id.favorite_post);
 
-        ((TextView)view.findViewById(R.id.post_username)).setText(post.getUsername());
+        ((TextView)view.findViewById(R.id.post_username)).setText(post.getUser().getName());
         ((TextView)view.findViewById(R.id.post_description)).setText(post.getDescription());
         ((TextView)view.findViewById(R.id.post_location)).setText(post.getLocation());
+        ((TextView)view.findViewById(R.id.post_created_at)).setText(post.getCreatedTime());
 
         postUserAvatar = (ImageView)view.findViewById(R.id.post_user_avatar);
         postImage = (ImageView)view.findViewById(R.id.post_photo);
 
         if(post.getUserAvatar()!= null) {
-            Glide.with(activity).load(post.getUserAvatar()).fitCenter().error(R.drawable.ic_avatar)
+            Glide.with(activity).load(post.getUser().getAvatar()).fitCenter().error(R.drawable.ic_avatar)
                     .placeholder(R.drawable.ic_avatar).into(postUserAvatar);
         }
 
