@@ -7,8 +7,10 @@ import android.util.Log;
 
 import com.galleriafrique.R;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.controller.fragment.posts.PostDetails;
 import com.galleriafrique.controller.fragment.posts.Posts;
 import com.galleriafrique.controller.interfaces.FragmentSwitcherInterfce;
+import com.galleriafrique.model.post.Post;
 
 /**
  * Created by osifo on 8/23/15.
@@ -47,7 +49,6 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
             ft.add(container, fragment, fragment.getTagText());
             ft.addToBackStack(fragment.getTagText());
             String text = fragment.getTagText();
-            Log.d("STAFF", "text: " + text);
             ft.commit();
         } else {
 
@@ -64,8 +65,8 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
     }
 
     @Override
-    public void showPostDetails() {
-
+    public void showPostDetails(Post post) {
+        addFragment(PostDetails.newInstance(post), true, R.id.container);
     }
 
     @Override

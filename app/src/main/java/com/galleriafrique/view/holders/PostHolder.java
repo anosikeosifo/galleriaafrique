@@ -2,6 +2,7 @@ package com.galleriafrique.view.holders;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class PostHolder extends RecyclerView.ViewHolder {
     public PostHolder(View cardView) {
 
         super(cardView);
+        ((TextView) cardView.findViewById(R.id.middot_separator)).setText(Html.fromHtml("&middot;"));
 
         this.user = (TextView) cardView.findViewById(R.id.post_username);
 

@@ -1,12 +1,21 @@
 package com.galleriafrique.model.user;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by osifo on 8/3/15.
  */
 public class User {
     private int id;
+
+    @SerializedName("fullname")
+    @Expose
     private String name;
-    private Integer email;
+
+    @Expose
+    private String email;
+
     private String mobile;
     private String avatar;
 
@@ -26,11 +35,11 @@ public class User {
         this.name = name;
     }
 
-    public Integer getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(Integer email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 

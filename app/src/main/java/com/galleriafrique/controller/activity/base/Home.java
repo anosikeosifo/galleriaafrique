@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.galleriafrique.R;
+import com.galleriafrique.model.post.Post;
 
 /**
  * Created by osifo on 8/23/15.
@@ -46,5 +47,10 @@ public class Home extends BaseActivity {
 
     public void showPosts() {
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+
+    public FragmentSwitcher getFragmentSwitcher() {
+        return fragmentSwitcher;
     }
 }
