@@ -1,13 +1,18 @@
 package com.galleriafrique.util.repo;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.galleriafrique.Constants;
+import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.LikeResponse;
+import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.post.PostResponse;
 import com.galleriafrique.util.api.PostAPI;
 import com.galleriafrique.util.network.NetworkHelper;
 import com.galleriafrique.util.tools.RepoUtils;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -23,17 +28,14 @@ public class PostRepo {
     public PostRepoListener postRepoListener;
     public Context context;
 
-    public PostRepo(Context context) {
-        networkHelper = new NetworkHelper(context);
-        this.context = context;
-    }
-
-    public void setPostRepoListener(PostRepoListener postRepoListener) {
-        this.postRepoListener = postRepoListener;
+    public PostRepo(BaseFragment fragment) {
+        this.context = fragment.getActivity();
+        networkHelper = new NetworkHelper(this.context);
+        postRepoListener = (PostRepoListener) fragment;
     }
 
     public interface  PostRepoListener {
-        void retryGetAllPosts(String pageNumber, String startDate, String endDate);
+        void retryGetAllPosts();
 
         void retryGetUserFeed(String userID, String pageNumber);
 
@@ -47,40 +49,42 @@ public class PostRepo {
 
         void updateLike(LikeResponse.Like like, String postID, int position);
 
-        void updatePosts(PostResponse postResponse);
+        void updatePosts(List<Post> posts);
 
         void showErrorMessage(String message);
 
         void requestFailed();
     }
 
-    public void getAllPosts(final String pageNumber, final String startDate, final String endDate) {
+    public void getAllPosts() {
         RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
 
         PostAPI postAPI =  restAdapter.create(PostAPI.class);
 
         if(postAPI != null) {
-            postAPI.getAllPosts(pageNumber,startDate, endDate,  new Callback<PostResponse>() {
+            postAPI.getAllPosts(new Callback<PostResponse>() {
                 @Override
                 public void success(PostResponse postResponse, Response response) {
                     if (postRepoListener != null && postResponse != null) {
-
-                            postRepoListener.updatePosts(postResponse);
-                    } else {
-                        String message = postResponse.getMessage();
-
-                        if (message == null) {
-                            message = Constants.GET_POSTS_FAILED;
+                        Log.d("POST_LIST", "post response: " + String.valueOf(postResponse.isSuccess()));
+                        if (postResponse.isSuccess()) {
+                            Log.d("POST_LIST", String.valueOf(postResponse.getData()));
+                            postRepoListener.updatePosts(postResponse.getData());
+                        } else {
+                            String message = "failed";
+                            if (message == null) {
+                                message = Constants.GET_POSTS_FAILED;
+                            }
+                            Log.d("POST_LIST", "post response: " + message);
+                            postRepoListener.showErrorMessage(message);
                         }
-
-                        postRepoListener.showErrorMessage(message);
                     }
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
                     if(postRepoListener != null) {
-                        postRepoListener.retryGetAllPosts(pageNumber,startDate, endDate);
+                        postRepoListener.retryGetAllPosts();
                     }
                 }
             });

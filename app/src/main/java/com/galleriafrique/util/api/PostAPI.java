@@ -14,11 +14,10 @@ import retrofit.http.GET;
  */
 public interface PostAPI {
 
-    @FormUrlEncoded
     @GET("/posts")
-    void getAllPosts(@Field(Constants.PAGE_NUMBER) String page_number, @Field(Constants.START_DATE)  String startDate, @Field(Constants.END_DATE) String endDate, Callback<PostResponse> callback);
+    //void getAllPosts(@Field(Constants.START_DATE)  String startDate, @Field(Constants.END_DATE) String endDate, Callback<PostResponse> callback);
+    void getAllPosts(Callback<PostResponse> callback);
 
-
-    void createPosts();
+//    void createPosts();
 
 }

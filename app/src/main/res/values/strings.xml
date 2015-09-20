@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Galleriafrique</string>
+    <string name="app_name">GalleriAfrique</string>
     <string name="title_activity_post">PostActivity</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="side_menu_text">Side Menu</string>
+    <string name="title_activity_home">Home</string>
 </resources>

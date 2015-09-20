@@ -21,9 +21,11 @@ public class Home extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-
         activity = this;
         initUI();
+
+        fragmentSwitcher = new FragmentSwitcher(this, getSupportFragmentManager());
+        fragmentSwitcher.showPostFeed();
     }
 
     public void setClickListeners() {
@@ -35,12 +37,12 @@ public class Home extends BaseActivity {
         setSupportActionBar(toolbar);//this sets my toolbar as the custom actionBar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     public void setToolbarTitle(String title) {
         toolbar.setTitle(title);
     }
+
 
     public void showPosts() {
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
