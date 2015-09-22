@@ -1,11 +1,15 @@
 package com.galleriafrique.util.repo;
 
 import android.content.Context;
+import android.content.OperationApplicationException;
+import android.os.RemoteException;
+import android.util.Log;
 
 import com.galleriafrique.Constants;
 import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.PostResponse;
 import com.galleriafrique.util.api.PostAPI;
+import com.galleriafrique.util.handler.PostHandler;
 import com.galleriafrique.util.network.NetworkHelper;
 import com.galleriafrique.util.tools.RepoUtils;
 
@@ -65,15 +69,28 @@ public class PostRepo {
                 public void success(PostResponse postResponse, Response response) {
                     if (postRepoListener != null && postResponse != null) {
 
-                            postRepoListener.updatePosts(postResponse);
-                    } else {
-                        String message = postResponse.getMessage();
+                        Log.d("POST_LIST", "post response: " + String.valueOf(postResponse.isSuccess()));
+                        if (postResponse.isSuccess()) {
+                            Log.d("POST_LIST", String.valueOf(postResponse.getData()));
 
-                        if (message == null) {
-                            message = Constants.GET_POSTS_FAILED;
+                            //save the data into the database
+                            try {
+                                PostHandler.savePostData(context, postResponse.getData());
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            } catch (OperationApplicationException e) {
+                                e.printStackTrace();
+                            }
+
+                            postRepoListener.updatePosts(postResponse.getData());
+                        } else {
+                            String message = "failed";
+                            if (message == null) {
+                                message = Constants.GET_POSTS_FAILED;
+                            }
+                            Log.d("POST_LIST", "post response: " + message);
+                            postRepoListener.showErrorMessage(message);
                         }
-
-                        postRepoListener.showErrorMessage(message);
                     }
                 }
 

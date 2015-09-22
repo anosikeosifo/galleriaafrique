@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Galleriafrique</string>
-    <string name="title_activity_post">PostActivity</string>
+    <string name="title_activity_home">Galleriafrique</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
