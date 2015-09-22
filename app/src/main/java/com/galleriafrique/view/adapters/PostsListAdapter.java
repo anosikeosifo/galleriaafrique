@@ -1,6 +1,7 @@
 package com.galleriafrique.view.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.galleriafrique.model.post.Post;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.view.holders.PostHolder;
 import com.bumptech.glide.Glide;
+import com.galleriafrique.provider.AndroidDatabaseManager;
 
 import java.util.List;
 
@@ -70,6 +72,10 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
             @Override
             public void onClick(View view) {
                 postListAdapterListener.showPostDetails(post);
+
+                //[CR:OS] Why do we tie this activity to this event only.
+                Intent dbmanager = new Intent(context, AndroidDatabaseManager.class);
+                context.startActivity(dbmanager);
             }
         });
     }
