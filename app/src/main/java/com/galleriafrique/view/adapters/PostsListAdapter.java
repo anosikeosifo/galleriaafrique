@@ -72,10 +72,6 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
             @Override
             public void onClick(View view) {
                 postListAdapterListener.showPostDetails(post);
-
-                //[CR:OS] Why do we tie this activity to this event only.
-                Intent dbmanager = new Intent(context, AndroidDatabaseManager.class);
-                context.startActivity(dbmanager);
             }
         });
     }
