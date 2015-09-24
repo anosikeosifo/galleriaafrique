@@ -17,6 +17,7 @@
     <dimen name="text_large">19sp</dimen>
     <dimen name="text_largest">22sp</dimen>
     <dimen name="post_image_height">200dip</dimen>
+    <dimen name="gallery_item_width">130dp</dimen>
 
 
 
