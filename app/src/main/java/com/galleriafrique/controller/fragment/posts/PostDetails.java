@@ -25,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,7 +92,7 @@ public class PostDetails  extends BaseFragment{
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         activity = (Home) getActivity();
-
+        this.commentList = new ArrayList<Comment>();
         setUIContent(view);
     }
 
@@ -105,6 +106,7 @@ public class PostDetails  extends BaseFragment{
                 post = CommonUtils.getGson().fromJson(postData, new TypeToken<Post>(){}.getType());
                 if (post != null) {
                     initUI(view);
+                    loadPostComments(post.getComments());
                     initCommentsUI(view);
                     setClickListeners();
                 }
@@ -183,7 +185,7 @@ public class PostDetails  extends BaseFragment{
             }
         }
 
-        showPosts();
+        showPostComments();
     }
 
 
