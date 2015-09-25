@@ -66,7 +66,7 @@ public class CommentsListAdapter extends BaseAdapter {
 
     private void setContent(CommentHolder commentHolder, Comment comment) {
         commentHolder.commentText.setText(comment.getText());
-
+        commentHolder.timeStamp.setText(comment.getCreatedAt());
         Glide.with(context).load(comment.getUserImage()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(commentHolder.userAvatar);
     }
 

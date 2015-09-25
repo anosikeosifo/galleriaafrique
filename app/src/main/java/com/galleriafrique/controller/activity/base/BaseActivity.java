@@ -33,4 +33,16 @@ public class BaseActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    public void retryAction(DialogInterface.OnClickListener positive, DialogInterface.OnClickListener negative) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.retry_message))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.yes),
+                        positive)
+                .setNegativeButton(getString(R.string.no), negative);
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }

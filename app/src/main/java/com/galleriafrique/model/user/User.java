@@ -10,10 +10,8 @@ public class User {
     private int id;
 
     @SerializedName("fullname")
-    @Expose
     private String name;
 
-    @Expose
     private String email;
 
     private String mobile;

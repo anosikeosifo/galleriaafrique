@@ -1,6 +1,7 @@
 package com.galleriafrique.controller.fragment.posts;
 
 import android.app.ListFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,18 +9,23 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.Home;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.model.comment.Comment;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.tools.CircleTransform;
+import com.galleriafrique.view.adapters.CommentsListAdapter;
 import com.google.gson.reflect.TypeToken;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 /**
  * Created by osifo on 9/15/15.
@@ -33,9 +39,12 @@ public class PostDetails  extends BaseFragment{
     private ImageView postUserAvatar;
     private EditText commentText;
     private ListFragment commentsFragment;
+    private ListView commentsListView;
 
     private View postDetailsHeader;
     private View postComments;
+    public CommentsListAdapter commentsListAdapter;
+    private List<Comment> commentList;
 
     private Post post;
 
@@ -54,12 +63,27 @@ public class PostDetails  extends BaseFragment{
 
     }
 
+    @Override
+    public String getTitleText() {
+        return "View post";
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    @Override
+    public void retryAction(DialogInterface.OnClickListener positive, DialogInterface.OnClickListener negative) {
+        super.retryAction(positive, negative);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.post_detail_header, container, false);
+        //return inflater.inflate(R.layout.post_detail_header, container, false);
+        return inflater.inflate(R.layout.posts_comments_list, container, false);
     }
 
 
@@ -81,6 +105,7 @@ public class PostDetails  extends BaseFragment{
                 post = CommonUtils.getGson().fromJson(postData, new TypeToken<Post>(){}.getType());
                 if (post != null) {
                     initUI(view);
+                    initCommentsUI(view);
                     setClickListeners();
                 }
             }
@@ -111,6 +136,13 @@ public class PostDetails  extends BaseFragment{
     }
 
 
+    private void initCommentsUI(View view){
+        commentsListView = (ListView)view.findViewById(R.id.comment_list);
+        commentsListAdapter = new CommentsListAdapter(this, commentList);
+        commentsListView.setAdapter(commentsListAdapter);
+    }
+
+
     private void setClickListeners() {
         sharePost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,12 +168,23 @@ public class PostDetails  extends BaseFragment{
     }
 
 
+    private void showPostComments(){
+        if (commentsListAdapter == null) {
+            commentsListAdapter = new CommentsListAdapter(this, commentList);
+        } else {
+            commentsListAdapter.notifyDataSetChanged();
+        }
+    }
 
+    private void loadPostComments(List<Comment> data) {
+        for(Comment comment : data) {
+            if(!commentList.contains(comment)) {
+                commentList.add(comment);
+            }
+        }
 
-
-
-
-
+        showPosts();
+    }
 
 
 }

@@ -1,11 +1,13 @@
 package com.galleriafrique.model.post;
 
 import com.galleriafrique.Constants;
+import com.galleriafrique.model.comment.Comment;
 import com.galleriafrique.model.user.User;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by osifo on 8/3/15.
@@ -30,6 +32,8 @@ public class Post {
 
     @SerializedName("user")
     public User user;
+
+    public List<Comment> comments;
 
     public int getId() {
         return id;

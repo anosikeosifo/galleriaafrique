@@ -49,7 +49,6 @@ public class Home extends BaseActivity {
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
-
     public FragmentSwitcher getFragmentSwitcher() {
         return fragmentSwitcher;
     }

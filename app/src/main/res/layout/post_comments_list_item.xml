@@ -34,7 +34,7 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:text="-"/>
 
-            <TextView android:id="@+id/time_stamp"
+            <TextView android:id="@+id/comment_time_stamp"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/padding_medium"
                 android:layout_marginLeft="@dimen/padding_large"
