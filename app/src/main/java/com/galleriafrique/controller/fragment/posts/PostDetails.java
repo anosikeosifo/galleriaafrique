@@ -1,6 +1,7 @@
 package com.galleriafrique.controller.fragment.posts;
 
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.galleriafrique.controller.activity.base.Home;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.util.CommonUtils;
+import com.galleriafrique.util.provider.AndroidDatabaseManager;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.google.gson.reflect.TypeToken;
 
@@ -133,15 +135,12 @@ public class PostDetails  extends BaseFragment{
             }
         });
 
+        favoritePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               favoritePost.setImageResource(R.drawable.ic_favorite_red);
+            }
+        });
+
     }
-
-
-
-
-
-
-
-
-
-
 }
