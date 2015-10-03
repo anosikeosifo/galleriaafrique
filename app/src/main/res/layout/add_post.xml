@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <TextView android:id="@+id/textCount"
         android:layout_height="20dp"
@@ -15,10 +16,10 @@
         android:layout_width="match_parent"
         android:inputType="textMultiLine"
         android:hint="@string/description_placeholder"
-        android:id="@+id/desc_txt" />
+        android:id="@+id/post_description" />
 
     <ImageView
-        android:id="@+id/uploaded_img"
+        android:id="@+id/img_for_upload"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="4"

@@ -5,15 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import com.bumptech.glide.Glide;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.comment.Comment;
-import com.galleriafrique.model.post.Post;
+import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.view.holders.CommentHolder;
-import com.galleriafrique.view.holders.PostHolder;
 
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class CommentsListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return commentList.get(i);
     }
 
     @Override
@@ -54,9 +52,11 @@ public class CommentsListAdapter extends BaseAdapter {
         final Comment comment = this.commentList.get(position);
 
         if (view == null) {
-            view = inflater.inflate(R.layout.post_comments_list_item, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_comments_list_item, parent, false);
+            //view = inflater.inflate(R.layout.post_comments_list_item, parent, false);
             commentHolder = new CommentHolder(view);
             setContent(commentHolder, comment);
+            view.setTag(commentHolder);
         } else {
             commentHolder = (CommentHolder)view.getTag();
         }
@@ -65,13 +65,15 @@ public class CommentsListAdapter extends BaseAdapter {
     }
 
     private void setContent(CommentHolder commentHolder, Comment comment) {
-        commentHolder.commentText.setText(comment.getText());
-        commentHolder.timeStamp.setText(comment.getCreatedAt());
-        Glide.with(context).load(comment.getUserImage()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(commentHolder.userAvatar);
+        //commentHolder.userName.setText(CommonUtils.getSafeString(comment.getUsername()));
+        commentHolder.commentText.setText(CommonUtils.getSafeString(comment.getText()));
+        commentHolder.timeStamp.setText(CommonUtils.getSafeString(comment.getCreatedAt()));
+        Glide.with(context).load(comment.getUserImage()).centerCrop().placeholder(R.drawable.ic_avatar).error(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(commentHolder.userAvatar);
     }
 
     @Override
     public long getItemId(int position) {
+        //return commentList.get(position).getID;
         return 0;
     }
 

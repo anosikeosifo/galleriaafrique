@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AbsListView.LayoutParams;
 
 import com.bumptech.glide.Glide;
 import com.galleriafrique.R;
@@ -23,7 +24,6 @@ import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.view.adapters.CommentsListAdapter;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +38,6 @@ public class PostDetails  extends BaseFragment{
     private ImageButton favoritePost;
     private ImageView postImage;
     private ImageView postUserAvatar;
-    private EditText commentText;
-    private ListFragment commentsFragment;
     private ListView commentsListView;
 
     private View postDetailsHeader;
@@ -83,8 +81,9 @@ public class PostDetails  extends BaseFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.post_detail_header, container, false);
-        return inflater.inflate(R.layout.posts_comments_list, container, false);
+        postComments =  inflater.inflate( R.layout.posts_comments_list, container, false);
+        postDetailsHeader =  inflater.inflate(R.layout.post_detail_header, (ListView)postComments.findViewById(R.id.comment_list), false);
+        return postComments;
     }
 
 
@@ -97,6 +96,8 @@ public class PostDetails  extends BaseFragment{
     }
 
 
+
+
     private void setUIContent(View view) {
         Bundle bundle = this.getArguments();
 
@@ -105,9 +106,8 @@ public class PostDetails  extends BaseFragment{
             if (postData != null) {
                 post = CommonUtils.getGson().fromJson(postData, new TypeToken<Post>(){}.getType());
                 if (post != null) {
-                    initUI(view);
                     loadPostComments(post.getComments());
-                    initCommentsUI(view);
+                    initUI(view);
                     setClickListeners();
                 }
             }
@@ -115,16 +115,18 @@ public class PostDetails  extends BaseFragment{
     }
 
     private void initUI(View view) {
-        sharePost = (ImageButton)view.findViewById(R.id.share_post);
-        favoritePost = (ImageButton)view.findViewById(R.id.favorite_post);
+        commentsListView = (ListView)postComments.findViewById(R.id.comment_list);
 
-        ((TextView)view.findViewById(R.id.post_username)).setText(post.getUser().getName());
-        ((TextView)view.findViewById(R.id.post_description)).setText(post.getDescription());
-        ((TextView)view.findViewById(R.id.post_location)).setText(post.getLocation());
-        ((TextView)view.findViewById(R.id.post_created_at)).setText(post.getCreatedTime());
+        sharePost = (ImageButton)postDetailsHeader.findViewById(R.id.share_post);
+        favoritePost = (ImageButton)postDetailsHeader.findViewById(R.id.favorite_post);
 
-        postUserAvatar = (ImageView)view.findViewById(R.id.post_user_avatar);
-        postImage = (ImageView)view.findViewById(R.id.post_photo);
+        ((TextView)postDetailsHeader.findViewById(R.id.post_username)).setText(post.getUser().getName());
+        ((TextView)postDetailsHeader.findViewById(R.id.post_description)).setText(post.getDescription());
+        ((TextView)postDetailsHeader.findViewById(R.id.post_location)).setText(post.getLocation());
+        ((TextView)postDetailsHeader.findViewById(R.id.post_created_at)).setText(post.getCreatedTime());
+
+        postUserAvatar = (ImageView)postDetailsHeader.findViewById(R.id.post_user_avatar);
+        postImage = (ImageView)postDetailsHeader.findViewById(R.id.post_photo);
 
         if(post.getUserAvatar()!= null) {
             Glide.with(activity).load(post.getUser().getAvatar()).fitCenter().error(R.drawable.ic_avatar)
@@ -135,12 +137,8 @@ public class PostDetails  extends BaseFragment{
             Glide.with(activity).load(post.getImage()).fitCenter().error(R.drawable.placeholder_photo)
                     .placeholder(R.drawable.placeholder_photo).into(postImage);
         }
-    }
 
-
-    private void initCommentsUI(View view){
-        commentsListView = (ListView)view.findViewById(R.id.comment_list);
-        commentsListAdapter = new CommentsListAdapter(this, commentList);
+        commentsListView.addHeaderView(postDetailsHeader);
         commentsListView.setAdapter(commentsListAdapter);
     }
 

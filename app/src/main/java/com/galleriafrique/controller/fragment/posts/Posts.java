@@ -57,17 +57,6 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        activity.setToolbarTitle(getTagText());
-    }
-
-    @Override
-    public String getTagText() {
-        return getClass().getSimpleName();
-    }
-
-    @Override
     public boolean onBackPressed() {
         return false;
     }

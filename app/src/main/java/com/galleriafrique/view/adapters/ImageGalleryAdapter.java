@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.comment.Comment;
@@ -25,9 +26,13 @@ public class ImageGalleryAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context;
     private int imageCount;
+    private String[] imageUris;
     private ImageGalleryAdapterListener imageGalleryAdapterListener;
+    private String[] arrPath;
 
-    public ImageGalleryAdapter(BaseFragment fragment) {
+    public ImageGalleryAdapter(BaseFragment fragment, String[] imageUris ) {
+        this.imageUris = imageUris;
+        this.imageCount = imageUris.length;
         this.context = fragment.getActivity();
         this.inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.imageGalleryAdapterListener = (ImageGalleryAdapterListener)fragment;
@@ -35,7 +40,7 @@ public class ImageGalleryAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 6;
+        return imageCount;
     }
 
     @Override
@@ -62,33 +67,14 @@ public class ImageGalleryAdapter extends BaseAdapter {
 
         setContent(holder, position);
         setListeners(holder);
-
-        try {
-            setBitmap(holder.image, position);
-        } catch(Throwable e) {
-            CommonUtils.toast(context, "Images couldn't be loaded, Please retry.");
-        }
-
         return view;
     }
 
-    public void setBitmap(final ImageView imageview, final int id) {
-        new AsyncTask<Void, Void, Bitmap>() {
-            @Override
-            protected Bitmap doInBackground(Void... voids) {
-                return MediaStore.Images.Thumbnails.getThumbnail(context.getContentResolver(), id, MediaStore.Images.Thumbnails.MINI_KIND, null);
-            }
-
-            protected void onPostExecute(Bitmap result){
-                super.onPostExecute(result);
-                imageview.setImageBitmap(result);
-            }
-        }.execute();
-    }
 
     private void setContent(ImageGalleryHolder holder, int position) {
+        Glide.with(context).load(imageUris[position]).centerCrop().into(holder.image);
+
         holder.image.setId(position);
-        holder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
         holder.image.setPadding(2, 2, 2, 2);
         holder.id = position;
     }
@@ -97,14 +83,12 @@ public class ImageGalleryAdapter extends BaseAdapter {
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                int viewID = view.getId();
-                //Uri imagePath = Uri.parse("file://" + arrPath[id]);
-                imageGalleryAdapterListener.selectImage(viewID);
+                imageGalleryAdapterListener.selectImage(imageUris[view.getId()]);
             }
         });
     }
 
     public interface ImageGalleryAdapterListener {
-        void selectImage(int id);
+        void selectImage(String imageUri);
     }
 }

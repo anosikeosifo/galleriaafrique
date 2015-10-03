@@ -13,10 +13,12 @@ public class CommentHolder {
     public ImageView userAvatar;
     public TextView commentText;
     public TextView timeStamp;
+    public TextView userName;
 
     public CommentHolder(View view) {
+        //userName = (TextView)view.findViewById(R.id.comment_user_name);
         userAvatar = (ImageView)view.findViewById(R.id.comment_user_avatar);
         commentText = (TextView)view.findViewById(R.id.comment_text);
-        timeStamp = (TextView)view.findViewById(R.id.time_stamp);
+        timeStamp = (TextView)view.findViewById(R.id.comment_time_stamp);
     }
 }

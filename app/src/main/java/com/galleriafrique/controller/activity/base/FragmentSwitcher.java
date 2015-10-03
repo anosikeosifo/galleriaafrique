@@ -58,7 +58,7 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
     }
 
     public void showPostFeed() {
-        addFragment(new Posts(), true, R.id.posts_coontainer);
+        addFragment(new Posts(), true, R.id.container);
     }
 
     @Override
@@ -91,8 +91,8 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
 
     }
 
-    public void addPost(int viewID) {
-        addFragment(AddPost.newInstance(viewID), true, R.id.container);
+    public void showAddPost(String imageUrl) {
+        addFragment(AddPost.newInstanceFromGallery(imageUrl), true, R.id.container);
     }
 
     private void addMultipleFragments(BaseFragment fragment, boolean withAnimation, int container) {

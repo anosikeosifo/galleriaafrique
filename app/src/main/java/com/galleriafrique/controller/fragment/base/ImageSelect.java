@@ -1,6 +1,8 @@
 package com.galleriafrique.controller.fragment.base;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -8,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.Home;
 import com.galleriafrique.model.post.Post;
+import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.repo.PostRepo;
 import com.galleriafrique.view.adapters.ImageGalleryAdapter;
 
@@ -31,11 +35,6 @@ public class ImageSelect extends BaseFragment implements ImageGalleryAdapter.Ima
     private GridView galleryGrid;
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public String getTitleText() {
         return "Select image";
     }
@@ -44,15 +43,17 @@ public class ImageSelect extends BaseFragment implements ImageGalleryAdapter.Ima
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.image_gallery_grid, container, false);
+        this.activity = (Home)getActivity();
+        setContent(view);
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);;
-        this.activity = (Home)getActivity();
-        setContent(view);
-    }
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);;
+//        this.activity = (Home)getActivity();
+//        setContent(view);
+//    }
 
     @Override
     public boolean onBackPressed() {
@@ -61,7 +62,6 @@ public class ImageSelect extends BaseFragment implements ImageGalleryAdapter.Ima
 
     private void initUI(View view) {
         galleryGrid = (GridView)view.findViewById(R.id.gallery_gridview);
-        galleryAdapter = new ImageGalleryAdapter(this);
         galleryGrid.setAdapter(galleryAdapter);
     }
 
@@ -72,6 +72,7 @@ public class ImageSelect extends BaseFragment implements ImageGalleryAdapter.Ima
                 columns, null, null, orderBy + " DESC");
         int image_column_index = imageCursor.getColumnIndex(MediaStore.Images.Media._ID);
         imageCount = imageCursor.getCount();
+
         this.arrPath = new String[imageCount];
         thumbnailIDs = new int[imageCount];
 
@@ -82,12 +83,15 @@ public class ImageSelect extends BaseFragment implements ImageGalleryAdapter.Ima
             int dataColumnIndex = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
             arrPath[i] = imageCursor.getString(dataColumnIndex);
         }
+        galleryAdapter = new ImageGalleryAdapter(this, arrPath);
         initUI(view);
         imageCursor.close();
     }
 
+
     @Override
-    public void selectImage(int id) {
-        //activity.getFragmentSwitcher().addPost(id);
+    public void selectImage(String imageUri) {
+        CommonUtils.toast(activity, "image: " + imageUri);
+        activity.getFragmentSwitcher().showAddPost(imageUri);
     }
 }

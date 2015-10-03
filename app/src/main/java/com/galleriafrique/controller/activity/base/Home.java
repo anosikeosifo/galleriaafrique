@@ -29,8 +29,9 @@ public class Home extends BaseActivity {
         fragmentSwitcher.showPostFeed();
     }
 
-    public void setClickListeners() {
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     public void initUI() {
@@ -42,11 +43,6 @@ public class Home extends BaseActivity {
 
     public void setToolbarTitle(String title) {
         toolbar.setTitle(title);
-    }
-
-
-    public void showPosts() {
-        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     public FragmentSwitcher getFragmentSwitcher() {
