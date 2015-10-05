@@ -91,7 +91,6 @@ public class ImageSelect extends BaseFragment implements ImageGalleryAdapter.Ima
 
     @Override
     public void selectImage(String imageUri) {
-        CommonUtils.toast(activity, "image: " + imageUri);
         activity.getFragmentSwitcher().showAddPost(imageUri);
     }
 }

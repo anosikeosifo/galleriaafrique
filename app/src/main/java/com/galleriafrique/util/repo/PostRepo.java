@@ -8,6 +8,7 @@ import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.post.PostResponse;
+import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.api.PostAPI;
 import com.galleriafrique.util.network.NetworkHelper;
 import com.galleriafrique.util.tools.RepoUtils;
@@ -37,6 +38,8 @@ public class PostRepo {
     public interface  PostRepoListener {
         void retryGetAllPosts();
 
+        void retryCreatePost(String description, String image, String user_id);
+
         void retryGetUserFeed(String userID, String pageNumber);
 
         void retryGetFavorites(String userID, String pageNumber);
@@ -51,9 +54,49 @@ public class PostRepo {
 
         void updatePosts(List<Post> posts);
 
+        void createPostSuccessful(Post post);
+
         void showErrorMessage(String message);
 
         void requestFailed();
+    }
+
+    public void createPost(final String description, final String image, final String userId) {
+        RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
+
+        PostAPI postAPI =  restAdapter.create(PostAPI.class);
+
+        if(postAPI != null) {
+            postAPI.createPost(CommonUtils.getTypedString(description), CommonUtils.getTypedFile(image), CommonUtils.getTypedString(userId), new Callback<PostResponse>() {
+                @Override
+                public void success(PostResponse postResponse, Response response) {
+                    if (postRepoListener != null && postResponse != null) {
+                        Log.d("CREATE_POST", "post response: " + String.valueOf(postResponse.isSuccess()));
+                        if (postResponse.isSuccess()) {
+                            Log.d("CREATE_POST", String.valueOf(postResponse.getData()));
+                            postRepoListener.createPostSuccessful(new Post());
+                        } else {
+                            String message = "failed";
+                            if (message == null) {
+                                message = Constants.CREATE_POSTS_FAILED;
+                            }
+                            Log.d("POST_LIST", "post response: " + message);
+                            postRepoListener.showErrorMessage(message);
+                        }
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    if (postRepoListener != null) {
+                        postRepoListener.retryCreatePost(description, image, userId);
+                    }
+                }
+            });
+        } else {
+            postRepoListener.requestFailed();
+        }
+
     }
 
     public void getAllPosts() {
@@ -111,10 +154,6 @@ public class PostRepo {
     }
 
     public void favoritePost(String userID, String postID, int position) {
-
-    }
-
-    public void createPost() {
 
     }
 

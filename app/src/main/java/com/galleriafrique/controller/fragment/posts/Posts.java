@@ -56,6 +56,10 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         super.onCreate(savedInstanceState);
     }
 
+    public Posts() {
+
+    }
+
     @Override
     public boolean onBackPressed() {
         return false;
@@ -142,7 +146,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     @Override
     public void retryGetAllPosts() {
-
+        postRepo.getAllPosts();
     }
 
     @Override
@@ -249,4 +253,13 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     }
 
+    @Override
+    public void retryCreatePost(String description, String image, String user_id) {
+
+    }
+
+    @Override
+    public void createPostSuccessful(Post post) {
+
+    }
 }
