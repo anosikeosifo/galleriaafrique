@@ -10,33 +10,29 @@ import java.util.List;
  * Created by osifo on 8/3/15.
  */
 public class PostResponse {
-    private List<Post> posts;
+    private List<Post> data;
     private boolean success;
     private String message;
-    private User user;
 
     public boolean isSuccess() {
 
-        return getData().size() > 0 ? true : false;
+        return this.success;
     }
 
     public void setSuccess(boolean success) {
         this.success = success;
     }
-//
-//    public String getMessage() {
-//        return CommonUtils.getSafeString(message);
-//    }
-//
-//    public void setMessage(String message) {
-//        this.message = message;
-//    }
+
+    public String getMessage() {
+        return CommonUtils.getSafeString(message);
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public List<Post> getData() {
-        return posts;
+        return data;
     }
 
-    public void setData(List<Post> data) {
-        this.posts = posts;
-    }
 }

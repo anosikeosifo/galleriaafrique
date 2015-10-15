@@ -28,6 +28,7 @@ public class PostRepo {
     private NetworkHelper networkHelper;
     public PostRepoListener postRepoListener;
     public Context context;
+    private int retryCount = 0;
 
     public PostRepo(BaseFragment fragment) {
         this.context = fragment.getActivity();
@@ -76,7 +77,7 @@ public class PostRepo {
                             Log.d("CREATE_POST", String.valueOf(postResponse.getData()));
                             postRepoListener.createPostSuccessful(new Post());
                         } else {
-                            String message = "failed";
+                            String message = postResponse.getMessage();
                             if (message == null) {
                                 message = Constants.CREATE_POSTS_FAILED;
                             }
@@ -88,8 +89,11 @@ public class PostRepo {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    if (postRepoListener != null) {
-                        postRepoListener.retryCreatePost(description, image, userId);
+                    while (retryCount < 4) {
+                        if (postRepoListener != null) {
+                            postRepoListener.retryCreatePost(description, image, userId);
+                            retryCount++;
+                        }
                     }
                 }
             });
@@ -114,7 +118,7 @@ public class PostRepo {
                             Log.d("POST_LIST", String.valueOf(postResponse.getData()));
                             postRepoListener.updatePosts(postResponse.getData());
                         } else {
-                            String message = "failed";
+                            String message = postResponse.getMessage();
                             if (message == null) {
                                 message = Constants.GET_POSTS_FAILED;
                             }
@@ -126,8 +130,11 @@ public class PostRepo {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    if(postRepoListener != null) {
-                        postRepoListener.retryGetAllPosts();
+                    while (retryCount < 4) {
+                        if(postRepoListener != null) {
+                            postRepoListener.retryGetAllPosts();
+                            retryCount++;
+                        }
                     }
                 }
             });

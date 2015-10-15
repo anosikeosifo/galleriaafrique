@@ -186,7 +186,6 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     private void updatePostList(List<Post> data) {
         for(Post post : data) {
-            Log.d("POST", post.getUser().toString());
             if(!postList.contains(post)) {
                 postList.add(post);
             }
