@@ -12,4 +12,5 @@ public interface FragmentSwitcherInterfce {
     void showFollowers();
     void showFollowing();
     void showPostFeed();
+    void showImageGallery();
 }

@@ -10,6 +10,11 @@ import android.widget.Toast;
 import com.galleriafrique.Constants;
 import com.google.gson.Gson;
 
+import java.io.File;
+
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
+
 /**
  * Created by osifo on 8/21/15.
  */
@@ -18,6 +23,10 @@ public class CommonUtils {
 
     public static String getSafeString(String string) {
         return string != null ? string.trim() : "";
+    }
+
+    public static String getSafeString(int value) {
+        return String.valueOf(value) != null ? String.valueOf(value) : "";
     }
 
     public static void log(Object log) {
@@ -43,6 +52,19 @@ public class CommonUtils {
         }
         return gson;
     }
+
+    public static TypedString getTypedString(String string) {
+        return new TypedString(getSafeString(string));
+    }
+
+    public static TypedFile getTypedFile(String string) {
+        return new TypedFile("image/ong", new File(getSafeString(string)));
+    }
+
+    public static String URLEncode(String string) {
+        return string.replace(" ", "%20");
+    }
+
 
     public static void call(Activity activity, String mobile) {
         try {

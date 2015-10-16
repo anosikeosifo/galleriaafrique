@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/postDetail"
+<LinearLayout android:id="@+id/post_detail_header"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_width="fill_parent"
     android:padding="@dimen/padding_small"
     android:orientation="vertical"
@@ -109,7 +109,7 @@
             />
 
         <ImageView android:id="@+id/post_photo"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/post_detail_image_height"
             android:layout_width="match_parent"
             android:layout_alignParentTop = "true"
             android:scaleType="centerCrop"

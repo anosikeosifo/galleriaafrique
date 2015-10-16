@@ -1,12 +1,20 @@
 package com.galleriafrique.model.comment;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by osifo on 8/3/15.
  */
 public class Comment {
     private String text;
+
+    @SerializedName("image_url")
     private String userImage;
+
+    @SerializedName("create_at")
     private String createdAt;
+
+    private String username;
 
     public String getText() {
         return text;
@@ -20,11 +28,11 @@ public class Comment {
         return userImage;
     }
 
-    public void setUserImage(String userImage) {
-        this.userImage = userImage;
-    }
-
     public String getCreatedAt() {
         return createdAt;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }

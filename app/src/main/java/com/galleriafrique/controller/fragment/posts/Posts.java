@@ -1,6 +1,7 @@
 package com.galleriafrique.controller.fragment.posts;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -28,6 +29,8 @@ import com.galleriafrique.model.post.PostResponse;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.repo.PostRepo;
 import com.galleriafrique.view.adapters.PostsListAdapter;
+import com.melnykov.fab.FloatingActionButton;
+import com.melnykov.fab.ScrollDirectionListener;
 
 import org.w3c.dom.Text;
 
@@ -46,21 +49,30 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     private PostsListAdapter postsListAdapter;
     private boolean isLoading = true;
     private TextView dotSeparator;
+    private FloatingActionButton addStaffFAB;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        activity.setToolbarTitle(getTagText());
+    public Posts() {
+
     }
 
     @Override
-    public String getTagText() {
-        return getClass().getSimpleName();
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    @Override
+    public String getTitleText() {
+        return "Post feed";
+    }
+
+    @Override
+    public void retryAction(DialogInterface.OnClickListener positive, DialogInterface.OnClickListener negative) {
+        super.retryAction(positive, negative);
     }
 
     @Nullable
@@ -91,6 +103,21 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh_Layout);
         postsListAdapter = new PostsListAdapter(this, postList);
         postsListView.setAdapter(postsListAdapter);
+
+        addStaffFAB = (FloatingActionButton)view.findViewById(R.id.new_post);
+        addStaffFAB.attachToRecyclerView(postsListView);
+
+        addStaffFAB.attachToRecyclerView(postsListView, new ScrollDirectionListener() {
+            @Override
+            public void onScrollDown() {
+                addStaffFAB.show();
+            }
+
+            @Override
+            public void onScrollUp() {
+                addStaffFAB.hide();
+            }
+        });
     }
 
     private void setListeners() {
@@ -100,6 +127,15 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
                 reloadPosts();
             }
         });
+
+        addStaffFAB.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                activity.getFragmentSwitcher().showImageGallery();
+            }
+        });
+
+
     }
 
     public void loadPosts() {
@@ -110,7 +146,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     @Override
     public void retryGetAllPosts() {
-
+        postRepo.getAllPosts();
     }
 
     @Override
@@ -150,7 +186,6 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     private void updatePostList(List<Post> data) {
         for(Post post : data) {
-            Log.d("POST", post.getUser().toString());
             if(!postList.contains(post)) {
                 postList.add(post);
             }
@@ -217,4 +252,13 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     }
 
+    @Override
+    public void retryCreatePost(String description, String image, String user_id) {
+
+    }
+
+    @Override
+    public void createPostSuccessful(Post post) {
+
+    }
 }

@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.galleriafrique.R;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.controller.fragment.base.ImageSelect;
+import com.galleriafrique.controller.fragment.posts.AddPost;
 import com.galleriafrique.controller.fragment.posts.PostDetails;
 import com.galleriafrique.controller.fragment.posts.Posts;
 import com.galleriafrique.controller.interfaces.FragmentSwitcherInterfce;
@@ -56,7 +58,7 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
     }
 
     public void showPostFeed() {
-        addFragment(new Posts(), true, R.id.posts_coontainer);
+        addFragment(new Posts(), true, R.id.container);
     }
 
     @Override
@@ -67,6 +69,11 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
     @Override
     public void showPostDetails(Post post) {
         addFragment(PostDetails.newInstance(post), true, R.id.container);
+    }
+
+    @Override
+    public void showImageGallery() {
+        addFragment(new ImageSelect(), true, R.id.container);
     }
 
     @Override
@@ -82,6 +89,10 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
     @Override
     public void showFollowing() {
 
+    }
+
+    public void showAddPost(String imageUrl) {
+        addFragment(AddPost.newInstanceFromGallery(imageUrl), true, R.id.container);
     }
 
     private void addMultipleFragments(BaseFragment fragment, boolean withAnimation, int container) {
