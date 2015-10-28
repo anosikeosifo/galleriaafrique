@@ -33,6 +33,7 @@ public class DataProvider extends ContentProvider {
 
 
     public DataProvider() {
+
     }
 
     @Override
@@ -78,6 +79,7 @@ public class DataProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         Log.v(TAG, "insert(uri=" + uri + ")");
+        deleteDatabase();
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int match = sUriMatcher.match(uri);
         long id = 0;
@@ -85,7 +87,7 @@ public class DataProvider extends ContentProvider {
         switch (match) {
 
             case POST_LIST: {
-                id = db.insertOrThrow(DatabaseHelper.Tables.POST, null, values);
+                id = db.insert(DatabaseHelper.Tables.POST, null, values);
                 notifyChange(uri, syncToNetwork);
                 return getUriForId(id, uri);
             }

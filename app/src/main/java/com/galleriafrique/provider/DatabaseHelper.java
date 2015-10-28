@@ -67,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
             + DataContract.Post.CREATED_AT + " VARCHAR,"
             + DataContract.Post.USER_AVATAR + " VARCHAR,"
             + DataContract.Post.COMMENT_COUNT + " INTEGER,"
-            + DataContract.Post.LIKE_COUNT + " INTEGER,"
+            + DataContract.Post.FAVORITE_COUNT + " INTEGER,"
             + "UNIQUE (" + DataContract.Post.POST_ID + ") ON CONFLICT REPLACE )";
 
 

@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.galleriafrique.Constants;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.model.post.FavoriteResponse;
 import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.post.PostResponse;
@@ -44,7 +45,7 @@ public class PostRepo {
 
         void retryCreatePost(String description, String image, String user_id);
 
-        void retryGetUserFeed(String userID, String pageNumber);
+        void retryFetchUserFeed(String userID);
 
         void retryGetFavorites(String userID, String pageNumber);
 
@@ -54,7 +55,7 @@ public class PostRepo {
 
         void retryFavoritePost(String userID, String postID, int position);
 
-        void updateLike(LikeResponse.Like like, String postID, int position);
+        void updateFavorite(FavoriteResponse.Favorite favorite, int position);
 
         void updatePosts(List<Post> posts);
 
@@ -92,6 +93,7 @@ public class PostRepo {
 
                 @Override
                 public void failure(RetrofitError error) {
+                    retryCount = 0;
                     while (retryCount < 4) {
                         if (postRepoListener != null) {
                             postRepoListener.retryCreatePost(description, image, userId);
@@ -145,7 +147,7 @@ public class PostRepo {
                 @Override
                 public void failure(RetrofitError error) {
                     while (retryCount < 4) {
-                        if(postRepoListener != null) {
+                        if (postRepoListener != null) {
                             postRepoListener.retryGetAllPosts();
                             retryCount++;
                         }
@@ -162,19 +164,96 @@ public class PostRepo {
 
     }
 
-    public void getUserFeed(String userID, String pageNumber) {
+    public void fetchUserFeed(final String userID) {
+        RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
+
+        PostAPI postAPI =  restAdapter.create(PostAPI.class);
+
+        if(postAPI != null) {
+            postAPI.fetchFeed(userID, new Callback<PostResponse>() {
+                @Override
+                public void success(PostResponse postResponse, Response response) {
+                    if (postRepoListener != null && postResponse != null) {
+
+                        Log.d("POST_LIST", "post response: " + String.valueOf(postResponse.isSuccess()));
+                        if (postResponse.isSuccess()) {
+                            Log.d("POST_LIST", String.valueOf(postResponse.getData()));
+
+                            //save the data into the database
+                            try {
+                                PostHandler.savePostData(context, postResponse.getData());
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            } catch (OperationApplicationException e) {
+                                e.printStackTrace();
+                            }
+
+                            postRepoListener.updatePosts(postResponse.getData());
+                        } else {
+                            String message = postResponse.getMessage();
+                            if (message == null) {
+                                message = Constants.GET_POSTS_FAILED;
+                            }
+                            Log.d("POST_LIST", "post response: " + message);
+                            postRepoListener.showErrorMessage(message);
+                        }
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    retryCount = 0;
+                    while (retryCount < 4) {
+                        if (postRepoListener != null) {
+                            postRepoListener.retryFetchUserFeed(userID);
+                            retryCount++;
+                        }
+                    }
+                }
+            });
+        } else {
+            postRepoListener.requestFailed();
+        }
 
     }
 
-    public void likePost(String userID, String postID, int position) {
+    public void favoritePost(final String userID, final String postID, final int position) {
+
+        RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
+        if(restAdapter != null) {
+            PostAPI postAPI = restAdapter.create(PostAPI.class);
+            if (postAPI != null) {
+                postAPI.favoritePost(userID, postID, new Callback<FavoriteResponse>() {
+                    @Override
+                    public void success(FavoriteResponse favoriteResponse, Response response) {
+                        if (postRepoListener != null && favoriteResponse != null) {
+                            if (favoriteResponse.isSuccess()) {
+                                postRepoListener.updateFavorite(favoriteResponse.getFavorite(), position);
+                            } else {
+                                String message = favoriteResponse.getMessage();
+                                if (message == null) {
+                                    message = Constants.FAVORITE_POST_FAILED;
+                                }
+                                postRepoListener.showErrorMessage(message);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if (postRepoListener != null) {
+                            postRepoListener.retryFavoritePost(userID, postID, position);
+                        }
+                    }
+                });
+            }
+        } else {
+            postRepoListener.requestFailed();
+        }
 
     }
 
     public void sharePost(String userId,  String sharerID, String postID, int position) {
-
-    }
-
-    public void favoritePost(String userID, String postID, int position) {
 
     }
 

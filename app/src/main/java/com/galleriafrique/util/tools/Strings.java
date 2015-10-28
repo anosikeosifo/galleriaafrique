@@ -2,6 +2,7 @@ package com.galleriafrique.util.tools;
 
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 /**
  * Created by osifo on 10/5/15.
@@ -12,6 +13,10 @@ public class Strings {
 
     public static boolean isTextEmpty(EditText editText) {
         return editText.getText().toString().trim().equals("");
+    }
+
+    public static boolean isTextEmpty(TextView textView) {
+        return textView.getText().toString().trim().equals("");
     }
 
     public static String getStringFromView(EditText editText) {

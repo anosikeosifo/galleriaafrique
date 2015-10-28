@@ -27,8 +27,15 @@ public class Post {
     public String createdAt;
 
     public String userAvatar;
+
+    @SerializedName("comments_count")
     private int commentCount;
-    private int likeCount;
+
+    @SerializedName("favorites_count")
+    private int favoriteCount;
+
+    @SerializedName("is_favorite")
+    private boolean isFavorite;
 
     @SerializedName("user")
     public User user;
@@ -99,12 +106,20 @@ public class Post {
         this.commentCount = commentCount;
     }
 
-    public int getLikeCount() {
-        return likeCount;
+    public int getFavoriteCount() {
+        return favoriteCount;
     }
 
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
     }
 
     public User getUser() {

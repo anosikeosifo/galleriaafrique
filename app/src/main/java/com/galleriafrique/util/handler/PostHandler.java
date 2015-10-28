@@ -36,7 +36,7 @@ public class PostHandler {
                     .withValue(DataContract.Post.USER_AVATAR, post.getUserAvatar())
                     .withValue(DataContract.Post.CREATED_AT, post.getCreatedAt())
                     .withValue(DataContract.Post.COMMENT_COUNT, post.getCommentCount())
-                    .withValue(DataContract.Post.LIKE_COUNT, post.getLikeCount());
+                    .withValue(DataContract.Post.FAVORITE_COUNT, post.getFavoriteCount());
             operations.add(builder.build());
             //increment the post count
             mPostCount++;

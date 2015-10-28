@@ -9,26 +9,20 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.galleriafrique.Constants;
 import com.galleriafrique.R;
-import com.galleriafrique.controller.activity.base.Home;
+import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
-import com.galleriafrique.model.comment.Comment;
+import com.galleriafrique.model.post.FavoriteResponse;
 import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
-import com.galleriafrique.util.helpers.AccountManager;
 import com.galleriafrique.util.helpers.ProgressDialogHelper;
 import com.galleriafrique.util.repo.PostRepo;
 import com.galleriafrique.util.tools.Strings;
-import com.galleriafrique.view.adapters.CommentsListAdapter;
-import com.galleriafrique.view.adapters.PostsListAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +31,7 @@ import java.util.List;
 
 public class AddPost extends BaseFragment implements  PostRepo.PostRepoListener {
 
-    private Home activity;
+    private HomeActivity activity;
 
     private PostRepo postRepo;
 
@@ -93,7 +87,7 @@ public class AddPost extends BaseFragment implements  PostRepo.PostRepoListener 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        activity = (Home) getActivity();
+        activity = (HomeActivity) getActivity();
         postRepo = new PostRepo(this);
         initUI(view);
     }
@@ -159,7 +153,7 @@ public class AddPost extends BaseFragment implements  PostRepo.PostRepoListener 
     }
 
     @Override
-    public void retryGetUserFeed(String userID, String pageNumber) {
+    public void retryFetchUserFeed(String userID) {
 
     }
 
@@ -184,7 +178,7 @@ public class AddPost extends BaseFragment implements  PostRepo.PostRepoListener 
     }
 
     @Override
-    public void updateLike(LikeResponse.Like like, String postID, int position) {
+    public void updateFavorite(FavoriteResponse.Favorite like, int position) {
 
     }
 
