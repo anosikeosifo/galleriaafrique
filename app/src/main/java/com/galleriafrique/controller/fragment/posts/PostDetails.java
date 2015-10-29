@@ -5,21 +5,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AbsListView.LayoutParams;
 
 import com.bumptech.glide.Glide;
 import com.galleriafrique.R;
-import com.galleriafrique.controller.activity.base.Home;
+import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.comment.Comment;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.util.CommonUtils;
-import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.view.adapters.CommentsListAdapter;
 import com.google.gson.reflect.TypeToken;
 
@@ -46,7 +43,7 @@ public class PostDetails  extends BaseFragment{
 
     private Post post;
 
-    private Home activity;
+    private HomeActivity activity;
 
     public static PostDetails newInstance(Post post) {
         PostDetails fragment = new PostDetails();
@@ -89,7 +86,7 @@ public class PostDetails  extends BaseFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        activity = (Home) getActivity();
+        activity = (HomeActivity) getActivity();
         this.commentList = new ArrayList<Comment>();
         setUIContent(view);
     }

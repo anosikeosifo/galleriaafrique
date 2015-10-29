@@ -4,6 +4,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ public class PostHolder extends RecyclerView.ViewHolder {
     public ImageView photo;
     public ImageView userAvatar;
     public CardView card;
+    public ImageButton favoriteButton;
+    public TextView favoriteCount;
 
     public PostHolder(View cardView) {
 
@@ -40,5 +43,8 @@ public class PostHolder extends RecyclerView.ViewHolder {
         this.userAvatar = (ImageView) cardView.findViewById(R.id.post_user_avatar);
 
         this.card = (CardView)cardView.findViewById(R.id.list_item);
+
+        this.favoriteButton = (ImageButton)cardView.findViewById(R.id.favorite_post);
+        this.favoriteCount = (TextView)cardView.findViewById(R.id.favorite_count);
     }
 }

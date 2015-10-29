@@ -9,9 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.galleriafrique.R;
+import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.model.post.FavoriteResponse;
 import com.galleriafrique.model.post.Post;
+import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.tools.CircleTransform;
+import com.galleriafrique.util.tools.Strings;
 import com.galleriafrique.view.holders.PostHolder;
 import com.bumptech.glide.Glide;
 import com.galleriafrique.provider.AndroidDatabaseManager;
@@ -39,6 +43,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
     public void onBindViewHolder(PostHolder postHolder, int position) {
         final Post post = postList.get(position);
         setContent(postHolder, post);
+        setTags(postHolder, position);
         setListeners(postHolder, post);
     }
 
@@ -58,10 +63,27 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
                 .placeholder(R.drawable.placeholder_photo).crossFade().into(postHolder.photo);
 
         Glide.with(context).load(post.getUser().getAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(postHolder.userAvatar);
+
+        setContentForActionUI(postHolder, post);
     }
 
-    private void setListeners(PostHolder holder, final Post post) {
-        holder.card.setOnClickListener(new View.OnClickListener(){
+    public void setContentForActionUI(PostHolder holder, Post post) {
+        //favorite action ui
+        if(post.isFavorite()) {
+            holder.favoriteButton.setImageResource(R.drawable.ic_favorite_true);
+            holder.favoriteCount.setText(Integer.toString(post.getFavoriteCount()));
+            holder.favoriteButton.setEnabled(false);
+        } else {
+            holder.favoriteButton.setImageResource(R.drawable.ic_favorite);
+        }
+
+        if (post.getFavoriteCount() > 0) {
+            holder.favoriteCount.setText(String.valueOf(post.getFavoriteCount()));
+        }
+    }
+
+    private void setListeners(final PostHolder holder, final Post post) {
+        holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 postListAdapterListener.showPostDetails(post);
@@ -74,6 +96,50 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
                 postListAdapterListener.showPostDetails(post);
             }
         });
+
+        holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postListAdapterListener.favoritePost(post, (int) view.getTag());
+                updateFavoriteUIBeforeAPICall(holder);
+            }
+        });
+    }
+
+    private void setTags(PostHolder postHolder, int position) {
+        postHolder.favoriteButton.setTag(position);
+    }
+
+    public void updateFavoriteUIBeforeAPICall(PostHolder holder) {
+        updateFavoriteCount(holder);
+        holder.favoriteButton.setEnabled(false);
+        holder.favoriteButton.setImageResource(R.drawable.ic_favorite_true);
+    }
+
+    public void updateFavoriteUIAfterAPICall(PostHolder holder, Post post) {
+        if(post.isFavorite()) {
+            holder.favoriteButton.setImageResource(R.drawable.ic_favorite_true);
+            holder.favoriteCount.setText(post.getFavoriteCount());
+        } else {
+            holder.favoriteButton.setImageResource(R.drawable.ic_favorite);
+        }
+
+    }
+
+    private void updateFavoriteCount(PostHolder holder) {
+        if (Strings.isTextEmpty(holder.favoriteCount)) {
+            holder.favoriteCount.setText("1");
+        } else {
+            holder.favoriteCount.setText(Integer.toString(Integer.parseInt(holder.favoriteCount.getText().toString()) + 1));
+        }
+    }
+
+    public void updateFavorite(FavoriteResponse.Favorite favorite, int position) {
+        Post post = postList.get(position);
+        post.setFavoriteCount(favorite.getCount());
+        post.setIsFavorite(favorite.isFavorite());
+        notifyDataSetChanged();
+        //updateFavoriteUIAfterAPICall(post)
     }
 
     @Override
@@ -94,8 +160,8 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
     public interface PostListAdapterListener  {
         void showPostDetails(Post post);
         void showUserProfile();
-        void likePost();
-        void sharePost();
+        void favoritePost(Post post, int position);
+        void sharePost(HomeActivity activity, Post post);
         void addPostComment();
     }
 }

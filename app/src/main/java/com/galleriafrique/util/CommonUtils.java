@@ -1,6 +1,7 @@
 package com.galleriafrique.util;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +9,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.galleriafrique.Constants;
+import com.galleriafrique.R;
+import com.galleriafrique.controller.activity.base.HomeActivity;
+import com.galleriafrique.model.post.Post;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -88,5 +92,18 @@ public class CommonUtils {
 
     public static void toast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static void sharePost(HomeActivity activity, Post post) {
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+//        intent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+//        try {
+//            activity.startActivity(Intent.createChooser(intent, Constants.SHARE_WITH));
+//        } catch (ActivityNotFoundException e) {
+//            e.printStackTrace();
+//            Toast.makeText(activity, activity.getString(R.string.no_activity_to_share), Toast.LENGTH_LONG).show();
+//        }
     }
 }

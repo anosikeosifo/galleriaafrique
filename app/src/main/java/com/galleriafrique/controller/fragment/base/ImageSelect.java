@@ -1,8 +1,6 @@
 package com.galleriafrique.controller.fragment.base;
 
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -10,23 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 import com.galleriafrique.R;
-import com.galleriafrique.controller.activity.base.Home;
-import com.galleriafrique.model.post.Post;
-import com.galleriafrique.util.CommonUtils;
-import com.galleriafrique.util.repo.PostRepo;
+import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.view.adapters.ImageGalleryAdapter;
-
-import java.util.ArrayList;
 
 /**
  * Created by osifo on 9/23/15.
  */
 public class ImageSelect extends BaseFragment implements ImageGalleryAdapter.ImageGalleryAdapterListener {
 
-    private Home activity;
+    private HomeActivity activity;
     public int imageCount;
     private int[] thumbnailIDs;
     private ImageGalleryAdapter galleryAdapter;
@@ -43,7 +35,7 @@ public class ImageSelect extends BaseFragment implements ImageGalleryAdapter.Ima
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.image_gallery_grid, container, false);
-        this.activity = (Home)getActivity();
+        this.activity = (HomeActivity)getActivity();
         setContent(view);
         return view;
     }
@@ -51,7 +43,7 @@ public class ImageSelect extends BaseFragment implements ImageGalleryAdapter.Ima
 //    @Override
 //    public void onViewCreated(View view, Bundle savedInstanceState) {
 //        super.onViewCreated(view, savedInstanceState);;
-//        this.activity = (Home)getActivity();
+//        this.activity = (HomeActivity)getActivity();
 //        setContent(view);
 //    }
 

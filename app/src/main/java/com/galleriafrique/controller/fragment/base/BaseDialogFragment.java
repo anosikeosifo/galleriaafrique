@@ -5,20 +5,20 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.galleriafrique.controller.activity.base.Home;
+import com.galleriafrique.controller.activity.base.HomeActivity;
 
 /**
  * Created by osifo on 9/25/15.
  */
 public class BaseDialogFragment extends DialogFragment {
 
-    private Home activity;
+    private HomeActivity activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        activity = (Home) getActivity();
+        activity = (HomeActivity) getActivity();
     }
 
     public String getTagText() {

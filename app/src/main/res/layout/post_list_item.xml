@@ -138,10 +138,11 @@
             android:gravity="right"
             android:padding="@dimen/padding_medium">
 
-
-            <ImageButton android:id="@+id/favorte_post"
+            <ImageButton android:id="@+id/favorite_post"
                 style="@style/feed_icons_style"
                 android:src="@drawable/ic_favorite" />
+            <TextView android:id="@+id/favorite_count"
+                style="@style/feed_icons_stats_style"/>
 
             <ImageButton android:id="@+id/share_post"
                 style="@style/feed_icons_style"
