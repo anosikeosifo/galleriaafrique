@@ -22,7 +22,7 @@ public class PostHolder extends RecyclerView.ViewHolder {
     public ImageView photo;
     public ImageView userAvatar;
     public CardView card;
-    public ImageButton favoriteButton;
+    public ImageButton favoriteButton, sharePostButton;
     public TextView favoriteCount;
 
     public PostHolder(View cardView) {
@@ -45,6 +45,9 @@ public class PostHolder extends RecyclerView.ViewHolder {
         this.card = (CardView)cardView.findViewById(R.id.list_item);
 
         this.favoriteButton = (ImageButton)cardView.findViewById(R.id.favorite_post);
+
+        this.sharePostButton = (ImageButton)cardView.findViewById(R.id.share_post);
+
         this.favoriteCount = (TextView)cardView.findViewById(R.id.favorite_count);
     }
 }

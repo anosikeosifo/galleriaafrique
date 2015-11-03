@@ -2,18 +2,25 @@ package com.galleriafrique.controller.fragment.posts;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
@@ -26,6 +33,8 @@ import com.galleriafrique.view.adapters.PostsListAdapter;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +55,8 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     public Posts() {
@@ -67,10 +78,27 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         super.retryAction(positive, negative);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(getActivity());
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.posts, container, false);
+        FacebookSdk.sdkInitialize(getActivity());
         return view;
     }
 
@@ -95,6 +123,8 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh_Layout);
         postsListAdapter = new PostsListAdapter(this, postList);
         postsListView.setAdapter(postsListAdapter);
+
+
 
         addStaffFAB = (FloatingActionButton)view.findViewById(R.id.new_post);
         addStaffFAB.attachToRecyclerView(postsListView);
@@ -254,4 +284,6 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     public void createPostSuccessful(Post post) {
 
     }
+
+
 }

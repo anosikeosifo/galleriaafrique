@@ -3,11 +3,13 @@ package com.galleriafrique.view.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.facebook.share.model.ShareLinkContent;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
@@ -102,6 +104,15 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
             public void onClick(View view) {
                 postListAdapterListener.favoritePost(post, (int) view.getTag());
                 updateFavoriteUIBeforeAPICall(holder);
+            }
+        });
+
+        holder.sharePostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShareLinkContent content = new ShareLinkContent.Builder()
+                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                        .build();
             }
         });
     }
