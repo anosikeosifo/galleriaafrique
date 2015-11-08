@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
  * Created by osifo on 8/3/15.
  */
 public class Constants {
-    public static final String ENDPOINT                     = "http://tilte.herokuapp.com/api";
+    public static final String ENDPOINT                     = "http://tilteapp.herokuapp.com/api";
     public static final String PAGE_NUMBER                  = "page";
     public static final String TAG                          = "Galleriafrique";
     public static final String START_DATE                   = "startDate";
