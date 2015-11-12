@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView android:id="@+id/comment_list"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/white"
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.galleriafrique.controller.fragment.base.ListView android:id="@+id/comment_list"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:animateLayoutChanges="true"
+        android:id="@+id/add_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background_with_border">
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:inputType="textMultiLine"
+            android:padding="@dimen/text_largest"
+            android:hint="@string/new_comment_placeholder"
+            android:id="@+id/post_description" />
+
+        <ImageButton android:id="@+id/share_post"
+            style="@style/feed_icons_style"
+            android:src="@drawable/ic_send"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+

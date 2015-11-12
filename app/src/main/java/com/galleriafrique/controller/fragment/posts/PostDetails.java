@@ -2,6 +2,7 @@ package com.galleriafrique.controller.fragment.posts;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.controller.interfaces.OnDetectScrollListener;
 import com.galleriafrique.model.comment.Comment;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.util.CommonUtils;
@@ -34,7 +36,8 @@ public class PostDetails  extends BaseFragment{
     private ImageButton favoritePost;
     private ImageView postImage;
     private ImageView postUserAvatar;
-    private ListView commentsListView;
+    private com.galleriafrique.controller.fragment.base.ListView commentsListView;
+    private View addCommentView;
 
     private View postDetailsHeader;
     private View postComments;
@@ -105,16 +108,19 @@ public class PostDetails  extends BaseFragment{
                     loadPostComments(post.getComments());
                     initUI(view);
                     setClickListeners();
+                    setScrollListeners();
                 }
             }
         }
     }
 
     private void initUI(View view) {
-        commentsListView = (ListView)postComments.findViewById(R.id.comment_list);
+        //here, i'm using the custom listView that listens for scroll with direction
+        commentsListView = (com.galleriafrique.controller.fragment.base.ListView)postComments.findViewById(R.id.comment_list);
 
         sharePost = (ImageButton)postDetailsHeader.findViewById(R.id.share_post);
         favoritePost = (ImageButton)postDetailsHeader.findViewById(R.id.favorite_post);
+        addCommentView = (View)view.findViewById(R.id.add_comment);
 
         ((TextView)postDetailsHeader.findViewById(R.id.post_username)).setText(post.getUser().getName());
         ((TextView)postDetailsHeader.findViewById(R.id.post_description)).setText(post.getDescription());
@@ -163,6 +169,19 @@ public class PostDetails  extends BaseFragment{
 
     }
 
+    private void setScrollListeners() {
+        commentsListView.setOnDetectScrollListener(new OnDetectScrollListener() {
+            @Override
+            public void onUpScrolling() {
+                addCommentView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onDownScrolling() {
+                addCommentView.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
 
     private void showPostComments(){
         if (commentsListAdapter == null) {
