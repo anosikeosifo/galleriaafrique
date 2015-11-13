@@ -24,9 +24,9 @@
             android:inputType="textMultiLine"
             android:padding="@dimen/text_largest"
             android:hint="@string/new_comment_placeholder"
-            android:id="@+id/post_description" />
+            android:id="@+id/new_comment_text" />
 
-        <ImageButton android:id="@+id/share_post"
+        <ImageButton android:id="@+id/new_comment_button"
             style="@style/feed_icons_style"
             android:src="@drawable/ic_send"
             android:layout_gravity="center"/>

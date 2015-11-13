@@ -1,6 +1,7 @@
 package com.galleriafrique.util.api;
 
 import com.galleriafrique.Constants;
+import com.galleriafrique.model.comment.CommentResponse;
 import com.galleriafrique.model.post.FavoriteResponse;
 import com.galleriafrique.model.post.PostResponse;
 
@@ -36,4 +37,6 @@ public interface PostAPI {
     @FormUrlEncoded
     @POST("/posts/favorite")
     void favoritePost(@Field(Constants.PARAM_USER_ID) String user_id, @Field(Constants.PARAM_POST_ID) String post_id, Callback<FavoriteResponse> callback);
+
+
 }

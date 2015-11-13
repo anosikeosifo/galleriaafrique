@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.galleriafrique.Constants;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.model.comment.CommentResponse;
 import com.galleriafrique.model.post.FavoriteResponse;
 import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.Post;
@@ -31,6 +32,7 @@ public class PostRepo {
 
     private NetworkHelper networkHelper;
     public PostRepoListener postRepoListener;
+
     public Context context;
     private int retryCount = 0;
 
@@ -65,6 +67,8 @@ public class PostRepo {
 
         void requestFailed();
     }
+
+
 
     public void createPost(final String description, final String image, final String userId) {
         RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
@@ -252,6 +256,8 @@ public class PostRepo {
         }
 
     }
+
+
 
     public void sharePost(String userId,  String sharerID, String postID, int position) {
 
