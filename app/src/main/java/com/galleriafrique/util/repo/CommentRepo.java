@@ -1,15 +1,19 @@
 package com.galleriafrique.util.repo;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.galleriafrique.Constants;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.model.comment.Comment;
 import com.galleriafrique.model.comment.CommentResponse;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.api.CommentAPI;
 import com.galleriafrique.util.api.PostAPI;
 import com.galleriafrique.util.network.NetworkHelper;
 import com.galleriafrique.util.tools.RepoUtils;
+
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -33,7 +37,7 @@ public class CommentRepo {
     }
 
     public interface CommentRepoListener {
-        void updatePostComments(String postId, String commentText);
+        void createCommentSuccessful(List<Comment> commentList);
 
         void retryAddComments(String userID, String postID, String commentText);
 
@@ -54,12 +58,12 @@ public class CommentRepo {
                     public void success(CommentResponse commentResponse, Response response) {
                         if (commentRepoListener != null && commentResponse != null) {
                             if (commentResponse.isSuccess()) {
-                                CommonUtils.log(commentResponse);
-//                                commentRepoListener.updatePostComments("", "");
+                                CommonUtils.log( String.valueOf(commentResponse.getData()));
+                                commentRepoListener.createCommentSuccessful(commentResponse.getData());
                             } else {
                                 String message = commentResponse.getMessage();
                                 if (message == null) {
-                                    message = Constants.FAVORITE_POST_FAILED;
+                                    message = Constants.ADD_COMMENT_FAILED;
                                 }
                                 commentRepoListener.showErrorMessage(message);
                             }

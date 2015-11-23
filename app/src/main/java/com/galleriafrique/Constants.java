@@ -16,9 +16,6 @@ public class Constants {
     public static final String PARAM_POST_USER_ID           = "post[user_id]";
     public static final String PARAM_USER_ID                = "user_id";
     public static final String PARAM_POST_ID                = "post_id";
-    public static final String PARAM_COMMENT_USER_ID        = "comment[user_id]";
-    public static final String PARAM_COMMENT_POST_ID        = "comment[post_id]";
-
     public static final String GET_POSTS_FAILED             = "Posts could not be loaded, Try again.";
     public static final String CREATE_POSTS_FAILED          = "Posts could not be created, Try again.";
     public static final String POST_NEW_COMMENT             = "Posting your comment...";
@@ -28,6 +25,6 @@ public class Constants {
     public static final String USER_DATA                    = "user";
     public static final String SHARE_WITH                   = "Share this post with";
     public static final String FAVORITE_POST_FAILED         = "Post could not be shared. Please try again";
-    public static final String PARAM_COMMENT_TEXT           = "comment[text]";
+    public static final String PARAM_TEXT                   = "text";
 
 }

@@ -20,6 +20,7 @@ import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.controller.interfaces.OnDetectScrollListener;
 import com.galleriafrique.model.comment.Comment;
+import com.galleriafrique.model.comment.CommentResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.helpers.ProgressDialogHelper;
@@ -224,8 +225,22 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
     }
 
     @Override
-    public void updatePostComments(String postId, String commentText) {
+    public void createCommentSuccessful(List<Comment> newComment) {
+        newCommentText.setText("");
+        commentList.add(0, newComment.get(0));
+        CommonUtils.log(newComment.get(0).getText());
+        commentsListAdapter.notifyDataSetChanged();
+
         progressDialogHelper.dismissProgress();
+
+        commentsListView.post(new Runnable() {
+            @Override
+            public void run() {
+                commentsListView.smoothScrollToPositionFromTop(0,60);
+            }
+        });
+
+
     }
 
     @Override

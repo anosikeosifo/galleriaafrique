@@ -15,5 +15,5 @@ public interface CommentAPI {
 
     @FormUrlEncoded
     @POST("/comments")
-    void addComment(@Field(Constants.PARAM_COMMENT_USER_ID) String user_id, @Field(Constants.PARAM_COMMENT_POST_ID) String post_id, @Field(Constants.PARAM_COMMENT_TEXT) String comment_text, Callback<CommentResponse> callback);
+    void addComment(@Field(Constants.PARAM_USER_ID) String user_id, @Field(Constants.PARAM_POST_ID) String post_id, @Field(Constants.PARAM_TEXT) String comment_text, Callback<CommentResponse> callback);
 }
