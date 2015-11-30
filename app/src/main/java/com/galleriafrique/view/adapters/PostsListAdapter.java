@@ -8,8 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
@@ -110,12 +116,36 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
         holder.sharePostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShareLinkContent content = new ShareLinkContent.Builder()
-                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                        .build();
+                postListAdapterListener.sharePost(post);
+//                CommonUtils.toast(context, "Simeon share clicked");
+//                ShareLinkContent content = new ShareLinkContent.Builder()
+//                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
+//                        .build();
+//                callbackManager = CallbackManager.Factory.create();
+//                shareDialog = new ShareDialog();
+//                // this part is optional
+//                shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+//
+//                    @Override
+//                    public void onSuccess(Sharer.Result result) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(FacebookException e) {
+//
+//                    }
+//                });
+
+
             }
         });
-    }
+   }
 
     private void setTags(PostHolder postHolder, int position) {
         postHolder.favoriteButton.setTag(position);
@@ -172,7 +202,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
         void showPostDetails(Post post);
         void showUserProfile();
         void favoritePost(Post post, int position);
-        void sharePost(HomeActivity activity, Post post);
+        void sharePost(Post post);
         void addPostComment();
     }
 }

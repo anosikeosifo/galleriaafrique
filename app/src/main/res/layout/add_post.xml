@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <RelativeLayout android:layout_height="wrap_content"
+    <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView android:id="@+id/textCount"
+        <TextView
+            android:id="@+id/textCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:padding="@dimen/padding_large"
             android:paddingLeft="@dimen/padding_small"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_alignParentLeft="true"
             android:text="140"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <ImageButton android:id="@+id/share_post"
-            android:layout_alignParentRight="true"
+        <ImageButton
+            android:id="@+id/share_post"
             style="@style/feed_icons_style"
+            android:layout_alignParentRight="true"
             android:src="@drawable/ic_send" />
-
 
 
     </RelativeLayout>
 
     <EditText
+        android:id="@+id/post_description"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:inputType="textMultiLine"
         android:hint="@string/description_placeholder"
-        android:id="@+id/post_description" />
+        android:inputType="textMultiLine" />
 
     <ImageView
         android:id="@+id/img_for_upload"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
         android:layout_margin="@dimen/padding_medium"
+        android:layout_weight="4"
         android:scaleType="fitXY" />
 
 </LinearLayout>
