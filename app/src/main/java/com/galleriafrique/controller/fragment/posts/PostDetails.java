@@ -142,7 +142,7 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
         ((TextView)postDetailsHeader.findViewById(R.id.post_username)).setText(post.getUser().getName());
         ((TextView)postDetailsHeader.findViewById(R.id.post_description)).setText(post.getDescription());
         ((TextView)postDetailsHeader.findViewById(R.id.post_location)).setText(post.getLocation());
-        ((TextView)postDetailsHeader.findViewById(R.id.post_created_at)).setText(post.getCreatedTime());
+        ((TextView)postDetailsHeader.findViewById(R.id.post_created_at)).setText(post.getCreatedAt());
 
         postUserAvatar = (ImageView)postDetailsHeader.findViewById(R.id.post_user_avatar);
         postImage = (ImageView)postDetailsHeader.findViewById(R.id.post_photo);

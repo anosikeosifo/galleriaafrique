@@ -133,42 +133,5 @@ public class Post {
     public List<Comment> getComments() {
         return comments;
     }
-
-    public String getCreatedTime() {
-
-        String time = "now";
-
-        try {
-
-            final Date createdDate = Constants.DATE_FORMAT.parse(getCreatedAt());
-            final Date currentDate = new Date();
-
-            // in milliseconds
-            long diff = currentDate.getTime() - createdDate.getTime();
-
-            long diffSeconds = diff / 1000 % 60;
-            long diffMinutes = diff / (60 * 1000) % 60;
-            long diffHours = diff / (60 * 60 * 1000) % 24;
-            long diffDays = diff / (24 * 60 * 60 * 1000);
-            long diffWeeks = diff / (7 * 24 * 60 * 60 * 1000);
-
-            if (diffWeeks > 0) {
-                return diffWeeks + "w";
-            } else if (diffDays > 0) {
-                return diffDays + "d";
-            } else if (diffHours > 0) {
-                return diffHours + "h";
-            } else if (diffMinutes > 0) {
-                return diffMinutes + "m";
-            } else if (diffSeconds > 0) {
-                return diffSeconds + "s";
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return time;
-    }
 }
 

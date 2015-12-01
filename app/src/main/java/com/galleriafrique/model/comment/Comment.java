@@ -1,5 +1,6 @@
 package com.galleriafrique.model.comment;
 
+import com.galleriafrique.model.user.User;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -9,12 +10,14 @@ public class Comment {
     private String text;
 
     @SerializedName("image_url")
-    private String userImage;
+    private String userAvatar;
 
     @SerializedName("create_at")
     private String createdAt;
 
     private String username;
+
+    private User user;
 
     public String getText() {
         return text;
@@ -24,8 +27,8 @@ public class Comment {
         this.text = text;
     }
 
-    public String getUserImage() {
-        return userImage;
+    public String getUserAvatar() {
+        return userAvatar;
     }
 
     public String getCreatedAt() {

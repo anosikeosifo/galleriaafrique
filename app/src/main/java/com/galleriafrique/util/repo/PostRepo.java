@@ -100,7 +100,7 @@ public class PostRepo {
                     retryCount = 0;
                     while (retryCount < 4) {
                         if (postRepoListener != null) {
-                            postRepoListener.retryCreatePost(description, image, userId);
+//                            postRepoListener.retryCreatePost(description, image, userId);
                             retryCount++;
                         }
                     }

@@ -65,10 +65,10 @@ public class CommentsListAdapter extends BaseAdapter {
     }
 
     private void setContent(CommentHolder commentHolder, Comment comment) {
-        //commentHolder.userName.setText(CommonUtils.getSafeString(comment.getUsername()));
+//        commentHolder.userName.setText(CommonUtils.getSafeString(comment.getUser().getName()));
         commentHolder.commentText.setText(CommonUtils.getSafeString(comment.getText()));
-        commentHolder.timeStamp.setText(CommonUtils.getSafeString(comment.getCreatedAt()));
-        Glide.with(context).load(comment.getUserImage()).centerCrop().placeholder(R.drawable.ic_avatar).error(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(commentHolder.userAvatar);
+        commentHolder.timeStamp.setText(CommonUtils.getTimeline(comment.getCreatedAt()));
+        Glide.with(context).load(comment.getUserAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).error(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(commentHolder.userAvatar);
     }
 
     @Override

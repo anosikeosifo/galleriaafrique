@@ -15,6 +15,7 @@ import com.galleriafrique.model.post.Post;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.util.Date;
 
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
@@ -69,6 +70,43 @@ public class CommonUtils {
         return string.replace(" ", "%20");
     }
 
+    public static String getTimeline(String time_stamp) {
+
+        String time = "now";
+
+        try {
+
+            final Date createdDate = Constants.DATE_FORMAT.parse(time_stamp);
+            final Date currentDate = new Date();
+
+            // in milliseconds
+            long diff = currentDate.getTime() - createdDate.getTime();
+
+            long diffSeconds = diff / 1000 % 60;
+            long diffMinutes = diff / (60 * 1000) % 60;
+            long diffHours = diff / (60 * 60 * 1000) % 24;
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+            long diffWeeks = diff / (7 * 24 * 60 * 60 * 1000);
+
+            if (diffWeeks > 0) {
+                return diffWeeks + "w";
+            } else if (diffDays > 0) {
+                return diffDays + "d";
+            } else if (diffHours > 0) {
+                return diffHours + "h";
+            } else if (diffMinutes > 0) {
+                return diffMinutes + "m";
+            } else if (diffSeconds > 0) {
+                return diffSeconds + "s";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return time;
+    }
+
 
     public static void call(Activity activity, String mobile) {
         try {
@@ -106,4 +144,5 @@ public class CommonUtils {
 //            Toast.makeText(activity, activity.getString(R.string.no_activity_to_share), Toast.LENGTH_LONG).show();
 //        }
     }
+
 }

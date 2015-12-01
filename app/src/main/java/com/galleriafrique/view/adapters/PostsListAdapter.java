@@ -57,7 +57,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
     private void setContent(PostHolder postHolder, Post post) {
         postHolder.user.setText(post.getUser().getName());
         postHolder.description.setText(post.getDescription());
-        postHolder.createdAt.setText(post.getCreatedTime());
+        postHolder.createdAt.setText(CommonUtils.getTimeline(post.getCreatedAt()));
 
         Glide.with(context).load(post.getImage()).fitCenter().error(R.drawable.placeholder_photo)
                 .placeholder(R.drawable.placeholder_photo).crossFade().into(postHolder.photo);

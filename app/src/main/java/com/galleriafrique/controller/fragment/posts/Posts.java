@@ -77,7 +77,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.currentUserID = "44";
+        this.currentUserID = "12";
         this.postRepo = new PostRepo(this);
         this.activity = (HomeActivity)getActivity();
         this.postList = new ArrayList<Post>();
