@@ -11,4 +11,6 @@
     <string name="retry_message">Retry?</string>
     <string name="no_activity_to_share">No platform to share this post on</string>
     <string name="new_comment_placeholder">What do you think about this post</string>
+    <string name="facebook_app_id">1621214218136825</string>
+
 </resources>

@@ -2,18 +2,34 @@ package com.galleriafrique.controller.fragment.posts;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
@@ -26,6 +42,9 @@ import com.galleriafrique.view.adapters.PostsListAdapter;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
 
+import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,10 +61,14 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     private TextView dotSeparator;
     private FloatingActionButton addStaffFAB;
     private String currentUserID;
+    ShareDialog shareDialog;
+    CallbackManager callbackManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     public Posts() {
@@ -67,10 +90,27 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         super.retryAction(positive, negative);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(getActivity());
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.posts, container, false);
+        FacebookSdk.sdkInitialize(getActivity());
         return view;
     }
 
@@ -95,6 +135,8 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh_Layout);
         postsListAdapter = new PostsListAdapter(this, postList);
         postsListView.setAdapter(postsListAdapter);
+
+
 
         addStaffFAB = (FloatingActionButton)view.findViewById(R.id.new_post);
         addStaffFAB.attachToRecyclerView(postsListView);
@@ -230,9 +272,43 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     }
 
     @Override
-    public void sharePost(HomeActivity activity, Post post) {
+    public void sharePost(Post post) {
+        CommonUtils.toast(activity, "Simeon share clicked=="+post.getImage());
 
-        CommonUtils.sharePost(activity, post);
+        callbackManager = CallbackManager.Factory.create();
+                shareDialog = new ShareDialog(getActivity());
+                // this part is optional
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle("Hello Facebook")
+                    .setContentDescription(
+                            "The 'Hello Facebook' sample  showcases simple Facebook integration")
+                    .setContentUrl(Uri.parse("https://developers.facebook.com"))
+//                    .setImageUrl(Uri.parse(post.getImage()))
+                    .build();
+
+            shareDialog.show(linkContent);
+        }
+                shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+
+                    @Override
+                    public void onSuccess(Sharer.Result result) {
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+
+                    @Override
+                    public void onError(FacebookException e) {
+
+                    }
+                });
+
+//        CommonUtils.sharePost(activity, post);
     }
 
     @Override
@@ -253,5 +329,11 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     @Override
     public void createPostSuccessful(Post post) {
 
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }
