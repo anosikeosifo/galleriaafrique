@@ -38,4 +38,8 @@ public class Comment {
     public String getUsername() {
         return username;
     }
+
+    public User getUser() {
+        return user;
+    }
 }

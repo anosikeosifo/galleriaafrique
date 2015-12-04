@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.comment.Comment;
+import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.view.holders.CommentHolder;
@@ -23,6 +24,7 @@ public class CommentsListAdapter extends BaseAdapter {
     private Context context;
     private List<Comment> commentList;
     private CommentHolder commentHolder;
+    public  CommentListAdapterListener commentListAdapterListener;
 
     public CommentsListAdapter(BaseFragment fragment, List<Comment> commentList) {
         this.context = fragment.getActivity();
@@ -68,7 +70,17 @@ public class CommentsListAdapter extends BaseAdapter {
 //        commentHolder.userName.setText(CommonUtils.getSafeString(comment.getUser().getName()));
         commentHolder.commentText.setText(CommonUtils.getSafeString(comment.getText()));
         commentHolder.timeStamp.setText(CommonUtils.getTimeline(comment.getCreatedAt()));
-        Glide.with(context).load(comment.getUserAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).error(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(commentHolder.userAvatar);
+        Glide.with(context).load(comment.getUserAvatar()).transform(new CircleTransform(context)).centerCrop().placeholder(R.drawable.ic_avatar).error(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(commentHolder.userAvatar);
+    }
+
+    public void setClickListeners(final Comment comment, final CommentHolder commentHolder) {
+
+        commentHolder.userAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentListAdapterListener.showUserProfile(comment.getUser());
+            }
+        });
     }
 
     @Override
@@ -80,6 +92,11 @@ public class CommentsListAdapter extends BaseAdapter {
     @Override
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
+    }
+
+
+    public interface CommentListAdapterListener {
+        void showUserProfile(User user);
     }
 
 }

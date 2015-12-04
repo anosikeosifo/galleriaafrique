@@ -27,4 +27,7 @@ public class Constants {
     public static final String FAVORITE_POST_FAILED         = "Post could not be shared. Please try again";
     public static final String PARAM_TEXT                   = "text";
 
+    public static final String GET_FOLLOWERS_FAILED         = "Followers could not be fetched. Please retry";
+
+
 }

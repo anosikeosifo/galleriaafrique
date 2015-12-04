@@ -1,5 +1,6 @@
 package com.galleriafrique.controller.activity.base;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.galleriafrique.controller.fragment.posts.PostDetails;
 import com.galleriafrique.controller.fragment.posts.Posts;
 import com.galleriafrique.controller.interfaces.FragmentSwitcherInterfce;
 import com.galleriafrique.model.post.Post;
+import com.galleriafrique.model.user.User;
 
 /**
  * Created by osifo on 8/23/15.
@@ -77,8 +79,9 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
     }
 
     @Override
-    public void showUserProfile() {
-
+    public void showUserProfile(User user) {
+        Intent userProfileIntent = new Intent(activity, UserProfileActivity.class);
+        activity.startActivity(userProfileIntent);
     }
 
     @Override

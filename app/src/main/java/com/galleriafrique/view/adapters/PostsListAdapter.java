@@ -13,6 +13,7 @@ import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.FavoriteResponse;
 import com.galleriafrique.model.post.Post;
+import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.util.tools.Strings;
@@ -104,6 +105,13 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
                 updateFavoriteUIBeforeAPICall(holder);
             }
         });
+
+        holder.userAvatar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                postListAdapterListener.showUserProfile(post.getUser());
+            }
+        });
     }
 
     private void setTags(PostHolder postHolder, int position) {
@@ -159,7 +167,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
 
     public interface PostListAdapterListener  {
         void showPostDetails(Post post);
-        void showUserProfile();
+        void showUserProfile(User user);
         void favoritePost(Post post, int position);
         void sharePost(HomeActivity activity, Post post);
         void addPostComment();

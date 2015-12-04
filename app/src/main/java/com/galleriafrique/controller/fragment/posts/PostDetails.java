@@ -1,6 +1,7 @@
 package com.galleriafrique.controller.fragment.posts;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -17,15 +18,18 @@ import com.bumptech.glide.Glide;
 import com.galleriafrique.Constants;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.HomeActivity;
+import com.galleriafrique.controller.activity.base.UserProfileActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.controller.interfaces.OnDetectScrollListener;
 import com.galleriafrique.model.comment.Comment;
 import com.galleriafrique.model.comment.CommentResponse;
 import com.galleriafrique.model.post.Post;
+import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.helpers.ProgressDialogHelper;
 import com.galleriafrique.util.repo.CommentRepo;
 import com.galleriafrique.util.repo.PostRepo;
+import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.view.adapters.CommentsListAdapter;
 import com.google.gson.reflect.TypeToken;
 
@@ -36,7 +40,7 @@ import java.util.List;
 /**
  * Created by osifo on 9/15/15.
  */
-public class PostDetails  extends BaseFragment implements CommentRepo.CommentRepoListener{
+public class PostDetails  extends BaseFragment implements CommentRepo.CommentRepoListener {
     private ImageButton sharePost;
     private ImageButton addComment;
     private ImageButton postComment;
@@ -106,9 +110,6 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
         setUIContent(view);
     }
 
-
-
-
     private void setUIContent(View view) {
         Bundle bundle = this.getArguments();
 
@@ -137,8 +138,6 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
         newCommentButton = (ImageButton)addCommentView.findViewById(R.id.new_comment_button);
         newCommentText = (EditText)addCommentView.findViewById(R.id.new_comment_text);
 
-
-
         ((TextView)postDetailsHeader.findViewById(R.id.post_username)).setText(post.getUser().getName());
         ((TextView)postDetailsHeader.findViewById(R.id.post_description)).setText(post.getDescription());
         ((TextView)postDetailsHeader.findViewById(R.id.post_location)).setText(post.getLocation());
@@ -148,7 +147,7 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
         postImage = (ImageView)postDetailsHeader.findViewById(R.id.post_photo);
 
         if(post.getUserAvatar()!= null) {
-            Glide.with(activity).load(post.getUser().getAvatar()).fitCenter().error(R.drawable.ic_avatar)
+            Glide.with(activity).load(post.getUser().getAvatar()).transform(new CircleTransform(activity)).fitCenter().error(R.drawable.ic_avatar)
                     .placeholder(R.drawable.ic_avatar).into(postUserAvatar);
         }
 
@@ -174,6 +173,13 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
             @Override
             public void onClick(View view) {
                 CommonUtils.toast(activity, "favoritePost clicked");
+            }
+        });
+
+        postUserAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showUserProfile(post.getUser());
             }
         });
 
@@ -224,6 +230,13 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
         commentRepo.addComment(currentUserId, String.valueOf(post.getId()), commentText);
     }
 
+    public void showUserProfile(User user) {
+        Intent intent = new Intent(activity, UserProfileActivity.class);
+        intent.putExtra(User.USER_DATA, CommonUtils.getGson().toJson(user).toString());
+
+        getActivity().startActivity(intent);
+    }
+
     @Override
     public void createCommentSuccessful(List<Comment> newComment) {
         newCommentText.setText("");
@@ -236,11 +249,9 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
         commentsListView.post(new Runnable() {
             @Override
             public void run() {
-                commentsListView.smoothScrollToPositionFromTop(0,60);
+                commentsListView.smoothScrollToPositionFromTop(0, 60);
             }
         });
-
-
     }
 
     @Override

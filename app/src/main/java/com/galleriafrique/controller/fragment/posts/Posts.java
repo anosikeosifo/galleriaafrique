@@ -2,6 +2,7 @@ package com.galleriafrique.controller.fragment.posts;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,10 +17,12 @@ import android.widget.TextView;
 
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.HomeActivity;
+import com.galleriafrique.controller.activity.base.UserProfileActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.FavoriteResponse;
 import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.Post;
+import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.repo.PostRepo;
 import com.galleriafrique.view.adapters.PostsListAdapter;
@@ -225,9 +228,11 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     }
 
     @Override
-    public void showUserProfile() {
-
+    public void showUserProfile(User user) {Intent intent = new Intent(activity, UserProfileActivity.class);
+        intent.putExtra(User.USER_DATA, CommonUtils.getGson().toJson(user).toString());
+        activity.startActivity(intent);
     }
+
 
     @Override
     public void sharePost(HomeActivity activity, Post post) {
