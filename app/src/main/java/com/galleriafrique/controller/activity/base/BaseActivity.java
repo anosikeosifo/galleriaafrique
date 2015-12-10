@@ -13,11 +13,12 @@ import com.galleriafrique.R;
  * Created by osifo on 8/23/15.
  */
 public class BaseActivity extends AppCompatActivity {
+    private android.support.v7.widget.Toolbar toolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -44,5 +45,9 @@ public class BaseActivity extends AppCompatActivity {
                 .setNegativeButton(getString(R.string.no), negative);
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public void setToolbarTitle(String title) {
+        toolbar.setTitle(title);
     }
 }

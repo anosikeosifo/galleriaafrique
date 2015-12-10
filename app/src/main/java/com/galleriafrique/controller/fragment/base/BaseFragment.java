@@ -5,19 +5,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import com.galleriafrique.controller.activity.base.BaseActivity;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 
 /**
  * Created by osifo on 8/23/15.
  */
 public abstract class BaseFragment extends Fragment {
-    private HomeActivity activity;
+    private BaseActivity activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        activity = (HomeActivity) getActivity();
+        activity = (BaseActivity) getActivity();
     }
 
     public String getTagText() {

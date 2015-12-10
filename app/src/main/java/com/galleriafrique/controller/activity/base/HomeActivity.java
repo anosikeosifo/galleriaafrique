@@ -39,11 +39,11 @@ public class HomeActivity extends BaseActivity {
         actionBar.setHomeButtonEnabled(true);
     }
 
-    public void setToolbarTitle(String title) {
-        toolbar.setTitle(title);
-    }
-
     public FragmentSwitcher getFragmentSwitcher() {
         return fragmentSwitcher;
+    }
+
+    public void setToolbarTitle(String title) {
+        toolbar.setTitle(title);
     }
 }
