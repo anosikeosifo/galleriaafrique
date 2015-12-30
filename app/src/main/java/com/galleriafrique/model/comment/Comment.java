@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 public class Comment {
     private String text;
 
+    private String id;
+
     @SerializedName("image_url")
     private String userAvatar;
 
@@ -21,6 +23,10 @@ public class Comment {
 
     public String getText() {
         return text;
+    }
+
+    public int getId() {
+        return  Integer.valueOf(id);
     }
 
     public void setText(String text) {

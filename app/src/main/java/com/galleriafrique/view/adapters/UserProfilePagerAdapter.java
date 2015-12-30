@@ -12,6 +12,7 @@ import java.util.List;
 public class UserProfilePagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragmentList;
+    private String[] tabs =  { "Favorites", "Posts", "Following", "Followers" };
 
     public UserProfilePagerAdapter(FragmentManager fragmentManager, List<Fragment> fragmentList) {
         super(fragmentManager);
@@ -26,5 +27,10 @@ public class UserProfilePagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return fragmentList.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabs[position];
     }
 }

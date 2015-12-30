@@ -27,7 +27,8 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:text="user name"/>
 
-            <TextView android:id="@+id/separator"
+            <TextView
+                android:id="@+id/separator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_large"
@@ -46,7 +47,6 @@
         </LinearLayout>
 
 
-
         <TextView android:id="@+id/comment_text"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/comment_time_stamp"
@@ -56,6 +56,4 @@
             android:text="This is a dummy comment and the nature of the attribute is a layout_weight=1"/>
 
     </LinearLayout>
-
-
 </LinearLayout>

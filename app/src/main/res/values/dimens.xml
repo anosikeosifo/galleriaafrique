@@ -21,7 +21,8 @@
     <dimen name="post_detail_image_height">300dip</dimen>
     <dimen name="gallery_item_width">130dp</dimen>
     <dimen name="avatar_small">40dp</dimen>
+    <dimen name="avatar_large">70dp</dimen>
 
     <dimen name="profile_image_height">80dip</dimen>
-    <dimen name="user_profile_header_height">160dip</dimen>
+    <dimen name="user_profile_header_height">140dip</dimen>
 </resources>

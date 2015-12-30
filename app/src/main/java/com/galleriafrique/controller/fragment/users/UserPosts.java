@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.UserProfileActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
+import com.galleriafrique.model.post.FavoriteResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.util.repo.PostRepo;
 
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by osifo on 12/3/15.
  */
-public class UserPosts extends BaseFragment {
+public class UserPosts extends BaseFragment implements PostRepo.PostRepoListener {
 
     private UserProfileActivity activity;
     private PostRepo postRepo;
@@ -56,5 +57,66 @@ public class UserPosts extends BaseFragment {
 //        initUI(view);
 //        setListeners();
 //        loadPosts();
+    }
+
+
+    @Override
+    public void retryGetAllPosts() {
+
+    }
+
+    @Override
+    public void retryCreatePost(String description, String image, String user_id) {
+
+    }
+
+    @Override
+    public void retryFetchUserFeed(String userID) {
+
+    }
+
+    @Override
+    public void retryGetFavorites(String userID, String pageNumber) {
+
+    }
+
+    @Override
+    public void retryLikePost(String userID, String postID, int position) {
+
+    }
+
+    @Override
+    public void retrySharePost(String userId, String sharerID, String postID, int position) {
+
+    }
+
+    @Override
+    public void retryFavoritePost(String userID, String postID, int position) {
+
+    }
+
+    @Override
+    public void updateFavorite(FavoriteResponse.Favorite favorite, int position) {
+
+    }
+
+    @Override
+    public void updatePosts(List<Post> posts) {
+
+    }
+
+    @Override
+    public void createPostSuccessful(Post post) {
+
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+
+    }
+
+    @Override
+    public void requestFailed() {
+
     }
 }

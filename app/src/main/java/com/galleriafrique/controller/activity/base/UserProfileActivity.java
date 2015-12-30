@@ -1,8 +1,10 @@
 package com.galleriafrique.controller.activity.base;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +22,7 @@ import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.view.adapters.UserProfilePagerAdapter;
 import com.google.gson.reflect.TypeToken;
+import com.astuetz.PagerSlidingTabStrip;
 
 import org.w3c.dom.Text;
 
@@ -37,8 +40,10 @@ public class UserProfileActivity extends BaseActivity {
     private ImageView userBackgroundImage;
     private TextView userName;
     private TextView userCountry;
+//    private ActionBar actionBar;
     private ViewPager layoutViewPager;
     private UserProfilePagerAdapter profilePagerAdapter;
+    private PagerSlidingTabStrip tab;
 
 
     @Override
@@ -65,21 +70,22 @@ public class UserProfileActivity extends BaseActivity {
         userName = (TextView)findViewById(R.id.user_profile_name);
         userCountry = (TextView)findViewById(R.id.user_profile_country);
         layoutViewPager = (ViewPager)findViewById(R.id.user_profile_pager);
-
+        tab = (PagerSlidingTabStrip) findViewById(R.id.tab);
+        tab.setUnderlineColorResource(R.color.primary_dark);
+        tab.setDividerColorResource(R.color.primary);
         List<Fragment> fragmentList = new ArrayList<Fragment>();
 
-        fragmentList.add(new Followers());
-        fragmentList.add(new Following());
         fragmentList.add(new Favorites());
         fragmentList.add(new UserPosts());
+        fragmentList.add(new Following());
+        fragmentList.add(new Followers());
 
         profilePagerAdapter = new UserProfilePagerAdapter(getSupportFragmentManager(), fragmentList);
         layoutViewPager.setAdapter(profilePagerAdapter);
 
-//        setSupportActionBar(toolbar);//this sets my toolbar as the custom actionBar
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setHomeButtonEnabled(true);
-//        setToolbarTitle(user.getName());
+        // Bind the tabs to the ViewPager
+        tab.setViewPager(layoutViewPager);
+
         setUIContent();
     }
 
@@ -94,4 +100,5 @@ public class UserProfileActivity extends BaseActivity {
         userName.setText(CommonUtils.getSafeString(user.getName()));
         userCountry.setText(CommonUtils.getSafeString("NG"));
     }
+
 }

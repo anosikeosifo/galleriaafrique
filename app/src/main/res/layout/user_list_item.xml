@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
+    <ImageView android:id="@+id/user_avatar"
+        android:layout_width="@dimen/avatar_large"
+        android:layout_height="@dimen/avatar_large"
+        android:padding="0dp"
+        android:src="@drawable/ic_avatar"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium"
+            android:textSize="@dimen/text_large"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:text="user name"/>
+
+        <TextView android:id="@+id/user_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_medium"
+            android:textSize="@dimen/text_small"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:text="user location"/>
+    </LinearLayout>
+
+    <ImageButton android:id="@+id/follow_user_btn"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        style="@style/feed_icons_style"
+        android:src="@drawable/ic_follow" />
 </LinearLayout>

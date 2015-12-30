@@ -14,7 +14,7 @@
         android:layout_alignParentRight="true"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/secondary_text_light"
-        android:text="Users"
+        android:text="Posts"
         android:textSize="@dimen/text_extra_small" />
 
     <!--<android.support.v4.widget.SwipeRefreshLayout-->
