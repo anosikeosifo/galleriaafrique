@@ -17,17 +17,17 @@
         android:text="Following"
         android:textSize="@dimen/text_extra_small" />
 
-    <!--<android.support.v4.widget.SwipeRefreshLayout-->
-        <!--android:id="@+id/swipe_refresh_Layout"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_width="match_parent">-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_Layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
-        <!--<view-->
-            <!--android:id='@+id/user_following_recycler_view'-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_width="match_parent"-->
-            <!--class="android.support.v7.widget.RecyclerView"/>-->
-    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+        <com.galleriafrique.controller.fragment.base.ListView android:id="@+id/following_list"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progress"
