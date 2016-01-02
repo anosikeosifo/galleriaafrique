@@ -28,6 +28,8 @@ public class Constants {
     public static final String PARAM_TEXT                   = "text";
 
     public static final String GET_FOLLOWERS_FAILED         = "Followers could not be fetched. Please retry";
+    public static final String GET_USER_POSTS_FAILED         = "User Posts could not be fetched. Please retry";
+    public static final String GET_USER_FAVORITES_FAILED         = "User's favorites could not be fetched. Please retry";
 
 
 }

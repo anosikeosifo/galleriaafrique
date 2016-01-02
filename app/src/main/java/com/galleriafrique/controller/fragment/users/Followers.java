@@ -54,6 +54,10 @@ public class Followers extends BaseFragment implements UserRepo.UserRepoListener
         super.retryAction(positive, negative);
     }
 
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,11 +108,6 @@ public class Followers extends BaseFragment implements UserRepo.UserRepoListener
     }
 
     private void reloadFollowers() {
-        if (followersList != null && followersListAdapter != null) {
-            followersList.clear();
-            followersListAdapter.notifyDataSetChanged();
-        }
-
         loadFollowers();
         swipeRefreshLayout.setRefreshing(false);
     }

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.galleriafrique.Constants;
 import com.galleriafrique.R;
+import com.galleriafrique.controller.activity.base.BaseActivity;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.model.post.Post;
 import com.google.gson.Gson;
@@ -132,7 +133,7 @@ public class CommonUtils {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
-    public static void sharePost(HomeActivity activity, Post post) {
+    public static void sharePost(BaseActivity activity, Post post) {
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
