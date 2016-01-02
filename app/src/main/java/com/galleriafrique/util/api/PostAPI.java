@@ -13,6 +13,7 @@ import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
+import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
@@ -25,9 +26,15 @@ public interface PostAPI {
     //void getAllPosts(@Field(Constants.START_DATE)  String startDate, @Field(Constants.END_DATE) String endDate, Callback<PostResponse> callback);
     void getAllPosts(Callback<PostResponse> callback);
 
+    @GET("/users/favorites")
+    void fetchFavorites(@Query(Constants.PARAM_USER_ID) String user_id, Callback<PostResponse> callback);
+
+    @GET("//posts")
+    void fetchUserPosts(@Query(Constants.PARAM_USER_ID) String user_id, Callback<PostResponse> callback);
+
     @FormUrlEncoded
     @POST("/users/feed")
-    // @Field(Constants.PARAM_PAGE_NUMBER) String pageNumber, @Field(Constants.PARAM_LIMIT) String limit, // to add these later
+    // TODO: ADD PAGINATION: @Field(Constants.PARAM_PAGE_NUMBER) String pageNumber, @Field(Constants.PARAM_LIMIT) String limit, // to add these later
     void fetchFeed(@Field(Constants.PARAM_USER_ID) String user_id, Callback<PostResponse> callback);
 
     @Multipart

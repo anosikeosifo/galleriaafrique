@@ -6,6 +6,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 
 import com.galleriafrique.R;
+import com.galleriafrique.model.post.Post;
+import com.galleriafrique.model.user.User;
+import com.galleriafrique.util.CommonUtils;
+import com.galleriafrique.util.tools.Strings;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Created by osifo on 8/23/15.
@@ -19,12 +24,25 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
-        activity = this;
-        initUI();
+        String intentExtra = getIntent().getStringExtra("fragment");
 
-        fragmentSwitcher = new FragmentSwitcher(this, getSupportFragmentManager());
-        fragmentSwitcher.showPostFeed();
+        if(intentExtra == null) {
+            setContentView(R.layout.activity_post);
+            activity = this;
+            initUI();
+
+            fragmentSwitcher = new FragmentSwitcher(this, getSupportFragmentManager());
+            fragmentSwitcher.showPostFeed();
+
+        } else {
+            switch (intentExtra) {
+                case "PostDetails":
+                    String postData = getIntent().getExtras().getString(Post.POST_DATA);
+                    Post post = CommonUtils.getGson().fromJson(postData, new TypeToken<Post>(){}.getType());
+                    fragmentSwitcher.showPostDetails(post);
+                    break;
+            }
+        }
     }
 
     @Override

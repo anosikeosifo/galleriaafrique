@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.galleriafrique.R;
+import com.galleriafrique.controller.activity.base.BaseActivity;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.post.FavoriteResponse;
@@ -169,7 +170,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
         void showPostDetails(Post post);
         void showUserProfile(User user);
         void favoritePost(Post post, int position);
-        void sharePost(HomeActivity activity, Post post);
+        void sharePost(BaseActivity activity, Post post);
         void addPostComment();
     }
 }

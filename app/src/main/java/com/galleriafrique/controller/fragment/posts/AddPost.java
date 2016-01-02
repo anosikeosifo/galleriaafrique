@@ -163,11 +163,6 @@ public class AddPost extends BaseFragment implements  PostRepo.PostRepoListener 
     }
 
     @Override
-    public void retryLikePost(String userID, String postID, int position) {
-
-    }
-
-    @Override
     public void retrySharePost(String userId, String sharerID, String postID, int position) {
 
     }
@@ -197,4 +192,16 @@ public class AddPost extends BaseFragment implements  PostRepo.PostRepoListener 
     public void requestFailed() {
 
     }
+
+    @Override
+    public void retryFetchUserFavorites(String userID) { }
+
+    @Override
+    public void retryFetchUserPosts(String userID) { }
+
+    @Override
+    public void updateFavorites(List<Post> posts) {  }
+
+    @Override
+    public void updateUserPosts(List<Post> posts) {  }
 }

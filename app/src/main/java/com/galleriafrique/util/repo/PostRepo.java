@@ -49,9 +49,11 @@ public class PostRepo {
 
         void retryFetchUserFeed(String userID);
 
-        void retryGetFavorites(String userID, String pageNumber);
+        void retryFetchUserFavorites(String userID);
 
-        void retryLikePost(String userID, String postID, int position);
+        void retryFetchUserPosts(String userID);
+
+        void retryGetFavorites(String userID, String pageNumber);
 
         void retrySharePost(String userId,  String sharerID, String postID, int position);
 
@@ -60,6 +62,10 @@ public class PostRepo {
         void updateFavorite(FavoriteResponse.Favorite favorite, int position);
 
         void updatePosts(List<Post> posts);
+
+        void updateFavorites(List<Post> posts);
+
+        void updateUserPosts(List<Post> posts);
 
         void createPostSuccessful(Post post);
 
@@ -210,6 +216,102 @@ public class PostRepo {
                     while (retryCount < 4) {
                         if (postRepoListener != null) {
                             postRepoListener.retryFetchUserFeed(userID);
+                            retryCount++;
+                        }
+                    }
+                }
+            });
+        } else {
+            postRepoListener.requestFailed();
+        }
+
+    }
+
+    public void fetchUserFavorites(final String userID) {
+        RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
+
+        PostAPI postAPI =  restAdapter.create(PostAPI.class);
+
+        if(postAPI != null) {
+            postAPI.fetchFavorites(userID, new Callback<PostResponse>() {
+                @Override
+                public void success(PostResponse postResponse, Response response) {
+                    if (postRepoListener != null && postResponse != null) {
+
+                        Log.d("POST_LIST", "post response: " + String.valueOf(postResponse.isSuccess()));
+                        if (postResponse.isSuccess()) {
+                            Log.d("POST_LIST", String.valueOf(postResponse.getData()));
+
+                            //save the data into the database
+                            try {
+                                PostHandler.savePostData(context, postResponse.getData());
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            } catch (OperationApplicationException e) {
+                                e.printStackTrace();
+                            }
+
+                            postRepoListener.updateFavorites(postResponse.getData());
+                        } else {
+                            String message = postResponse.getMessage();
+                            if (message == null) {
+                                message = Constants.GET_USER_FAVORITES_FAILED;
+                            }
+                            Log.d("POST_LIST", "post response: " + message);
+                            postRepoListener.showErrorMessage(message);
+                        }
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    retryCount = 0;
+                    while (retryCount < 4) {
+                        if (postRepoListener != null) {
+                            postRepoListener.retryFetchUserFavorites(userID);
+                            retryCount++;
+                        }
+                    }
+                }
+            });
+        } else {
+            postRepoListener.requestFailed();
+        }
+
+    }
+
+    public void fetchUserPosts(final String userID) {
+        RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
+
+        PostAPI postAPI =  restAdapter.create(PostAPI.class);
+
+        if(postAPI != null) {
+            postAPI.fetchUserPosts(userID, new Callback<PostResponse>() {
+                @Override
+                public void success(PostResponse postResponse, Response response) {
+                    if (postRepoListener != null && postResponse != null) {
+
+                        Log.d("POST_LIST", "post response: " + String.valueOf(postResponse.isSuccess()));
+                        if (postResponse.isSuccess()) {
+                            Log.d("POST_LIST", String.valueOf(postResponse.getData()));
+                            postRepoListener.updateUserPosts(postResponse.getData());
+                        } else {
+                            String message = postResponse.getMessage();
+                            if (message == null) {
+                                message = Constants.GET_USER_POSTS_FAILED;
+                            }
+                            Log.d("POST_LIST", "post response: " + message);
+                            postRepoListener.showErrorMessage(message);
+                        }
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    retryCount = 0;
+                    while (retryCount < 4) {
+                        if (postRepoListener != null) {
+                            postRepoListener.retryFetchUserPosts(userID);
                             retryCount++;
                         }
                     }

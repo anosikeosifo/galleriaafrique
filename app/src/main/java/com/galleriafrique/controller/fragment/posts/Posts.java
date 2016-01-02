@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.galleriafrique.R;
+import com.galleriafrique.controller.activity.base.BaseActivity;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.activity.base.UserProfileActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
@@ -146,16 +147,11 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     @Override
     public void retryFetchUserFeed(String userID) {
-
+        postRepo.fetchUserFeed(currentUserID);
     }
 
     @Override
     public void retryGetFavorites(String userID, String pageNumber) {
-
-    }
-
-    @Override
-    public void retryLikePost(String userID, String postID, int position) {
 
     }
 
@@ -193,6 +189,19 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         }
     }
 
+    @Override
+    public void retryFetchUserFavorites(String userID){}
+
+    @Override
+    public void retryFetchUserPosts(String userID) { }
+
+    @Override
+    public void updateFavorites(List<Post> posts) { }
+
+    @Override
+    public void updateUserPosts(List<Post> posts) { }
+
+
     public void showPosts() {
         if (postsListAdapter == null) {
             postsListAdapter = new PostsListAdapter(this, postList);
@@ -202,12 +211,6 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     }
 
     public void reloadPosts() {
-
-        if (postList != null && postsListAdapter != null) {
-            postList.clear();
-            postsListAdapter.notifyDataSetChanged();
-        }
-        //this should be changed to getUserFeed, so it loads just user specific stuff
         postRepo.fetchUserFeed(currentUserID);
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -228,14 +231,15 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     }
 
     @Override
-    public void showUserProfile(User user) {Intent intent = new Intent(activity, UserProfileActivity.class);
+    public void showUserProfile(User user) {
+        Intent intent = new Intent(activity, UserProfileActivity.class);
         intent.putExtra(User.USER_DATA, CommonUtils.getGson().toJson(user).toString());
         activity.startActivity(intent);
     }
 
 
     @Override
-    public void sharePost(HomeActivity activity, Post post) {
+    public void sharePost(BaseActivity activity, Post post) {
 
         CommonUtils.sharePost(activity, post);
     }
