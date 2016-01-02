@@ -105,7 +105,6 @@ public class UserPosts extends BaseFragment implements PostRepo.PostRepoListener
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                isSwipeReload = true;
                 reloadUserPosts();
             }
         });
