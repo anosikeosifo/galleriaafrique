@@ -58,7 +58,6 @@ public class CommentRepo {
                     public void success(CommentResponse commentResponse, Response response) {
                         if (commentRepoListener != null && commentResponse != null) {
                             if (commentResponse.isSuccess()) {
-                                CommonUtils.log( String.valueOf(commentResponse.getData()));
                                 commentRepoListener.createCommentSuccessful(commentResponse.getData());
                             } else {
                                 String message = commentResponse.getMessage();

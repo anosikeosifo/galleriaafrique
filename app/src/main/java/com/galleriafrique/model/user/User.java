@@ -18,6 +18,9 @@ public class User {
     private String mobile;
     private String avatar;
 
+    @SerializedName("can_be_followed")
+    private boolean canBeFollowed;
+
     public int getId() {
         return id;
     }
@@ -56,5 +59,13 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public boolean getFollowBackStatus() {
+        return this.canBeFollowed;
+    }
+
+    public void setFollowBackStatus(boolean status) {
+        this.canBeFollowed = status;
     }
 }

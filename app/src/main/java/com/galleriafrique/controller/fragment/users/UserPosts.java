@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.galleriafrique.Constants;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.BaseActivity;
 import com.galleriafrique.controller.activity.base.HomeActivity;
@@ -87,7 +88,14 @@ public class UserPosts extends BaseFragment implements PostRepo.PostRepoListener
         this.postList = new ArrayList<Post>();
         initUI(view);
         setListeners();
-        loadPosts();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(postList.size() < 1) {
+            loadPosts();
+        }
     }
 
     public void initUI(View view) {
@@ -188,6 +196,11 @@ public class UserPosts extends BaseFragment implements PostRepo.PostRepoListener
     }
 
     public void reloadUserPosts() {
+        if (postList != null && postsListAdapter != null) {
+            postList.clear();
+            postsListAdapter.notifyDataSetChanged();
+        }
+
         postRepo.fetchUserPosts(String.valueOf(user.getId()));
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -232,17 +245,16 @@ public class UserPosts extends BaseFragment implements PostRepo.PostRepoListener
 
     @Override
     public void showErrorMessage(String message) {
-        CommonUtils.log(message);
+        CommonUtils.toast(getActivity(),message);
     }
 
     @Override
     public void requestFailed() {
-
+        CommonUtils.toast(getActivity(), Constants.GET_POSTS_FAILED);
     }
 
     @Override
     public void retryCreatePost(String description, String image, String user_id) {
-
     }
 
     @Override

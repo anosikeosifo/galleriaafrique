@@ -34,7 +34,6 @@ import java.util.List;
  * Created by osifo on 12/3/15.
  */
 public class Favorites extends BaseFragment implements PostRepo.PostRepoListener, PostsListAdapter.PostListAdapterListener {
-
     private UserProfileActivity activity;
     private RecyclerView favoritesListView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -87,7 +86,14 @@ public class Favorites extends BaseFragment implements PostRepo.PostRepoListener
         this.favoritesList = new ArrayList<Post>();
         initUI(view);
         setListeners();
-        loadFavorites();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (favoritesList.size() < 1) {
+            loadFavorites();
+        }
     }
 
     public void initUI(View view) {
@@ -113,7 +119,7 @@ public class Favorites extends BaseFragment implements PostRepo.PostRepoListener
     public void loadFavorites() {
         isLoading = true;
         progressBar.setVisibility(View.VISIBLE);
-        postRepo.fetchUserFavorites(String.valueOf(user.getId())); //test arguments
+        postRepo.fetchUserFavorites(String.valueOf(user.getId()));
     }
 
     @Override
@@ -172,14 +178,14 @@ public class Favorites extends BaseFragment implements PostRepo.PostRepoListener
             }
         }
 
-        showPosts();
+        showFavorites();
 
         if (progressBar.isShown()) {
             progressBar.setVisibility(View.GONE);
         }
     }
 
-    public void showPosts() {
+    public void showFavorites() {
         if (postsListAdapter == null) {
             postsListAdapter = new PostsListAdapter(this, favoritesList);
         } else {
@@ -188,6 +194,11 @@ public class Favorites extends BaseFragment implements PostRepo.PostRepoListener
     }
 
     public void reloadFavorites() {
+        if (favoritesList != null && postsListAdapter != null) {
+            favoritesList.clear();
+            postsListAdapter.notifyDataSetChanged();
+        }
+
         postRepo.fetchUserFavorites(String.valueOf(user.getId()));
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -232,7 +243,7 @@ public class Favorites extends BaseFragment implements PostRepo.PostRepoListener
 
     @Override
     public void showErrorMessage(String message) {
-        CommonUtils.log(message);
+        CommonUtils.toast(activity, message);
     }
 
     @Override

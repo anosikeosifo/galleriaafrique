@@ -8,6 +8,7 @@ import com.galleriafrique.model.user.User;
  */
 public interface FragmentSwitcherInterfce {
     void showSearchView();
+//    void showPostDetails(Post post);
     void showPostDetails(Post post);
     void showUserProfile(User user);
     void showFollowers();

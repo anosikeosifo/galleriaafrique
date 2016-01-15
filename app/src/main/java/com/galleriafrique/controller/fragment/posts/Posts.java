@@ -52,10 +52,6 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
         super.onCreate(savedInstanceState);
     }
 
-    public Posts() {
-
-    }
-
     @Override
     public boolean onBackPressed() {
         return false;
@@ -137,7 +133,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     public void loadPosts() {
         isLoading = true;
         progressBar.setVisibility(View.VISIBLE);
-        postRepo.fetchUserFeed(currentUserID); //test arguments
+        postRepo.fetchUserFeed(currentUserID);
     }
 
     @Override
@@ -211,6 +207,11 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     }
 
     public void reloadPosts() {
+        if (postList != null && postsListAdapter != null) {
+            postList.clear();
+            postsListAdapter.notifyDataSetChanged();
+        }
+
         postRepo.fetchUserFeed(currentUserID);
         swipeRefreshLayout.setRefreshing(false);
     }

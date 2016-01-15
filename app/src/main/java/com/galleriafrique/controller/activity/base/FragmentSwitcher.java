@@ -73,6 +73,11 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
         addFragment(PostDetails.newInstance(post), true, R.id.container);
     }
 
+//    @Override
+//    public void showPostDetails(Post post) {
+//        addFragment(PostDetails.newInstance(post), true, R.id.container);
+//    }
+
     @Override
     public void showImageGallery() {
         addFragment(new ImageSelect(), true, R.id.container);

@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.user.User;
+import com.galleriafrique.model.user.UserResponse;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.util.tools.Strings;
@@ -24,15 +25,16 @@ import java.util.List;
  */
 public class UsersListAdapter extends BaseAdapter {
 
-    private LayoutInflater inflater;
-    private Context context;
-    private List<User> userList;
-    private UserHolder userHolder;
-    public UserListAdapterListener userListAdapterListener;
+    protected Context context;
+    protected List<User> userList;
+    protected UserHolder userHolder;
+    protected UserListAdapterListener userListAdapterListener;
 
+    public UsersListAdapter(){
+
+    }
     public UsersListAdapter(BaseFragment fragment, List<User> userList) {
         this.context = fragment.getActivity();
-        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.userListAdapterListener = (UserListAdapterListener)fragment;
         this.userList = userList;
     }
@@ -54,14 +56,14 @@ public class UsersListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        final User comment = this.userList.get(position);
+        final User user = this.userList.get(position);
 
         if (view == null) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_list_item, parent, false);
-            //view = inflater.inflate(R.layout.post_comments_list_item, parent, false);
             userHolder = new UserHolder(view);
-            setContent(userHolder, comment);
+            setContent(userHolder, user);
             view.setTag(userHolder);
+            setListeners(userHolder, user);
         } else {
             userHolder = (UserHolder)view.getTag();
         }
@@ -69,15 +71,14 @@ public class UsersListAdapter extends BaseAdapter {
         return view;
     }
 
-    private void setContent(UserHolder userHolder, User user) {
+    protected void setContent(UserHolder userHolder, User user) {
         userHolder.usernameText.setText(user.getName());
         userHolder.userLocationText.setText("Not available");
-        Glide.with(context).load(user.getAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(userHolder.userAvatar);
-
-//        setContentForActionUI(postHolder, post);
+        userHolder.followActionBtn.setVisibility(View.GONE);
+        userHolder.unfollowActionBtn.setVisibility(View.GONE);
     }
 
-    private void setListeners(final UserHolder holder, final User user) {
+    protected void setListeners(final UserHolder holder, final User user) {
         holder.userItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,30 +92,12 @@ public class UsersListAdapter extends BaseAdapter {
                 userListAdapterListener.showUserProfile(user);
             }
         });
-
     }
 
-    private void setTags(UserHolder userHolder, int position) {
-        userHolder.followActionBtn.setTag(position);
-    }
-
-    public void updateFollowUIBeforeAPICall(PostHolder holder) {
-//        holder.favoriteButton.setEnabled(false);
-//        holder.favoriteButton.setImageResource(R.drawable.ic_favorite_true);
-    }
-
-    public void updateFollowUIAfterAPICall(UserHolder userHolder, User user) {
-//        if(post.isFavorite()) {
-//            holder.favoriteButton.setImageResource(R.drawable.ic_favorite_true);
-//            holder.favoriteCount.setText(post.getFavoriteCount());
-//        } else {
-//            holder.favoriteButton.setImageResource(R.drawable.ic_favorite);
-//        }
-    }
 
     @Override
     public long getItemId(int position) {
-        return userList.get(position).getId();
+        return position;
     }
 
     @Override
@@ -125,8 +108,6 @@ public class UsersListAdapter extends BaseAdapter {
 
     public interface UserListAdapterListener  {
         void showUserProfile(User user);
-        void followUser(User user);
-        void unfollowUser(User user);
     }
 
 }

@@ -128,7 +128,7 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
     }
 
     private void initUI(View view) {
-        currentUserId = "44";
+        currentUserId = "12";
         //here, i'm using the custom listView that listens for scroll with direction
         commentsListView = (com.galleriafrique.controller.fragment.base.ListView)postComments.findViewById(R.id.comment_list);
 
@@ -187,7 +187,6 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
         newCommentButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                CommonUtils.toast(activity, String.valueOf(post.getId()) + " " + newCommentText.getText().toString());
                 postNewComment(newCommentText.getText().toString());
             }
         });
@@ -241,9 +240,7 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
     public void createCommentSuccessful(List<Comment> newComment) {
         newCommentText.setText("");
         commentList.add(0, newComment.get(0));
-        CommonUtils.log(newComment.get(0).getText());
         commentsListAdapter.notifyDataSetChanged();
-
         progressDialogHelper.dismissProgress();
 
         commentsListView.post(new Runnable() {

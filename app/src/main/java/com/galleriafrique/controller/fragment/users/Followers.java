@@ -1,6 +1,7 @@
 package com.galleriafrique.controller.fragment.users;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,12 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.galleriafrique.Constants;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.UserProfileActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.user.User;
+import com.galleriafrique.model.user.UserResponse;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.repo.UserRepo;
+import com.galleriafrique.view.adapters.UserFollowersAdapter;
 import com.galleriafrique.view.adapters.UsersListAdapter;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,7 +31,7 @@ import java.util.List;
 /**
  * Created by osifo on 12/3/15.
  */
-public class Followers extends BaseFragment implements UserRepo.UserRepoListener, UsersListAdapter.UserListAdapterListener {
+public class Followers extends BaseFragment implements UserRepo.UserRepoListener, UserFollowersAdapter.UserFollowersAdapterListener {
     private UserProfileActivity activity;
     private UserRepo userRepo;
     private List<User> followersList;
@@ -35,9 +39,9 @@ public class Followers extends BaseFragment implements UserRepo.UserRepoListener
     private ProgressBar progressBar;
     private LinearLayoutManager layoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private  UsersListAdapter followersListAdapter;
+    private  UserFollowersAdapter followersListAdapter;
     private User user;
-    private boolean isLoading = false;
+    private boolean isLoading = true;
 
     @Override
     public String getTitleText() {
@@ -74,6 +78,11 @@ public class Followers extends BaseFragment implements UserRepo.UserRepoListener
         this.followersList = new ArrayList<User>();
         initUI(view);
         setListeners();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         loadFollowers();
     }
 
@@ -88,7 +97,7 @@ public class Followers extends BaseFragment implements UserRepo.UserRepoListener
         followersListView = (com.galleriafrique.controller.fragment.base.ListView) view.findViewById(R.id.followers_list);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh_Layout);
-        followersListAdapter = new UsersListAdapter(this, followersList);
+        followersListAdapter = new UserFollowersAdapter(this, followersList);
         followersListView.setAdapter(followersListAdapter);
     }
 
@@ -108,30 +117,13 @@ public class Followers extends BaseFragment implements UserRepo.UserRepoListener
     }
 
     private void reloadFollowers() {
-        loadFollowers();
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    public void showFollowers() {
-        if (followersListAdapter == null) {
-            followersListAdapter = new UsersListAdapter(this, followersList);
-        } else {
+        if (followersList != null && followersListAdapter != null) {
+            followersList.clear();
             followersListAdapter.notifyDataSetChanged();
         }
-    }
 
-    @Override
-    public void showErrorMessage(String message) {
-
-    }
-
-    @Override
-    public void requestFailed() {
-
-    }
-
-    @Override
-    public void retryGetFollowers() {
+        userRepo.getFollowers(String.valueOf(user.getId()));
+        swipeRefreshLayout.setRefreshing(false);
 
     }
 
@@ -150,6 +142,43 @@ public class Followers extends BaseFragment implements UserRepo.UserRepoListener
         }
     }
 
+    public void showFollowers() {
+        if (followersListAdapter == null) {
+            followersListAdapter = new UserFollowersAdapter(this, followersList);
+        } else {
+            followersListAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+        CommonUtils.toast(getActivity(), message);
+    }
+
+    @Override
+    public void requestFailed() {
+        CommonUtils.toast(getActivity(), Constants.GET_FOLLOWERS_FAILED);
+    }
+
+    @Override
+    public void retryGetFollowers() {
+        userRepo.getFollowers(String.valueOf(user.getId()));
+    }
+
+    @Override
+    public void retryGetFollowing() { }
+
+    @Override
+    public void retryFollowUser(String follower_id, String followed_id) {
+
+    }
+
+    @Override
+    public void retryUnfollowUser(String follower_id, String followed_id) {
+
+    }
+
+
     @Override
     public void updateFollowing(List<User> following) {
 
@@ -157,16 +186,26 @@ public class Followers extends BaseFragment implements UserRepo.UserRepoListener
 
     @Override
     public void showUserProfile(User user) {
-
+        Intent intent = new Intent(activity, UserProfileActivity.class);
+        intent.putExtra(User.USER_DATA, CommonUtils.getGson().toJson(user).toString());
+        getActivity().finish();
+        getActivity().startActivity(intent);
     }
 
     @Override
-    public void followUser(User user) {
-
+    public void followUser(int user_id) {
+        userRepo.follow("12", String.valueOf(user_id));
     }
 
     @Override
-    public void unfollowUser(User user) {
+    public void unfollowUser(int user_id) {
+        userRepo.unfollow("12", String.valueOf(user_id));
+    }
 
+    @Override
+    public void updateFollowAction(UserResponse response) {
+        if(response.isSuccess()) {
+            followersListAdapter.notifyDataSetChanged();
+        }
     }
 }

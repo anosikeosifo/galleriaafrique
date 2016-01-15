@@ -6,9 +6,13 @@
 
     <color name="primary">#f54f42</color>
 
+    <color name="primary_light">#f66155</color>
+
     <color name="accent">#c1170b</color>
 
     <color name="dark_grey">#121212</color>
 
     <color name="dark_grey_light">#1c1c1c</color>
+
+    <color name="fb_background">#3b5998</color>
 </resources>

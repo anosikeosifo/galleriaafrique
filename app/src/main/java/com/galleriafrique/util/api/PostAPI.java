@@ -29,7 +29,7 @@ public interface PostAPI {
     @GET("/users/favorites")
     void fetchFavorites(@Query(Constants.PARAM_USER_ID) String user_id, Callback<PostResponse> callback);
 
-    @GET("//posts")
+    @GET("/posts")
     void fetchUserPosts(@Query(Constants.PARAM_USER_ID) String user_id, Callback<PostResponse> callback);
 
     @FormUrlEncoded

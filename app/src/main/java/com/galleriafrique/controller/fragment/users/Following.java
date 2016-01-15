@@ -1,6 +1,7 @@
 package com.galleriafrique.controller.fragment.users;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.galleriafrique.Constants;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.UserProfileActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
 import com.galleriafrique.model.user.User;
+import com.galleriafrique.model.user.UserResponse;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.repo.UserRepo;
+import com.galleriafrique.view.adapters.UserFollowersAdapter;
 import com.galleriafrique.view.adapters.UsersListAdapter;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,7 +29,7 @@ import java.util.List;
 /**
  * Created by osifo on 12/3/15.
  */
-public class Following extends BaseFragment implements UserRepo.UserRepoListener, UsersListAdapter.UserListAdapterListener {
+public class Following extends BaseFragment implements UserRepo.UserRepoListener, UserFollowersAdapter.UserFollowersAdapterListener {
     private UserProfileActivity activity;
     private UserRepo userRepo;
     private List<User> followingList;
@@ -33,7 +37,7 @@ public class Following extends BaseFragment implements UserRepo.UserRepoListener
     private ProgressBar progressBar;
     private LinearLayoutManager layoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private UsersListAdapter followingListAdapter;
+    private UserFollowersAdapter followingListAdapter;
     private User user;
     private boolean isLoading = false;
 
@@ -76,6 +80,14 @@ public class Following extends BaseFragment implements UserRepo.UserRepoListener
         loadFollowing();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (followingList.size() < 1) {
+            loadFollowing();
+        }
+    }
+
     private void setUser() {
         String userData = getActivity().getIntent().getExtras().getString(User.USER_DATA);
         if(!userData.isEmpty()) {
@@ -87,7 +99,7 @@ public class Following extends BaseFragment implements UserRepo.UserRepoListener
         followingListView = (com.galleriafrique.controller.fragment.base.ListView) view.findViewById(R.id.following_list);
         progressBar = (ProgressBar) view.findViewById(R.id.progress);
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh_Layout);
-        followingListAdapter = new UsersListAdapter(this, followingList);
+        followingListAdapter = new UserFollowersAdapter(this, followingList);
         followingListView.setAdapter(followingListAdapter);
     }
 
@@ -95,7 +107,7 @@ public class Following extends BaseFragment implements UserRepo.UserRepoListener
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                reloadFollowers();
+                reloadFollowing();
             }
         });
     }
@@ -106,14 +118,19 @@ public class Following extends BaseFragment implements UserRepo.UserRepoListener
         userRepo.getFollowing(String.valueOf(user.getId()));
     }
 
-    private void reloadFollowers() {
-        loadFollowing();
+    private void reloadFollowing() {
+        if (followingList != null && followingListAdapter != null) {
+            followingList.clear();
+            followingListAdapter.notifyDataSetChanged();
+        }
+
+        userRepo.getFollowing(String.valueOf(user.getId()));
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    public void showFollowers() {
+    public void showFollowing() {
         if (followingListAdapter == null) {
-            followingListAdapter = new UsersListAdapter(this, followingList);
+            followingListAdapter = new UserFollowersAdapter(this, followingList);
         } else {
             followingListAdapter.notifyDataSetChanged();
         }
@@ -121,12 +138,32 @@ public class Following extends BaseFragment implements UserRepo.UserRepoListener
 
     @Override
     public void showErrorMessage(String message) {
-
+        CommonUtils.toast(getActivity(), message);
     }
 
     @Override
     public void requestFailed() {
+        CommonUtils.toast(getActivity(), Constants.GET_FOLLOWERS_FAILED);
+    }
 
+    @Override
+    public void updateFollowing(List<User> following) {
+        for(User user : following) {
+            if(!followingList.contains(user)) {
+                followingList.add(user);
+            }
+        }
+
+        showFollowing();
+
+        if (progressBar.isShown()) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void retryGetFollowing() {
+        userRepo.getFollowing(String.valueOf(user.getId()));
     }
 
     @Override
@@ -135,37 +172,41 @@ public class Following extends BaseFragment implements UserRepo.UserRepoListener
     }
 
     @Override
-    public void updateFollowers(List<User> following) {
-        for(User user : following) {
-            if(!followingList.contains(user)) {
-                followingList.add(user);
-            }
-        }
+    public void updateFollowers(List<User> followers) {
 
-        showFollowers();
+    }
 
-        if (progressBar.isShown()) {
-            progressBar.setVisibility(View.GONE);
-        }
+
+    @Override
+    public void retryFollowUser(String follower_id, String followed_id) {
+
     }
 
     @Override
-    public void updateFollowing(List<User> following) {
+    public void retryUnfollowUser(String follower_id, String followed_id) {
 
     }
 
     @Override
     public void showUserProfile(User user) {
+        Intent intent = new Intent(activity, UserProfileActivity.class);
+        intent.putExtra(User.USER_DATA, CommonUtils.getGson().toJson(user).toString());
+        getActivity().finish();
+        getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void updateFollowAction(UserResponse response) {
 
     }
 
     @Override
-    public void followUser(User user) {
+    public void unfollowUser(int user_id) {
 
     }
 
     @Override
-    public void unfollowUser(User user) {
+    public void followUser(int user_id) {
 
     }
 }

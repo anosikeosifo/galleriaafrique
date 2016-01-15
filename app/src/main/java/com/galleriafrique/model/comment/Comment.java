@@ -19,6 +19,7 @@ public class Comment {
 
     private String username;
 
+    @SerializedName("user")
     private User user;
 
     public String getText() {
@@ -47,5 +48,9 @@ public class Comment {
 
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

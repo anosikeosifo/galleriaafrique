@@ -16,7 +16,9 @@ public class Constants {
     public static final String PARAM_POST_USER_ID           = "post[user_id]";
     public static final String PARAM_USER_ID                = "user_id";
     public static final String PARAM_POST_ID                = "post_id";
-    public static final String GET_POSTS_FAILED                = "Posts could not be loaded, Try again.";
+    public static final String PARAM_FOLLOWER_ID            = "follower_id";
+    public static final String PARAM_FOLLOWED_ID            = "followed_id";
+    public static final String GET_POSTS_FAILED             = "Posts could not be loaded, Try again.";
     public static final String CREATE_POSTS_FAILED          = "Posts could not be created, Try again.";
     public static final String POST_NEW_COMMENT             = "Posting your comment...";
     public static final String ADD_COMMENT_FAILED           = "Comment could not be posted. Try again.";
@@ -28,8 +30,11 @@ public class Constants {
     public static final String PARAM_TEXT                   = "text";
 
     public static final String GET_FOLLOWERS_FAILED         = "Followers could not be fetched. Please retry";
-    public static final String GET_USER_POSTS_FAILED         = "User Posts could not be fetched. Please retry";
-    public static final String GET_USER_FAVORITES_FAILED         = "User's favorites could not be fetched. Please retry";
+    public static final String GET_FOLLOWING_FAILED         = "Following list could not be fetched. Please retry";
+    public static final String GET_USER_POSTS_FAILED        = "User Posts could not be fetched. Please retry";
+    public static final String GET_USER_FAVORITES_FAILED    = "User's favorites could not be fetched. Please retry";
+    public static final String FOLLOW_USER_FAILED           = "Could not follow this user. Please retry";
+    public static final String UNFOLLOW_USER_FAILED           = "Could not unfollow this user. Please retry";
 
 
 }

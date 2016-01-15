@@ -44,8 +44,12 @@ public class UserRepo {
         void showErrorMessage(String message);
         void requestFailed();
         void retryGetFollowers();
+        void retryGetFollowing();
+        void retryFollowUser(String follower_id, String followed_id);
+        void retryUnfollowUser(String follower_id, String followed_id);
         void updateFollowers(List<User> followers);
         void updateFollowing(List<User> following);
+        void updateFollowAction(UserResponse response);
     }
 
     public void getFollowers(final String user_id) {
@@ -62,15 +66,6 @@ public class UserRepo {
                         Log.d("FOLLOWERS_LIST", "followers' response: " + String.valueOf(userResponse.isSuccess()));
                         if (userResponse.isSuccess()) {
                             Log.d("POST_LIST", String.valueOf(userResponse.getData()));
-
-//                            //save the data into the database
-//                            try {
-//                                UserHandler.savePostData(context, userResponse.getData());
-//                            } catch (RemoteException e) {
-//                                e.printStackTrace();
-//                            } catch (OperationApplicationException e) {
-//                                e.printStackTrace();
-//                            }
 
                             userRepoListener.updateFollowers(userResponse.getData());
                         } else {
@@ -114,21 +109,11 @@ public class UserRepo {
                         Log.d("FOLLOWERS_LIST", "followers' response: " + String.valueOf(userResponse.isSuccess()));
                         if (userResponse.isSuccess()) {
                             Log.d("POST_LIST", String.valueOf(userResponse.getData()));
-
-//                            //save the data into the database
-//                            try {
-//                                UserHandler.savePostData(context, userResponse.getData());
-//                            } catch (RemoteException e) {
-//                                e.printStackTrace();
-//                            } catch (OperationApplicationException e) {
-//                                e.printStackTrace();
-//                            }
-
-                            userRepoListener.updateFollowers(userResponse.getData());
+                            userRepoListener.updateFollowing(userResponse.getData());
                         } else {
                             String message = userResponse.getMessage();
                             if (message == null) {
-                                message = Constants.GET_FOLLOWERS_FAILED;
+                                message = Constants.GET_FOLLOWING_FAILED;
                             }
                             Log.d("POST_LIST", "post response: " + message);
                             userRepoListener.showErrorMessage(message);
@@ -140,7 +125,97 @@ public class UserRepo {
                 public void failure(RetrofitError error) {
                     while (retryCount < 4) {
                         if (userRepoListener != null) {
-                            userRepoListener.retryGetFollowers();
+                            userRepoListener.retryGetFollowing();
+                            retryCount++;
+                        }
+                    }
+                }
+            });
+        } else {
+            userRepoListener.requestFailed();
+        }
+    }
+
+    public void follow(final String follower_id, final String followed_id) {
+        if(followed_id == follower_id) {
+            userRepoListener.showErrorMessage("You cannot follow yourself");
+            return;
+        }
+
+        RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
+
+        UserAPI userAPI =  restAdapter.create(UserAPI.class);
+
+        if(userAPI != null) {
+            userAPI.follow(follower_id, followed_id, new Callback<UserResponse>() {
+                @Override
+                public void success(UserResponse userResponse, Response response) {
+                    if (userRepoListener != null && userResponse != null) {
+
+                        Log.d("FOLLOW_USER", "" + String.valueOf(userResponse.isSuccess()));
+                        if (userResponse.isSuccess()) {
+                            Log.d("POST_LIST", String.valueOf(userResponse.getData()));
+                            userRepoListener.updateFollowAction(userResponse);
+                        } else {
+                            String message = userResponse.getMessage();
+                            if (message == null) {
+                                message = Constants.FOLLOW_USER_FAILED;
+                            }
+                            Log.d("POST_LIST", "post response: " + message);
+                            userRepoListener.showErrorMessage(message);
+                        }
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    while (retryCount < 4) {
+                        if (userRepoListener != null) {
+                            userRepoListener.retryFollowUser(follower_id, followed_id);
+                            retryCount++;
+                        }
+                    }
+                }
+            });
+        } else {
+            userRepoListener.requestFailed();
+        }
+    }
+
+    public void unfollow(final String follower_id, final String followed_id) {
+        if(followed_id == follower_id) {
+            userRepoListener.showErrorMessage("You cannot unfollow yourself");
+            return;
+        }
+
+        RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
+
+        UserAPI userAPI =  restAdapter.create(UserAPI.class);
+
+        if(userAPI != null) {
+            userAPI.unfollow(follower_id, followed_id, new Callback<UserResponse>() {
+                @Override
+                public void success(UserResponse userResponse, Response response) {
+                    if (userRepoListener != null && userResponse != null) {
+
+                        Log.d("UNFOLLOW_USER", "" + String.valueOf(userResponse.isSuccess()));
+                        if (userResponse.isSuccess()) {
+                            userRepoListener.updateFollowAction(userResponse);
+                        } else {
+                            String message = userResponse.getMessage();
+                            if (message == null) {
+                                message = Constants.UNFOLLOW_USER_FAILED;
+                            }
+                            userRepoListener.showErrorMessage(message);
+                        }
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    while (retryCount < 4) {
+                        if (userRepoListener != null) {
+                            userRepoListener.retryUnfollowUser(follower_id, followed_id);
                             retryCount++;
                         }
                     }

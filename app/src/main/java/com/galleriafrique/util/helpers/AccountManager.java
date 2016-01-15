@@ -45,6 +45,11 @@ public class AccountManager {
         PreferenceManager.saveStringPreference(Constants.USER_DATA, userData);
     }
 
+    public static boolean isUserLoggedIn() {
+//        return !PreferenceManager.getStringPreference(Constants.USER_DATA).equals(Strings.EMPTY);
+        return false;
+    }
+
     private static void saveUser() {
         PreferenceManager.saveStringPreference(Constants.USER_DATA, CommonUtils.getGson().toJson(user));
     }

@@ -44,6 +44,7 @@ public class UserProfileActivity extends BaseActivity {
     private ViewPager layoutViewPager;
     private UserProfilePagerAdapter profilePagerAdapter;
     private PagerSlidingTabStrip tab;
+    public int currentUserID;
 
 
     @Override
@@ -54,6 +55,7 @@ public class UserProfileActivity extends BaseActivity {
 
         String userData = getIntent().getExtras().getString(User.USER_DATA);
         if(!userData.isEmpty()) {
+            currentUserID = 12;
             user = CommonUtils.getGson().fromJson(userData, new TypeToken<User>(){}.getType());
             initUI();
         }
@@ -69,6 +71,9 @@ public class UserProfileActivity extends BaseActivity {
         userProfileAvatar = (ImageView)findViewById(R.id.user_profile_image);
         userName = (TextView)findViewById(R.id.user_profile_name);
         userCountry = (TextView)findViewById(R.id.user_profile_country);
+
+        setUIContent();
+
         layoutViewPager = (ViewPager)findViewById(R.id.user_profile_pager);
         tab = (PagerSlidingTabStrip) findViewById(R.id.tab);
         tab.setUnderlineColorResource(R.color.primary_dark);
@@ -86,7 +91,6 @@ public class UserProfileActivity extends BaseActivity {
         // Bind the tabs to the ViewPager
         tab.setViewPager(layoutViewPager);
 
-        setUIContent();
     }
 
     public void setToolbarTitle(String title) {
