@@ -16,6 +16,8 @@ public class User {
     private String email;
 
     private String mobile;
+
+    private String auth_token;
     private String avatar;
 
     @SerializedName("can_be_followed")
@@ -67,5 +69,13 @@ public class User {
 
     public void setFollowBackStatus(boolean status) {
         this.canBeFollowed = status;
+    }
+
+    public String getAuth_token() {
+        return auth_token;
+    }
+
+    public void setAuth_token(String auth_token) {
+        this.auth_token = auth_token;
     }
 }

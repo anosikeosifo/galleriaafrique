@@ -31,7 +31,7 @@
                 android:id="@+id/separator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginLeft="@dimen/padding_small"
                 android:layout_alignRight="@+id/comment_user_name"
                 android:textSize="@dimen/text_small"
                 android:textAppearance="?android:textAppearanceSmall"
@@ -40,12 +40,11 @@
             <TextView android:id="@+id/comment_time_stamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginLeft="@dimen/padding_small"
                 android:textSize="@dimen/text_small"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:text="2hrs"/>
         </LinearLayout>
-
 
         <TextView android:id="@+id/comment_text"
             android:layout_height="wrap_content"

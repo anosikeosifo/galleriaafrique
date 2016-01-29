@@ -1,6 +1,7 @@
 package com.galleriafrique;
 
 import java.text.SimpleDateFormat;
+import java.util.regex.Pattern;
 
 /**
  * Created by osifo on 8/3/15.
@@ -15,6 +16,8 @@ public class Constants {
     public static final String PARAM_POST_DESCRIPTION       = "post[description]";
     public static final String PARAM_POST_USER_ID           = "post[user_id]";
     public static final String PARAM_USER_ID                = "user_id";
+    public static final String PARAM_USER_EMAIL             = "email";
+    public static final String PARAM_USER_PASSWORD          = "password";
     public static final String PARAM_POST_ID                = "post_id";
     public static final String PARAM_FOLLOWER_ID            = "follower_id";
     public static final String PARAM_FOLLOWED_ID            = "followed_id";
@@ -34,7 +37,8 @@ public class Constants {
     public static final String GET_USER_POSTS_FAILED        = "User Posts could not be fetched. Please retry";
     public static final String GET_USER_FAVORITES_FAILED    = "User's favorites could not be fetched. Please retry";
     public static final String FOLLOW_USER_FAILED           = "Could not follow this user. Please retry";
-    public static final String UNFOLLOW_USER_FAILED           = "Could not unfollow this user. Please retry";
+    public static final String UNFOLLOW_USER_FAILED         = "Could not unfollow this user. Please retry";
 
-
+    public static final Pattern EMAIL_PATTERN               = Pattern.compile("^([a-z]([a-z\\d][_\\-\\.]{0,1})*)\\@([a-z\\d]+[_\\-\\.]?){1,2}(\\.[a-z]{2,3}){1,2}$");
+    public static final String IMAGE_DIRECTORY_NAME         = "Galleria Afrique";
 }

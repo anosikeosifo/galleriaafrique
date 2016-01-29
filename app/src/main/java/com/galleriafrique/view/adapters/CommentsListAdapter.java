@@ -23,7 +23,6 @@ public class CommentsListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context;
     private List<Comment> commentList;
-    private CommentHolder commentHolder;
     public  CommentListAdapterListener commentListAdapterListener;
 
     public CommentsListAdapter(BaseFragment fragment, List<Comment> commentList) {
@@ -52,16 +51,19 @@ public class CommentsListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         final Comment comment = this.commentList.get(position);
+        final CommentHolder commentHolder;
 
         if (view == null) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_comments_list_item, parent, false);
             //view = inflater.inflate(R.layout.post_comments_list_item, parent, false);
             commentHolder = new CommentHolder(view);
-            setContent(commentHolder, comment);
+
             view.setTag(commentHolder);
         } else {
             commentHolder = (CommentHolder)view.getTag();
         }
+
+        setContent(commentHolder, comment);
 
         return view;
     }

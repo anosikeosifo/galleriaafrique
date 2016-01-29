@@ -201,12 +201,20 @@ public class Following extends BaseFragment implements UserRepo.UserRepoListener
     }
 
     @Override
-    public void unfollowUser(int user_id) {
+    public void updateUnfollowAction(UserResponse response) {
+        if(response.isSuccess()) {
+            followingList.remove(response.getData());
+            followingListAdapter.notifyDataSetChanged();
+        }
+    }
 
+    @Override
+    public void unfollowUser(int user_id) {
+        userRepo.unfollow("12", String.valueOf(user_id));
     }
 
     @Override
     public void followUser(int user_id) {
-
+        userRepo.follow("12", String.valueOf(user_id));
     }
 }

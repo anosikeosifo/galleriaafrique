@@ -46,8 +46,7 @@ public class AccountManager {
     }
 
     public static boolean isUserLoggedIn() {
-//        return !PreferenceManager.getStringPreference(Constants.USER_DATA).equals(Strings.EMPTY);
-        return false;
+        return !PreferenceManager.getStringPreference(Constants.USER_DATA).equals(Strings.EMPTY);
     }
 
     private static void saveUser() {

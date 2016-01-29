@@ -208,4 +208,10 @@ public class Followers extends BaseFragment implements UserRepo.UserRepoListener
             followersListAdapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    public void updateUnfollowAction(UserResponse response) {
+
+    }
+
 }

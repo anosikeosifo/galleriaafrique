@@ -13,11 +13,9 @@ public class PreferenceManager {
     private static final String DEFAULT_PREFERENCES = "galleriafrique";
     public static final String PROPERTY_REG_ID = "reg_id";
     public static final String PROPERTY_APP_VERSION = "app_id";
-    private static Context applicationContext;
 
     public static SharedPreferences getSharedPreferences() {
-        //return GalleriaApplication.getContext().getSharedPreferences(DEFAULT_PREFERENCES, Context.MODE_PRIVATE);
-        return applicationContext.getSharedPreferences(DEFAULT_PREFERENCES, Context.MODE_PRIVATE);
+        return GalleriaApplication.getContext().getSharedPreferences(DEFAULT_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     public static SharedPreferences.Editor getSharedPreferencesEditor() {

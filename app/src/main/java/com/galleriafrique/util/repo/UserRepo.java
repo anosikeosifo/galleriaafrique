@@ -50,6 +50,7 @@ public class UserRepo {
         void updateFollowers(List<User> followers);
         void updateFollowing(List<User> following);
         void updateFollowAction(UserResponse response);
+        void updateUnfollowAction(UserResponse response);
     }
 
     public void getFollowers(final String user_id) {
@@ -200,7 +201,7 @@ public class UserRepo {
 
                         Log.d("UNFOLLOW_USER", "" + String.valueOf(userResponse.isSuccess()));
                         if (userResponse.isSuccess()) {
-                            userRepoListener.updateFollowAction(userResponse);
+                            userRepoListener.updateUnfollowAction(userResponse);
                         } else {
                             String message = userResponse.getMessage();
                             if (message == null) {

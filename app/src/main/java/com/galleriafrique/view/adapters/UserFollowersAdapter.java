@@ -38,25 +38,25 @@ public class UserFollowersAdapter  extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         final User user = this.userList.get(position);
+        final UserHolder userHolder;
 
-        if (view == null) {
-            view = inflater.inflate(R.layout.user_list_item, null);
-            userHolder = new UserHolder(view);
+        if (convertView == null) {
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.user_list_item, null);
+            userHolder = new UserHolder(convertView);
 
-            view.setTag(userHolder);
+            convertView.setTag(userHolder);
 
         } else {
-            userHolder = (UserHolder)view.getTag();
+            userHolder = (UserHolder)convertView.getTag();
         }
 
-        if(user != null) {
-            setContent(userHolder, user);
-            setListeners(userHolder, user);
-        }
+        setContent(userHolder, user);
+        setListeners(userHolder, user);
 
-        return view;
+        return convertView;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class UserFollowersAdapter  extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return userList.indexOf(getItem(position));
+        return position;
     }
 
     @Override
@@ -96,8 +96,10 @@ public class UserFollowersAdapter  extends BaseAdapter {
 
         if (user.getFollowBackStatus()) {
             userHolder.unfollowActionBtn.setVisibility(View.GONE);
+            userHolder.followActionBtn.setVisibility(View.VISIBLE);
         } else {
             userHolder.followActionBtn.setVisibility(View.GONE);
+            userHolder.unfollowActionBtn.setVisibility(View.VISIBLE);
         }
 
         Glide.with(context).load(user.getAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(userHolder.userAvatar);
