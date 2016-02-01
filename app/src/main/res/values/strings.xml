@@ -29,4 +29,13 @@
     <string name="permission_rationale">Contacts permissions are needed for providing email</string>
     <string name="fb_login_text">Login with Facebook</string>
     <string name="login_text">Login</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up_redirect">No account yet? Create one.</string>
+    <string name="login_redirect">Already have an account? Login.</string>
+    <string name="meet_people">Meet amazing people</string>
+    <string name="find_people">Find amazing people</string>
+    <string name="view_my_profile">My profile</string>
+    <string name="sign_out">Sign out</string>
 </resources>

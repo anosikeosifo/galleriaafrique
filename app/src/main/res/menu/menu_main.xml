@@ -2,6 +2,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.galleriafrique.controller.activity.base.HomeActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item android:id="@+id/meet_people"
+        android:icon="@drawable/ic_meet_people"
+        android:title="@string/meet_people"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/help"
+        android:icon="@drawable/ic_search"
+        android:title="@string/find_people"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_settings"  android:title=""
+        android:orderInCategory="100" app:showAsAction="ifRoom">
+        <menu>
+            <item android:id="@+id/view_my_profile"
+                android:title="@string/view_my_profile" />
+            <item android:id="@+id/signout"
+                android:title="@string/sign_out" />
+        </menu>
+    </item>
 </menu>

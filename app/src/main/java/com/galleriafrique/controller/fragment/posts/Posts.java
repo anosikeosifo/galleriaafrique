@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.BaseActivity;
+import com.galleriafrique.controller.activity.base.FragmentSwitcher;
 import com.galleriafrique.controller.activity.base.HomeActivity;
 import com.galleriafrique.controller.activity.base.UserProfileActivity;
 import com.galleriafrique.controller.fragment.base.BaseFragment;
@@ -25,6 +26,7 @@ import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
+import com.galleriafrique.util.helpers.AccountManager;
 import com.galleriafrique.util.repo.PostRepo;
 import com.galleriafrique.view.adapters.PostsListAdapter;
 import com.melnykov.fab.FloatingActionButton;
@@ -39,13 +41,14 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
     private LinearLayoutManager layoutManager;
+    private FragmentSwitcher fragmentSwitcher;
     private List<Post> postList;
     private PostRepo postRepo;
     private PostsListAdapter postsListAdapter;
     private boolean isLoading = true;
     private TextView dotSeparator;
     private FloatingActionButton addStaffFAB;
-    private String currentUserID;
+    private User currentUser;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,9 +80,10 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.currentUserID = "12";
-        this.postRepo = new PostRepo(this);
         this.activity = (HomeActivity)getActivity();
+        this.fragmentSwitcher = new FragmentSwitcher(activity, activity.getSupportFragmentManager());
+        this.currentUser = AccountManager.getUser();
+        this.postRepo = new PostRepo(this);
         this.postList = new ArrayList<Post>();
         initUI(view);
         setListeners();
@@ -133,7 +137,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     public void loadPosts() {
         isLoading = true;
         progressBar.setVisibility(View.VISIBLE);
-        postRepo.fetchUserFeed(currentUserID);
+        postRepo.fetchUserFeed(String.valueOf(currentUser.getId()));
     }
 
     @Override
@@ -143,7 +147,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     @Override
     public void retryFetchUserFeed(String userID) {
-        postRepo.fetchUserFeed(currentUserID);
+        postRepo.fetchUserFeed(String.valueOf(currentUser.getId()));
     }
 
     @Override
@@ -212,13 +216,13 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
             postsListAdapter.notifyDataSetChanged();
         }
 
-        postRepo.fetchUserFeed(currentUserID);
+        postRepo.fetchUserFeed(String.valueOf(currentUser.getId()));
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void favoritePost(Post post, int position) {
-        postRepo.favoritePost(currentUserID, String.valueOf(post.getId()), position);
+        postRepo.favoritePost(String.valueOf(currentUser.getId()), String.valueOf(post.getId()), position);
     }
 
     @Override
@@ -233,9 +237,7 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     @Override
     public void showUserProfile(User user) {
-        Intent intent = new Intent(activity, UserProfileActivity.class);
-        intent.putExtra(User.USER_DATA, CommonUtils.getGson().toJson(user).toString());
-        activity.startActivity(intent);
+       fragmentSwitcher.showUserProfile(user);
     }
 
 

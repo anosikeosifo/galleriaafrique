@@ -24,7 +24,6 @@ public class LoginRepo {
 
     private NetworkHelper networkHelper;
     public LoginRepoListener loginRepoListener;
-
     public Context context;
     private int retryCount = 0;
 
@@ -34,20 +33,22 @@ public class LoginRepo {
         loginRepoListener = (LoginRepoListener)context;
     }
 
-    public void signin(final String email, final String password) {
+    public void login(final String email, final String password) {
         RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
 
         LoginAPI loginAPI =  restAdapter.create(LoginAPI.class);
 
         if(loginAPI != null) {
-            loginAPI.signin(CommonUtils.getSafeString(email), CommonUtils.getSafeString(password), new Callback<UserResponse>() {
+            loginAPI.login(CommonUtils.getSafeString(email), CommonUtils.getSafeString(password), new Callback<UserResponse>() {
                 @Override
                 public void success(UserResponse userResponse, Response response) {
+                    CommonUtils.log("message: " + userResponse.getMessage());
                     if (loginRepoListener != null && userResponse != null) {
                         if (userResponse.isSuccess()) {
                             loginRepoListener.loginSuccessful(userResponse.getData().get(0));
                         } else {
                             String message = userResponse.getMessage();
+                            CommonUtils.log("message2: " + message);
                             if (message == null) {
                                 message = Constants.CREATE_POSTS_FAILED;
                             }
@@ -58,7 +59,6 @@ public class LoginRepo {
 
                 @Override
                 public void failure(RetrofitError error) {
-                    retryCount = 0;
                     while (retryCount < 4) {
                         if (loginRepoListener != null) {
                             loginRepoListener.retryLogin(email, password);

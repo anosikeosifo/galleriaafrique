@@ -45,4 +45,8 @@ public class PreferenceManager {
     public static void saveIntPreference(String key, int value) {
         getSharedPreferencesEditor().putInt(key, value).commit();
     }
+
+    public static void removeStringPreference(String key) {
+        getSharedPreferencesEditor().putString(key, "").commit();
+    }
 }

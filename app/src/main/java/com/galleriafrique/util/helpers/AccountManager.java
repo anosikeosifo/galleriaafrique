@@ -10,30 +10,27 @@ import com.galleriafrique.util.tools.Strings;
  */
 public class AccountManager {
 
-        private static User user;
+    private static User user;
 
-        public static User getUser() {
+    public static User getUser() {
 
-            createUser();
-
-            if (user == null) {
-                return new User();
-            } else {
-                return user;
-            }
+        createUser();
+        if (user == null) {
+           return new User();
+        } else {
+            return user;
         }
+    }
 
-        public static void updateUser(User user) {
-            AccountManager.user = user;
-            saveUser(user);
-        }
+    public static void updateUser(User user) {
+        AccountManager.user = user;
+        saveUser(user);
+    }
 
     private static User createUser() {
         if (user == null) {
           String userJsonData = PreferenceManager.getStringPreference(Constants.USER_DATA);
-          user = CommonUtils.getGson().fromJson(userJsonData, User.class);
-          user = new User();
-          user.setId(12);
+          user = CommonUtils.getGson().fromJson(userJsonData, User.class);;
           saveUser(getUser());
         }
         return user;
@@ -41,7 +38,6 @@ public class AccountManager {
 
     public static void saveUser(User user) {
         String userData = CommonUtils.getGson().toJson(user);
-        CommonUtils.log(userData);
         PreferenceManager.saveStringPreference(Constants.USER_DATA, userData);
     }
 
@@ -55,6 +51,10 @@ public class AccountManager {
 
     public static void saveUser(String userData) {
         PreferenceManager.saveStringPreference(Constants.USER_DATA, userData);
+    }
+
+    public static void signout() {
+        PreferenceManager.removeStringPreference(Constants.USER_DATA);
     }
 
 }

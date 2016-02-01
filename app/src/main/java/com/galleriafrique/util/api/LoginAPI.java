@@ -14,5 +14,5 @@ import retrofit.http.POST;
 public interface LoginAPI {
     @FormUrlEncoded
     @POST("/sessions")
-    void signin(@Field(Constants.PARAM_USER_EMAIL) String user_email, @Field(Constants.PARAM_USER_PASSWORD) String user_password, Callback<UserResponse> callback);
+    void login(@Field(Constants.PARAM_USER_EMAIL) String user_email, @Field(Constants.PARAM_USER_PASSWORD) String user_password, Callback<UserResponse> callback);
 }

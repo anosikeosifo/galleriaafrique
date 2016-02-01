@@ -33,7 +33,6 @@ dependencies {
     compile 'com.android.support:design:22.2.1'
 }
 
-
 repositories {
     maven {
         url 'https://raw.github.com/ark/ark/master/releases/'

@@ -19,6 +19,7 @@ import com.galleriafrique.controller.fragment.users.Following;
 import com.galleriafrique.controller.fragment.users.UserPosts;
 import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
+import com.galleriafrique.util.helpers.AccountManager;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.view.adapters.UserProfilePagerAdapter;
 import com.google.gson.reflect.TypeToken;
@@ -44,7 +45,7 @@ public class UserProfileActivity extends BaseActivity {
     private ViewPager layoutViewPager;
     private UserProfilePagerAdapter profilePagerAdapter;
     private PagerSlidingTabStrip tab;
-    public int currentUserID;
+    public User currentUser;
 
 
     @Override
@@ -55,7 +56,7 @@ public class UserProfileActivity extends BaseActivity {
 
         String userData = getIntent().getExtras().getString(User.USER_DATA);
         if(!userData.isEmpty()) {
-            currentUserID = 12;
+            currentUser = AccountManager.getUser();
             user = CommonUtils.getGson().fromJson(userData, new TypeToken<User>(){}.getType());
             initUI();
         }

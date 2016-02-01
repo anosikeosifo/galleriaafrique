@@ -15,6 +15,7 @@ import com.galleriafrique.controller.fragment.posts.Posts;
 import com.galleriafrique.controller.interfaces.FragmentSwitcherInterfce;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.user.User;
+import com.galleriafrique.util.CommonUtils;
 
 /**
  * Created by osifo on 8/23/15.
@@ -73,11 +74,6 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
         addFragment(PostDetails.newInstance(post), true, R.id.container);
     }
 
-//    @Override
-//    public void showPostDetails(Post post) {
-//        addFragment(PostDetails.newInstance(post), true, R.id.container);
-//    }
-
     @Override
     public void showImageGallery() {
         addFragment(new ImageSelect(), true, R.id.container);
@@ -85,8 +81,9 @@ public class FragmentSwitcher implements FragmentSwitcherInterfce {
 
     @Override
     public void showUserProfile(User user) {
-        Intent userProfileIntent = new Intent(activity, UserProfileActivity.class);
-        activity.startActivity(userProfileIntent);
+        Intent intent = new Intent(activity, UserProfileActivity.class);
+        intent.putExtra(User.USER_DATA, CommonUtils.getGson().toJson(user).toString());
+        activity.startActivity(intent);
     }
 
     @Override
