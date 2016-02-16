@@ -5,8 +5,8 @@
     android:padding="@dimen/padding_medium">
 
     <ImageView android:id="@+id/comment_user_avatar"
-        android:layout_width="@dimen/avatar_small"
-        android:layout_height="@dimen/avatar_small"
+        android:layout_width="@dimen/avatar_tiny"
+        android:layout_height="@dimen/avatar_tiny"
         android:src="@drawable/ic_avatar"/>
 
     <LinearLayout android:layout_width="0dp"

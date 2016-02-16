@@ -19,6 +19,7 @@ import com.galleriafrique.model.post.LikeResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
+import com.galleriafrique.util.helpers.AccountManager;
 import com.galleriafrique.util.helpers.ProgressDialogHelper;
 import com.galleriafrique.util.repo.PostRepo;
 import com.galleriafrique.util.tools.Strings;
@@ -96,7 +97,7 @@ public class AddPost extends BaseFragment implements  PostRepo.PostRepoListener 
         postImageView = (ImageView)view.findViewById(R.id.img_for_upload);
         postDescriptionTxt = (EditText)view.findViewById(R.id.post_description);
         sendButton = (ImageButton)view.findViewById(R.id.share_post);
-        //currentUser = AccountManager.getUser();
+        currentUser = AccountManager.getUser();
         setContent();
         setListeners();
     }
@@ -117,7 +118,7 @@ public class AddPost extends BaseFragment implements  PostRepo.PostRepoListener 
             @Override
             public void onClick(View view) {
                 if (formValidated()) {
-                    postRepo.createPost(postDescription, postImage, CommonUtils.getSafeString(12));
+                    postRepo.createPost(postDescription, postImage, CommonUtils.getSafeString(currentUser.getId()));
                     activity.getSupportFragmentManager().popBackStack();
                     activity.getFragmentSwitcher().showPostFeed();
                 }
@@ -204,4 +205,14 @@ public class AddPost extends BaseFragment implements  PostRepo.PostRepoListener 
 
     @Override
     public void updateUserPosts(List<Post> posts) {  }
+
+    @Override
+    public void repostSuccessful(Post post) {
+
+    }
+
+    @Override
+    public void retryRepost(String userID, String postID) {
+
+    }
 }

@@ -21,6 +21,54 @@
         android:layout_margin="0dp">
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/repost_view"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_medium">
+
+            <ImageView android:layout_height="match_parent"
+                android:layout_width="@dimen/text_medium"
+                android:layout_marginTop="@dimen/padding_small"
+                android:src="@drawable/ic_repost"
+                android:layout_margin="@dimen/padding_small"/>
+
+            <TextView android:id="@+id/repost_user"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="@dimen/padding_small"
+                android:textSize="@dimen/text_extra_small"
+                android:text="@string/user_name"/>
+
+            <TextView android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_width="wrap_content"
+                android:text="@string/reposted"
+                android:textSize="@dimen/text_extra_small"/>
+
+            <TextView
+                android:id="@+id/middot2"
+                android:padding="@dimen/padding_small"
+                android:layout_width="wrap_content"
+                android:layout_gravity="top"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_small"
+                android:textSize="@dimen/text_extra_small"/>
+
+            <TextView android:id="@+id/repost_timestamp"
+                android:layout_margin="@dimen/padding_small"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/time_stamp"
+                android:textSize="@dimen/text_extra_small"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
@@ -31,7 +79,7 @@
             <ImageView android:id="@+id/post_user_avatar"
                 android:layout_height="@dimen/avatar_small"
                 android:layout_width="@dimen/avatar_small"
-                android:padding="@dimen/padding_medium"
+                android:padding="@dimen/padding_small"
                 android:src="@drawable/ic_avatar"/>
 
             <LinearLayout
@@ -140,11 +188,20 @@
 
             <ImageButton android:id="@+id/favorite_post"
                 style="@style/feed_icons_style"
+                android:layout_height="match_parent"
                 android:src="@drawable/ic_favorite" />
             <TextView android:id="@+id/favorite_count"
                 style="@style/feed_icons_stats_style"/>
 
+            <ImageButton android:id="@+id/repost"
+            style="@style/feed_icons_style"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_repost" />
+            <TextView android:id="@+id/repost_count"
+                style="@style/feed_icons_stats_style"/>
+
             <ImageButton android:id="@+id/share_post"
+                android:layout_height="match_parent"
                 style="@style/feed_icons_style"
                 android:src="@drawable/ic_share" />
 

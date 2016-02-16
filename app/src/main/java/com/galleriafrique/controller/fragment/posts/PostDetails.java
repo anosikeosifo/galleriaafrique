@@ -26,10 +26,12 @@ import com.galleriafrique.model.comment.CommentResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
+import com.galleriafrique.util.helpers.AccountManager;
 import com.galleriafrique.util.helpers.ProgressDialogHelper;
 import com.galleriafrique.util.repo.CommentRepo;
 import com.galleriafrique.util.repo.PostRepo;
 import com.galleriafrique.util.tools.CircleTransform;
+import com.galleriafrique.util.tools.Validation;
 import com.galleriafrique.view.adapters.CommentsListAdapter;
 import com.google.gson.reflect.TypeToken;
 
@@ -55,7 +57,7 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
     private List<Comment> commentList;
     private ImageButton newCommentButton;
     private EditText newCommentText;
-    private String currentUserId;
+    private User currentUser;
     private CommentRepo commentRepo;
     private Post post;
 
@@ -104,6 +106,7 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         activity = (HomeActivity) getActivity();
+        this.currentUser = AccountManager.getUser();
         progressDialogHelper = new ProgressDialogHelper(activity);
         this.commentList = new ArrayList<Comment>();
         this.commentRepo = new CommentRepo(this);
@@ -128,7 +131,6 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
     }
 
     private void initUI(View view) {
-        currentUserId = "12";
         //here, i'm using the custom listView that listens for scroll with direction
         commentsListView = (com.galleriafrique.controller.fragment.base.ListView)postComments.findViewById(R.id.comment_list);
 
@@ -141,14 +143,14 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
         ((TextView)postDetailsHeader.findViewById(R.id.post_username)).setText(post.getUser().getName());
         ((TextView)postDetailsHeader.findViewById(R.id.post_description)).setText(post.getDescription());
         ((TextView)postDetailsHeader.findViewById(R.id.post_location)).setText(post.getLocation());
-        ((TextView)postDetailsHeader.findViewById(R.id.post_created_at)).setText(post.getCreatedAt());
+        ((TextView)postDetailsHeader.findViewById(R.id.post_created_at)).setText(CommonUtils.getTimeline(post.getCreatedAt()));;
 
         postUserAvatar = (ImageView)postDetailsHeader.findViewById(R.id.post_user_avatar);
         postImage = (ImageView)postDetailsHeader.findViewById(R.id.post_photo);
 
-        if(post.getUserAvatar()!= null) {
-            Glide.with(activity).load(post.getUser().getAvatar()).transform(new CircleTransform(activity)).fitCenter().error(R.drawable.ic_avatar)
-                    .placeholder(R.drawable.ic_avatar).into(postUserAvatar);
+        if(post.getUser().getAvatar()!= null) {
+            Glide.with(activity).load(post.getUser().getAvatar()).centerCrop().placeholder(R.drawable.ic_avatar)
+                    .transform(new CircleTransform(activity)).into(postUserAvatar);
         }
 
         if(post.getImage() != null) {
@@ -184,10 +186,14 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
         });
 
 
-        newCommentButton.setOnClickListener(new View.OnClickListener(){
+        newCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                postNewComment(newCommentText.getText().toString());
+                if(Validation.isStringEmpty(newCommentText.getText().toString())) {
+                    CommonUtils.toast(activity, "You'll need to enter a comment");
+                } else {
+                    postNewComment(newCommentText.getText().toString());
+                }
             }
         });
     }
@@ -226,7 +232,7 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
 
     public void postNewComment(String commentText) {
         progressDialogHelper.showProgress(Constants.POST_NEW_COMMENT);
-        commentRepo.addComment(currentUserId, String.valueOf(post.getId()), commentText);
+        commentRepo.addComment(String.valueOf(currentUser.getId()), String.valueOf(post.getId()), commentText);
     }
 
     public void showUserProfile(User user) {
@@ -253,7 +259,7 @@ public class PostDetails  extends BaseFragment implements CommentRepo.CommentRep
 
     @Override
     public void retryAddComments(String userID, String postID, String commentText) {
-        commentRepo.addComment(currentUserId, String.valueOf(post.getId()), commentText);
+        commentRepo.addComment(String.valueOf(currentUser.getId()), String.valueOf(post.getId()), commentText);
     }
 
     @Override

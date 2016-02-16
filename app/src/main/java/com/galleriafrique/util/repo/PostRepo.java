@@ -69,6 +69,9 @@ public class PostRepo {
 
         void createPostSuccessful(Post post);
 
+        void repostSuccessful(Post post);
+        void retryRepost(String userID, String postID);
+
         void showErrorMessage(String message);
 
         void requestFailed();
@@ -324,7 +327,6 @@ public class PostRepo {
     }
 
     public void favoritePost(final String userID, final String postID, final int position) {
-
         RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
         if(restAdapter != null) {
             PostAPI postAPI = restAdapter.create(PostAPI.class);
@@ -361,7 +363,39 @@ public class PostRepo {
 
 
 
-    public void sharePost(String userId,  String sharerID, String postID, int position) {
+    public void repost(final String userID, final String postID) {
+
+        RestAdapter restAdapter = RepoUtils.getAPIRestAdapter(context, Constants.ENDPOINT, networkHelper);
+        if(restAdapter != null) {
+            PostAPI postAPI = restAdapter.create(PostAPI.class);
+            if (postAPI != null) {
+                postAPI.repost(userID, postID, new Callback<PostResponse>() {
+                    @Override
+                    public void success(PostResponse postResponse, Response response) {
+                        if (postRepoListener != null && postResponse != null) {
+                            if (postResponse.isSuccess()) {
+                                postRepoListener.repostSuccessful(postResponse.getData().get(0));
+                            } else {
+                                String message = postResponse.getMessage();
+                                if (message == null) {
+                                    message = Constants.REPOST_FAILED;
+                                }
+                                postRepoListener.showErrorMessage(message);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        if (postRepoListener != null) {
+                            postRepoListener.retryRepost(userID, postID);
+                        }
+                    }
+                });
+            }
+        } else {
+            postRepoListener.requestFailed();
+        }
 
     }
 

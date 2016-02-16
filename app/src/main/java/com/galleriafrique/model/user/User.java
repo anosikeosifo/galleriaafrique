@@ -18,10 +18,14 @@ public class User {
     private String mobile;
 
     private String auth_token;
-    private String avatar;
+
+    @SerializedName("profile_photo_url")
+    private String profile_photo_url;
 
     @SerializedName("can_be_followed")
     private boolean canBeFollowed;
+
+    private String locationCountry;
 
     public int getId() {
         return id;
@@ -56,11 +60,11 @@ public class User {
     }
 
     public String getAvatar() {
-        return avatar;
+        return profile_photo_url;
     }
 
     public void setAvatar(String avatar) {
-        this.avatar = avatar;
+        this.profile_photo_url = profile_photo_url;
     }
 
     public boolean getFollowBackStatus() {
@@ -77,5 +81,13 @@ public class User {
 
     public void setAuth_token(String auth_token) {
         this.auth_token = auth_token;
+    }
+
+    public String getLocationCountry() {
+        return "NG";
+    }
+
+    public void setLocationCountry(String locationCountry) {
+        this.locationCountry = locationCountry;
     }
 }

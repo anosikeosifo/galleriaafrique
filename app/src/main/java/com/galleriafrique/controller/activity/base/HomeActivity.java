@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.login.LoginManager;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.account.LoginActivity;
 import com.galleriafrique.model.post.Post;
@@ -17,6 +18,7 @@ import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
 import com.galleriafrique.util.helpers.AccountManager;
 import com.galleriafrique.util.tools.Strings;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -29,6 +31,7 @@ public class HomeActivity extends BaseActivity {
     private android.support.v7.widget.Toolbar toolbar;
     private MenuItem viewProfileBtn;
     private MenuItem signoutBtn;
+    private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +86,8 @@ public class HomeActivity extends BaseActivity {
                 return true;
             case R.id.signout:
                 AccountManager.signout();
+//                if (mGoogleApiClient.isConnected()) {
+                LoginManager.getInstance().logOut();
                 startActivity(new Intent(activity, LoginActivity.class));
                 finish();
                 return true;

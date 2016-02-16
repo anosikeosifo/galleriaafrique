@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_id": "galleriafrique-d3f02",
+    "project_number": "555670616801",
+    "name": "galleriafrique"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555670616801:android:01057556e72f9e58",
+        "client_id": "android:com.galleriafrique",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.galleriafrique"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555670616801-s6bsq9iu017t8ct4kho3s08r1icsth2n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.galleriafrique",
+            "certificate_hash": "A0DDACA7BCEA2D0F3767006FF9F93865FC7E5FE0"
+          }
+        },
+        {
+          "client_id": "555670616801-ac4fkv5a3e8i5cjrepph32s8snpr99ir.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

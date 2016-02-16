@@ -261,5 +261,23 @@ public class Favorites extends BaseFragment implements PostRepo.PostRepoListener
 
     }
 
+    @Override
+    public String getTagText() {
+        return super.getTagText();
+    }
 
+    @Override
+    public void repost(String userID, String postID) {
+
+    }
+
+    @Override
+    public void repostSuccessful(Post post) {
+
+    }
+
+    @Override
+    public void retryRepost(String userID, String postID) {
+
+    }
 }

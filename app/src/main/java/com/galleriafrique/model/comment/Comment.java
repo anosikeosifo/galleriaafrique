@@ -14,7 +14,7 @@ public class Comment {
     @SerializedName("image_url")
     private String userAvatar;
 
-    @SerializedName("create_at")
+    @SerializedName("created_at")
     private String createdAt;
 
     private String username;

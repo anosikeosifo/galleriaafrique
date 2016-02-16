@@ -22,7 +22,8 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:inputType="textMultiLine"
-            android:padding="@dimen/text_largest"
+            android:textSize="@dimen/text_small"
+            android:padding="@dimen/text_large"
             android:hint="@string/new_comment_placeholder"
             android:id="@+id/new_comment_text" />
 

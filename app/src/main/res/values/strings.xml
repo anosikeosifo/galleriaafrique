@@ -30,6 +30,9 @@
     <string name="fb_login_text">Login with Facebook</string>
     <string name="login_text">Login</string>
     <string name="name">Name</string>
+    <string name="user_name">user name</string>
+    <string name="reposted">reposted</string>
+    <string name="time_stamp">2 mins ago</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="sign_up_redirect">No account yet? Create one.</string>
@@ -38,4 +41,6 @@
     <string name="find_people">Find amazing people</string>
     <string name="view_my_profile">My profile</string>
     <string name="sign_out">Sign out</string>
+
+    <string name="facebook_app_id">658902937492002</string>
 </resources>

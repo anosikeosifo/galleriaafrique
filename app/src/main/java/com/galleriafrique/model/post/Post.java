@@ -3,6 +3,7 @@ package com.galleriafrique.model.post;
 import com.galleriafrique.Constants;
 import com.galleriafrique.model.comment.Comment;
 import com.galleriafrique.model.user.User;
+import com.galleriafrique.util.tools.Strings;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -40,6 +41,15 @@ public class Post {
     @SerializedName("user")
     public User user;
 
+    @SerializedName("can_repost")
+    private boolean canRepost;
+
+    @SerializedName("repost_id")
+    private String repostID;
+
+    @SerializedName("origin_post")
+    private Post origin_post;
+
     public List<Comment> comments;
 
     public int getId() {
@@ -67,7 +77,7 @@ public class Post {
     }
 
     public String getLocation() {
-        return location;
+        return "Lagos, Nigeria.";
     }
 
     public void setLocation(String location) {
@@ -122,6 +132,14 @@ public class Post {
         this.isFavorite = isFavorite;
     }
 
+    public boolean canRepost() {
+        return canRepost;
+    }
+
+    public void setCanRepost(boolean canRepost) {
+        this.canRepost = canRepost;
+    }
+
     public User getUser() {
         return user;
     }
@@ -132,6 +150,18 @@ public class Post {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public boolean isRepost() {
+        return this.getOriginPost() != null;
+    }
+
+    public Post getOriginPost() {
+        return origin_post;
+    }
+
+    public void setOriginPost(Post origin_post) {
+        this.origin_post = origin_post;
     }
 }
 

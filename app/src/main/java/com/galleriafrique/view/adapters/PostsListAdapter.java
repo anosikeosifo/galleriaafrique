@@ -16,6 +16,7 @@ import com.galleriafrique.model.post.FavoriteResponse;
 import com.galleriafrique.model.post.Post;
 import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
+import com.galleriafrique.util.helpers.AccountManager;
 import com.galleriafrique.util.tools.CircleTransform;
 import com.galleriafrique.util.tools.Strings;
 import com.galleriafrique.view.holders.PostHolder;
@@ -57,14 +58,31 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
     }
 
     private void setContent(PostHolder postHolder, Post post) {
-        postHolder.user.setText(post.getUser().getName());
-        postHolder.description.setText(post.getDescription());
-        postHolder.createdAt.setText(CommonUtils.getTimeline(post.getCreatedAt()));
+        if (post.isRepost()){
+            postHolder.repostView.setVisibility(View.VISIBLE);
+            postHolder.repostUsername.setText(post.getUser().getName());
+            postHolder.repostTimestamp.setText(CommonUtils.getTimeline(post.getCreatedAt()) + " ago");
 
-        Glide.with(context).load(post.getImage()).fitCenter().error(R.drawable.placeholder_photo)
-                .placeholder(R.drawable.placeholder_photo).crossFade().into(postHolder.photo);
+            postHolder.user.setText(post.getOriginPost().getUser().getName());
+            postHolder.description.setText(post.getOriginPost().getDescription());
+            postHolder.createdAt.setText(CommonUtils.getTimeline(post.getOriginPost().getCreatedAt()));
+            postHolder.postLocation.setText(post.getOriginPost().getLocation());
+            Glide.with(context).load(post.getOriginPost().getImage()).fitCenter().error(R.drawable.placeholder_photo)
+                    .placeholder(R.drawable.placeholder_photo).crossFade().into(postHolder.photo);
 
-        Glide.with(context).load(post.getUser().getAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(postHolder.userAvatar);
+            Glide.with(context).load(post.getOriginPost().getUser().getAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(postHolder.userAvatar);
+        } else {
+
+            postHolder.user.setText(post.getUser().getName());
+            postHolder.description.setText(post.getDescription());
+            postHolder.createdAt.setText(CommonUtils.getTimeline(post.getCreatedAt()));
+            postHolder.postLocation.setText(post.getLocation());
+
+            Glide.with(context).load(post.getImage()).fitCenter().error(R.drawable.placeholder_photo)
+                    .placeholder(R.drawable.placeholder_photo).crossFade().into(postHolder.photo);
+
+            Glide.with(context).load(post.getUser().getAvatar()).centerCrop().placeholder(R.drawable.ic_avatar).transform(new CircleTransform(context)).into(postHolder.userAvatar);
+        }
 
         setContentForActionUI(postHolder, post);
     }
@@ -81,6 +99,11 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
 
         if (post.getFavoriteCount() > 0) {
             holder.favoriteCount.setText(String.valueOf(post.getFavoriteCount()));
+        }
+
+
+        if(!post.canRepost()) {
+            holder.repostButton.setVisibility(View.GONE);
         }
     }
 
@@ -107,6 +130,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
             }
         });
 
+        holder.repostButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                postListAdapterListener.repost(String.valueOf(AccountManager.getUser().getId()), String.valueOf(post.getId()));
+                updateRepostUIBeforeAPICall(holder);
+            }
+        });
+
         holder.userAvatar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -124,6 +155,14 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
         holder.favoriteButton.setEnabled(false);
         holder.favoriteButton.setImageResource(R.drawable.ic_favorite_true);
     }
+
+    public void updateRepostUIBeforeAPICall(PostHolder holder) {
+        updateRepostCount(holder);
+        holder.repostButton.setEnabled(false);
+        holder.repostButton.setImageResource(R.drawable.ic_repost_active);
+    }
+
+
 
     public void updateFavoriteUIAfterAPICall(PostHolder holder, Post post) {
         if(post.isFavorite()) {
@@ -143,12 +182,20 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
         }
     }
 
+    private void updateRepostCount(PostHolder holder) {
+        if (Strings.isTextEmpty(holder.repostCount)) {
+            holder.repostCount.setText("1");
+        } else {
+            holder.repostCount.setText(Integer.toString(Integer.parseInt(holder.repostCount.getText().toString()) + 1));
+        }
+    }
+
     public void updateFavorite(FavoriteResponse.Favorite favorite, int position) {
         Post post = postList.get(position);
         post.setFavoriteCount(favorite.getCount());
         post.setIsFavorite(favorite.isFavorite());
         notifyDataSetChanged();
-        //updateFavoriteUIAfterAPICall(post)
+//        updateFavoriteUIAfterAPICall(post)
     }
 
     @Override
@@ -171,6 +218,7 @@ public class PostsListAdapter extends RecyclerView.Adapter<PostHolder> {
         void showUserProfile(User user);
         void favoritePost(Post post, int position);
         void sharePost(BaseActivity activity, Post post);
+        void repost(String userID, String postID);
         void addPostComment();
     }
 }

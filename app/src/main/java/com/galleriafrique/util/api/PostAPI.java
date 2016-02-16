@@ -45,5 +45,9 @@ public interface PostAPI {
     @POST("/posts/favorite")
     void favoritePost(@Field(Constants.PARAM_USER_ID) String user_id, @Field(Constants.PARAM_POST_ID) String post_id, Callback<FavoriteResponse> callback);
 
+    @FormUrlEncoded
+    @POST("/posts/repost")
+    void repost(@Field(Constants.PARAM_USER_ID) String user_id, @Field(Constants.PARAM_POST_ID) String post_id, Callback<PostResponse> callback);
+
 
 }

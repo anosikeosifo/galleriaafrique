@@ -3,13 +3,14 @@ package com.galleriafrique.util.helpers;
 import com.galleriafrique.Constants;
 import com.galleriafrique.model.user.User;
 import com.galleriafrique.util.CommonUtils;
+import com.galleriafrique.util.repo.LoginRepo;
 import com.galleriafrique.util.tools.Strings;
 
 /**
  * Created by osifo on 10/5/15.
  */
 public class AccountManager {
-
+    private LoginRepo loginRepo;
     private static User user;
 
     public static User getUser() {
@@ -52,6 +53,7 @@ public class AccountManager {
     public static void saveUser(String userData) {
         PreferenceManager.saveStringPreference(Constants.USER_DATA, userData);
     }
+
 
     public static void signout() {
         PreferenceManager.removeStringPreference(Constants.USER_DATA);

@@ -126,6 +126,15 @@
         <ImageButton android:id="@+id/favorite_post"
             style="@style/feed_icons_style"
             android:src="@drawable/ic_favorite" />
+        <TextView android:id="@+id/favorite_count"
+            style="@style/feed_icons_stats_style"/>
+
+        <ImageButton android:id="@+id/repost"
+            style="@style/feed_icons_style"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_repost" />
+        <TextView android:id="@+id/repost_count"
+            style="@style/feed_icons_stats_style"/>
 
         <ImageButton android:id="@+id/share_post"
             style="@style/feed_icons_style"

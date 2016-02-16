@@ -41,7 +41,6 @@ public class UserProfileActivity extends BaseActivity {
     private ImageView userBackgroundImage;
     private TextView userName;
     private TextView userCountry;
-//    private ActionBar actionBar;
     private ViewPager layoutViewPager;
     private UserProfilePagerAdapter profilePagerAdapter;
     private PagerSlidingTabStrip tab;
@@ -99,11 +98,11 @@ public class UserProfileActivity extends BaseActivity {
     }
 
     public void setUIContent() {
-        Glide.with(activity).load(user.getAvatar()).transform(new CircleTransform(activity)).fitCenter().error(R.drawable.ic_avatar)
-                .placeholder(R.drawable.ic_avatar).into(userProfileAvatar);
+        Glide.with(activity).load(user.getAvatar()).centerCrop().placeholder(R.drawable.ic_avatar)
+                .transform(new CircleTransform(activity)).into(userProfileAvatar);
 
         userName.setText(CommonUtils.getSafeString(user.getName()));
-        userCountry.setText(CommonUtils.getSafeString("NG"));
+        userCountry.setText(CommonUtils.getSafeString(user.getLocationCountry()));
     }
 
 }

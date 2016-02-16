@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.galleriafrique.R;
 import com.galleriafrique.controller.activity.base.BaseActivity;
 import com.galleriafrique.controller.activity.base.FragmentSwitcher;
@@ -53,6 +54,20 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(activity);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(activity);
     }
 
     @Override
@@ -264,6 +279,21 @@ public class Posts extends BaseFragment implements  PostRepo.PostRepoListener, P
 
     @Override
     public void createPostSuccessful(Post post) {
+
+    }
+
+    @Override
+    public void repost(String userID, String postID) {
+        postRepo.repost(userID, postID);
+    }
+
+    @Override
+    public void repostSuccessful(Post post) {
+
+    }
+
+    @Override
+    public void retryRepost(String userID, String postID) {
 
     }
 }
